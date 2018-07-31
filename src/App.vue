@@ -40,6 +40,10 @@
         pushStateRoot: '/',
       };
     },
+
+    created() {
+      this.pushStateRoot = process.env.VUE_APP_BASE_URL;
+    },
   };
 </script>
 
