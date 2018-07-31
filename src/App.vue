@@ -1,28 +1,60 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <f7-app :params="f7Params">
+    <f7-statusbar></f7-statusbar>
+    <f7-view
+      url="/"
+      :main="true"
+      :push-state="true"
+      :push-state-root="pushStateRoot"
+      :stack-pages="true"
+      class="ios-edges">
+    </f7-view>
+  </f7-app>
 </template>
-
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+  import {
+    f7App,
+    f7Panel,
+    f7View,
+    f7Statusbar,
+  } from 'framework7-vue';
+  import routes from './routes';
 
-export default {
-  name: "app",
-  components: {
-    HelloWorld
-  }
-};
+  export default {
+    components: {
+      f7App,
+      f7Panel,
+      f7View,
+      f7Statusbar,
+    },
+
+    data() {
+      let theme = 'md';
+
+      return {
+        f7Params: {
+          theme,
+          routes,
+          id: 'm.nytimes',
+        },
+        pushStateRoot: '/',
+      };
+    },
+  };
 </script>
 
 <style lang="scss">
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  @import "~@/assets/css/framework7.css";
+  @import "~@/assets/css/app.css";
+
+  .ios,
+  .md {
+    .news-list {
+      margin-top: 0;
+
+      .item-title {
+        font-weight: 600;
+      }
+    }
+  }
 </style>

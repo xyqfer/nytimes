@@ -1,5 +1,8 @@
 module.exports = {
   plugins: {
-    autoprefixer: {}
+    autoprefixer: {},
+    "postcss-px-to-viewport": {
+      viewportWidth: 375
+    },
   }
 }

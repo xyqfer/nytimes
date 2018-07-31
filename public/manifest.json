@@ -3,18 +3,18 @@
   "short_name": "nytimes",
   "icons": [
     {
-      "src": "/img/icons/android-chrome-192x192.png",
+      "src": "https://sy2bnjwp1a.leanapp.cn/v2ex/m/img/icons/android-chrome-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/img/icons/android-chrome-512x512.png",
+      "src": "https://sy2bnjwp1a.leanapp.cn/v2ex/m/img/icons/android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
   ],
-  "start_url": "/index.html",
+  "start_url": "/nytimes/m/",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#4DBA87"
+  "background_color": "#f7f7f8",
+  "theme_color": "#f7f7f8"
 }
