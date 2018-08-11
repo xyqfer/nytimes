@@ -35,11 +35,11 @@
         </div>
         <div
           slot="footer"
-          v-if="index !== bubbleData.length"
+          v-if="index < total - 1"
         >
           <a
             href="#"
-            @click="nextBubble(index + 1)"
+            @click.once="nextBubble(index + 1, $event)"
             class="message-link"
           >
             Next
@@ -122,9 +122,13 @@
           });
       },
 
-      nextBubble(nextIndex) {
+      nextBubble(nextIndex, e) {
         this.bubbleData = this.newsContent.slice(0, nextIndex + 1);
         this.current = nextIndex + 1;
+
+        if (e) {
+          e.target.className += ' color-gray';
+        }
       },
 
       isFirstMessage(message, index) {
