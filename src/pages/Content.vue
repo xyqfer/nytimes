@@ -30,8 +30,18 @@
       >
         <div
           slot="text"
-          v-html="news.text"
         >
+          <template v-if="news.type === 'received'">
+            <span
+              v-for="word in news.text.split(' ')"
+              @click="onWordClick"
+            >
+              {{word}}
+            </span>
+          </template>
+          <template v-else>
+            {{news.text}}
+          </template>
         </div>
         <div
           slot="footer"
@@ -127,8 +137,12 @@
         this.current = nextIndex + 1;
 
         if (e) {
-          e.target.className += ' color-gray';
+          e.target.classList.add('color-gray');
         }
+      },
+
+      onWordClick(e) {
+        e.target.classList.toggle('bg-color-yellow');
       },
 
       isFirstMessage(message, index) {
