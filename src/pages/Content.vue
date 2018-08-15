@@ -28,6 +28,9 @@
         :last="isLastMessage(news, index)"
         :tail="isTailMessage(news, index)"
       >
+        <div slot="name">
+          {{index + 1}}楼
+        </div>
         <div
           slot="text"
         >
