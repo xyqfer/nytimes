@@ -1,6 +1,12 @@
 <template>
   <f7-app :params="f7Params">
     <f7-statusbar></f7-statusbar>
+    <f7-panel left cover>
+      <f7-view
+        url="/menu/"
+        links-view=".view-main"
+      ></f7-view>
+    </f7-panel>
     <f7-view
       url="/"
       :main="true"

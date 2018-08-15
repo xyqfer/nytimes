@@ -6,7 +6,9 @@
       <f7-nav-left>
         <f7-link
           icon-ios="f7:bars"
-          icon-md="material:menu">
+          icon-md="material:menu"
+          panel-open="left"
+        >
         </f7-link>
       </f7-nav-left>
       <f7-nav-title>nytimes × 🌀</f7-nav-title>
@@ -14,7 +16,8 @@
 
     <f7-block
       class="text-align-center"
-      v-if="isLoading">
+      v-if="isLoading"
+    >
       <f7-preloader></f7-preloader>
     </f7-block>
 
@@ -41,6 +44,8 @@
 
 <script>
   import {
+    f7View,
+    f7Panel,
     f7Page,
     f7Navbar,
     f7NavTitle,
@@ -58,6 +63,8 @@
 
   export default {
     components: {
+      f7View,
+      f7Panel,
       f7Page,
       f7Navbar,
       f7NavTitle,
