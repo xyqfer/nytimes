@@ -36,7 +36,8 @@
         >
           <template v-if="news.type === 'received'">
             <span
-              v-for="word in news.text.split(' ')"
+              v-for="(word, index) in news.text.split(' ')"
+              :key="index"
               @click="onWordClick"
             >
               {{word}}
@@ -96,7 +97,24 @@
         percent: '',
         current: 0,
         total: 0,
+        lfKey: '',
       };
+    },
+
+    created() {
+      let lfKey = `/content/${this.$f7route.query.name}/nyt-cn`;
+
+      this.$lf.getItem(lfKey)
+        .then((data) => {
+          if (data) {
+            this.initData(data);
+            this.title = this.$f7route.query.title;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      this.lfKey = lfKey;
     },
 
     methods: {
@@ -106,24 +124,11 @@
         this.$http.get(`${api.content}?name=${name}`)
           .then((res) => {
             if (res.success) {
-              this.newsContent = res.data.content.reduce((acc, item) => {
-                acc.push({
-                  type: 'received',
-                  text: item.en,
+              this.initData(res.data);
+              this.$lf.setItem(this.lfKey, res.data)
+                .catch((err) => {
+                  console.log(err);
                 });
-
-                acc.push({
-                  type: 'sent',
-                  text: item.zh,
-                });
-
-                return acc;
-              }, []);
-
-              this.$nextTick(() => {
-                this.total = this.newsContent.length;
-                this.nextBubble(0);
-              });
             }
           })
           .catch((err) => {
@@ -133,6 +138,27 @@
             this.isLoading = false;
             this.title = title;
           });
+      },
+
+      initData(data) {
+        this.newsContent = data.content.reduce((acc, item) => {
+          acc.push({
+            type: 'received',
+            text: item.en,
+          });
+
+          acc.push({
+            type: 'sent',
+            text: item.zh,
+          });
+
+          return acc;
+        }, []);
+
+        this.$nextTick(() => {
+          this.total = this.newsContent.length;
+          this.nextBubble(0);
+        });
       },
 
       nextBubble(nextIndex, e) {
