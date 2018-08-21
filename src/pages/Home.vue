@@ -1,6 +1,9 @@
 <template>
   <f7-page
     @page:init="onPageInit"
+    :ptr="true"
+    @ptr:refresh="onRefresh"
+    ref="homePage"
   >
     <f7-navbar>
       <f7-nav-left>
@@ -13,13 +16,6 @@
       </f7-nav-left>
       <f7-nav-title>nytimes × 🌀</f7-nav-title>
     </f7-navbar>
-
-    <f7-block
-      class="text-align-center"
-      v-if="isLoading"
-    >
-      <f7-preloader></f7-preloader>
-    </f7-block>
 
     <f7-list
       media-list
@@ -51,13 +47,10 @@
     f7NavTitle,
     f7NavLeft,
     f7Link,
-    f7BlockTitle,
     f7Toolbar,
     f7List,
     f7ListItem,
     f7Icon,
-    f7Block,
-    f7Preloader,
   } from 'framework7-vue';
   import api from '@/api';
 
@@ -70,35 +63,58 @@
       f7NavTitle,
       f7NavLeft,
       f7Link,
-      f7BlockTitle,
       f7Toolbar,
       f7List,
       f7ListItem,
       f7Icon,
-      f7Block,
-      f7Preloader,
     },
 
     data() {
       return {
-        isLoading: true,
         newsList: [],
+        lfKey: '/list/home/nyt-cn',
       };
+    },
+
+    created() {
+      this.$lf.getItem(this.lfKey)
+        .then((data) => {
+          if (data) {
+            this.newsList = data;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
 
     methods: {
       onPageInit() {
-        this.$http.get(api.home)
+        this.$nextTick(() => {
+          this.$f7.ptr.get(this.$refs.homePage.$el.querySelector('.ptr-content')).refresh();
+        });
+      },
+
+      onRefresh(e, done) {
+        this.getData()
+          .then(() => {
+            done();
+          });
+      },
+
+      getData() {
+        return this.$http.get(api.home)
           .then((res) => {
             if (res.success) {
               this.newsList = res.data;
+              this.$lf.setItem(this.lfKey, res.data)
+                .catch((err) => {
+                  console.log(err);
+                });
             }
           })
           .catch((err) => {
             console.log(err);
-          })
-          .finally(() => {
-            this.isLoading = false;
           });
       },
     },
