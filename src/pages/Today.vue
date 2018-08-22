@@ -7,20 +7,11 @@
     :hide-navbar-on-scroll="true"
   >
     <f7-navbar>
-      <f7-nav-left>
-        <f7-link
-          icon-ios="f7:bars"
-          icon-md="material:menu"
-          panel-open="left"
-        >
-        </f7-link>
-      </f7-nav-left>
       <f7-nav-title>? × 🌀</f7-nav-title>
     </f7-navbar>
 
     <f7-toolbar tabbar>
       <f7-link
-        tab-link-active
         tab-link=""
         href="/"
         :animate="false"
@@ -28,6 +19,7 @@
       >
       </f7-link>
       <f7-link
+        tab-link-active
         tab-link=""
         href="/today"
         :animate="false"
@@ -43,7 +35,7 @@
       <f7-list-item
         v-for="item in newsList"
         :key="item.url"
-        :link="`/content?name=${item.url}&title=${item.title}`"
+        :link="`/content2?name=${item.url}&title=${item.title}`"
       >
         <div slot="title">
           {{item.title}}
@@ -64,7 +56,6 @@
     f7Page,
     f7Navbar,
     f7NavTitle,
-    f7NavLeft,
     f7Link,
     f7Toolbar,
     f7List,
@@ -80,7 +71,6 @@
       f7Page,
       f7Navbar,
       f7NavTitle,
-      f7NavLeft,
       f7Link,
       f7Toolbar,
       f7List,
@@ -91,7 +81,7 @@
     data() {
       return {
         newsList: [],
-        lfKey: '/list/home/nyt-cn',
+        lfKey: '/list/home/nyt',
       };
     },
 
@@ -122,7 +112,7 @@
       },
 
       getData() {
-        return this.$http.get(api.home)
+        return this.$http.get(api.today)
           .then((res) => {
             if (res.success) {
               this.newsList = res.data;

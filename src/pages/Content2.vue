@@ -1,7 +1,6 @@
 <template>
   <f7-page
     class="messages-page"
-    @page:init="onPageInit"
   >
     <f7-navbar
       :title="title"
@@ -24,12 +23,15 @@
         v-for="(news, index) in bubbleData"
         :key="index"
         :type="news.type"
-        :first="isFirstMessage(news, index)"
+        :first="true"
         :last="isLastMessage(news, index)"
         :tail="isTailMessage(news, index)"
       >
-        <div slot="name">
-          {{index + 1}}楼
+        <div 
+          slot="name"
+          v-if="news.meta.origin"
+        >
+          {{news.meta.index + 1}}楼
         </div>
         <div
           slot="text"
@@ -49,19 +51,40 @@
         </div>
         <div
           slot="footer"
-          v-if="index < total - 1"
         >
-          <a
-            href="#"
-            @click.once="nextBubble(index + 1, $event)"
-            class="message-link"
+          <template
+            v-if="news.meta.next"
           >
-            Next
-          </a>
+            <a
+              href="#"
+              @click.once="nextBubble(news.meta.index + 1, $event)"
+              class="message-link"
+            >
+              Next
+            </a>
+          </template>
+          <template
+            v-else-if="news.meta.index != null"
+          >
+            <a
+              href="#"
+              @click.once="translateText(news.meta.index, $event)"
+              class="message-link"
+            >
+              Translate
+            </a>
+          </template>
         </div>
       </f7-message>
     </f7-messages>
 
+    <f7-message v-if="isTranslating"
+      type="received"
+      :typing="true"
+      :first="true"
+      :last="true"
+      :tail="true"
+    ></f7-message>
   </f7-page>
 </template>
 
@@ -98,17 +121,21 @@
         current: 0,
         total: 0,
         lfKey: '',
+        isTranslating: false,
       };
     },
 
     created() {
-      let lfKey = `/content/${this.$f7route.query.name}/nyt-cn`;
+      let lfKey = `/content/${this.$f7route.query.name}/nyt`;
 
       this.$lf.getItem(lfKey)
         .then((data) => {
           if (data) {
             this.initData(data);
+            this.isLoading = false;
             this.title = this.$f7route.query.title;
+          } else {
+            this.getData();
           }
         })
         .catch((err) => {
@@ -118,10 +145,10 @@
     },
 
     methods: {
-      onPageInit() {
+      getData() {
         let { title, name } = this.$f7route.query;
 
-        this.$http.get(`${api.content}?name=${name}`)
+        this.$http.get(`${api.content2}?name=${name}`)
           .then((res) => {
             if (res.success) {
               this.initData(res.data);
@@ -141,15 +168,14 @@
       },
 
       initData(data) {
-        this.newsContent = data.content.reduce((acc, item) => {
+        this.newsContent = data.content.reduce((acc, item, index) => {
           acc.push({
             type: 'received',
             text: item.en,
-          });
-
-          acc.push({
-            type: 'sent',
-            text: item.zh,
+            meta: {
+              index,
+              origin: true,
+            },
           });
 
           return acc;
@@ -162,7 +188,7 @@
       },
 
       nextBubble(nextIndex, e) {
-        this.bubbleData = this.newsContent.slice(0, nextIndex + 1);
+        this.bubbleData = this.bubbleData.concat(this.newsContent.slice(nextIndex, nextIndex + 1));
         this.current = nextIndex + 1;
 
         if (e) {
@@ -174,12 +200,69 @@
         e.target.classList.toggle('bg-color-yellow');
       },
 
-      isFirstMessage(message, index) {
-        const self = this;
-        const previousMessage = self.newsContent[index - 1];
-        if (message.isTitle) return false;
-        if (!previousMessage || previousMessage.type !== message.type || previousMessage.name !== message.name) return true;
-        return false;
+      translateText(index, e) {
+        const { text } = this.newsContent[index];
+        const originIndex = index;
+        
+        this.isTranslating = true;
+        this.translate(text)
+          .then((sentences) => {
+            let translatedBubbles = sentences.reduce((acc, item, index) => {
+              acc.push({
+                type: 'received',
+                text: item.orig,
+                meta: {
+
+                },
+              });
+
+              const next = index === sentences.length - 1
+                && originIndex < this.newsContent.length - 1;
+
+              acc.push({
+                type: 'sent',
+                text: item.trans,
+                meta: {
+                  next,
+                  index: next ? originIndex : null,
+                },
+              });
+
+              return acc;
+            }, []);
+
+            this.bubbleData = this.bubbleData.concat(translatedBubbles);
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+          .finally(() => {
+            if (e) {
+              e.target.classList.add('color-gray');
+            }
+
+            this.isTranslating = false;
+          });
+      },
+
+      translate(text) {
+        return this.$http.post({
+          url: api.translate,
+          data: {
+            text,
+          },
+        })
+        .then((res) => {
+          if (res.success) {
+            return res.data;
+          } else {
+            return [];
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          return [];
+        });
       },
 
       isLastMessage(message, index) {

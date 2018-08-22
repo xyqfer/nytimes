@@ -37,6 +37,23 @@ Vue.prototype.$http = {
       }, config));
     });
   },
+
+  post(config = {}) {
+    return new Promise((resolve, reject) => {
+      Framework7.request(Object.assign({}, {
+        method: 'POST',
+        dataType: 'json',
+        cache: false,
+        success: (result) => {
+          resolve(result);
+        },
+        error: (xhr, status) => {
+          console.log(status);
+          reject(xhr, status);
+        },
+      }, config));
+    });
+  },
 };
 
 Vue.prototype.$lf = localforage;

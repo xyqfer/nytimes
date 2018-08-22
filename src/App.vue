@@ -64,6 +64,76 @@
 
       .item-title {
         font-weight: 600;
+        white-space: initial;
+      }
+
+      .item-text {
+        max-height: initial;
+        display: block;
+      }
+    }
+  }
+
+  .ios,
+  .md {
+    .view {
+      .messages-page {
+        background: initial;
+        background-image: url(~@/assets/img/background_1.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+
+        .messages-content {
+          background: initial;
+
+          .news-content-list {
+            background: initial;
+
+            .message-received {
+              .message-bubble {
+                background-color: #fff;
+              }
+            }
+
+            .message-link {
+              display: block;
+              margin-top: 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .ios {
+    .theme-dark {
+      .view {
+        .messages-page {
+          .messages-content {
+            .message-received {
+              .message-bubble {
+                background-color: #333;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .md {
+    .theme-dark {
+      .view {
+        .messages-page {
+          .messages-content {
+            .message-received {
+              .message-bubble {
+                background-color: #fff;
+              }
+            }
+          }
+        }
       }
     }
   }
