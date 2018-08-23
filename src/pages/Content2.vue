@@ -1,5 +1,6 @@
 <template>
   <f7-page
+    @page:init="onPageInit"
     class="messages-page"
   >
     <f7-navbar
@@ -24,14 +25,14 @@
         :key="index"
         :type="news.type"
         :first="true"
-        :last="isLastMessage(news, index)"
-        :tail="isTailMessage(news, index)"
+        :last="true"
+        :tail="true"
       >
         <div 
           slot="name"
           v-if="news.meta.origin"
         >
-          {{news.meta.index + 1}}楼
+          {{news.meta.originIndex + 1}}楼
         </div>
         <div
           slot="text"
@@ -57,18 +58,18 @@
           >
             <a
               href="#"
-              @click.once="nextBubble(news.meta.index + 1, $event)"
+              @click.once="nextBubble(news.meta.originIndex + 1, $event)"
               class="message-link"
             >
               Next
             </a>
           </template>
           <template
-            v-else-if="news.meta.index != null"
+            v-else-if="news.meta.origin"
           >
             <a
               href="#"
-              @click.once="translateText(news.meta.index, $event)"
+              @click.once="translateText(news.meta.originIndex, $event)"
               class="message-link"
             >
               Translate
@@ -125,26 +126,26 @@
       };
     },
 
-    created() {
-      let lfKey = `/content/${this.$f7route.query.name}/nyt`;
+    methods: {  
+      onPageInit() {
+        let lfKey = `/content/${this.$f7route.query.name}/nyt`;
 
-      this.$lf.getItem(lfKey)
-        .then((data) => {
-          if (data) {
-            this.initData(data);
-            this.isLoading = false;
-            this.title = this.$f7route.query.title;
-          } else {
-            this.getData();
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      this.lfKey = lfKey;
-    },
-
-    methods: {
+        this.$lf.getItem(lfKey)
+          .then((data) => {
+            if (data) {
+              this.initData(data);
+              this.isLoading = false;
+              this.title = this.$f7route.query.title;
+            } else {
+              this.getData();
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        this.lfKey = lfKey;
+      },
+      
       getData() {
         let { title, name } = this.$f7route.query;
 
@@ -173,7 +174,7 @@
             type: 'received',
             text: item.en,
             meta: {
-              index,
+              originIndex: index,
               origin: true,
             },
           });
@@ -206,32 +207,17 @@
         
         this.isTranslating = true;
         this.translate(text)
-          .then((sentences) => {
-            let translatedBubbles = sentences.reduce((acc, item, index) => {
-              acc.push({
-                type: 'received',
-                text: item.orig,
-                meta: {
+          .then((sentence) => {
+            let next = originIndex !== this.newsContent.length - 1;
 
-                },
-              });
-
-              const next = index === sentences.length - 1
-                && originIndex < this.newsContent.length - 1;
-
-              acc.push({
-                type: 'sent',
-                text: item.trans,
-                meta: {
-                  next,
-                  index: next ? originIndex : null,
-                },
-              });
-
-              return acc;
-            }, []);
-
-            this.bubbleData = this.bubbleData.concat(translatedBubbles);
+            this.bubbleData.push({
+              type: 'sent',
+              text: sentence,
+              meta: {
+                next,
+                originIndex,
+              },
+            });
           })
           .catch((err) => {
             console.log(err);
@@ -254,31 +240,15 @@
         })
         .then((res) => {
           if (res.success) {
-            return res.data;
+            return res.data.text;
           } else {
-            return [];
+            return '';
           }
         })
         .catch((err) => {
           console.log(err);
-          return [];
+          return '';
         });
-      },
-
-      isLastMessage(message, index) {
-        const self = this;
-        const nextMessage = self.newsContent[index + 1];
-        if (message.isTitle) return false;
-        if (!nextMessage || nextMessage.type !== message.type || nextMessage.name !== message.name) return true;
-        return false;
-      },
-
-      isTailMessage(message, index) {
-        const self = this;
-        const nextMessage = self.newsContent[index + 1];
-        if (message.isTitle) return false;
-        if (!nextMessage || nextMessage.type !== message.type || nextMessage.name !== message.name) return true;
-        return false;
       },
     },
 

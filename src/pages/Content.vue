@@ -24,12 +24,15 @@
         v-for="(news, index) in bubbleData"
         :key="index"
         :type="news.type"
-        :first="isFirstMessage(news, index)"
-        :last="isLastMessage(news, index)"
-        :tail="isTailMessage(news, index)"
+        :first="true"
+        :last="true"
+        :tail="true"
       >
-        <div slot="name">
-          {{index + 1}}楼
+        <div 
+          slot="name"
+          v-if="news.type === 'received'"
+        >
+          {{news.meta.originIndex + 1}}楼
         </div>
         <div
           slot="text"
@@ -49,11 +52,11 @@
         </div>
         <div
           slot="footer"
-          v-if="index < total - 1"
+          v-if="index < (total * 2 - 1)"
         >
           <a
             href="#"
-            @click.once="nextBubble(index + 1, $event)"
+            @click.once="nextBubble(index + 1, news.type === 'sent' ? news.meta.originIndex + 1 : null, $event)"
             class="message-link"
           >
             Next
@@ -101,24 +104,27 @@
       };
     },
 
-    created() {
-      let lfKey = `/content/${this.$f7route.query.name}/nyt-cn`;
-
-      this.$lf.getItem(lfKey)
-        .then((data) => {
-          if (data) {
-            this.initData(data);
-            this.title = this.$f7route.query.title;
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      this.lfKey = lfKey;
-    },
-
     methods: {
       onPageInit() {
+        let lfKey = `/content/${this.$f7route.query.name}/nyt-cn`;
+
+        this.$lf.getItem(lfKey)
+          .then((data) => {
+            if (data) {
+              this.initData(data);
+              this.isLoading = false;
+              this.title = this.$f7route.query.title;
+            } else {
+              this.getData();
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        this.lfKey = lfKey;
+      },
+
+      getData() {
         let { title, name } = this.$f7route.query;
 
         this.$http.get(`${api.content}?name=${name}`)
@@ -141,30 +147,39 @@
       },
 
       initData(data) {
-        this.newsContent = data.content.reduce((acc, item) => {
+        this.newsContent = data.content.reduce((acc, item, index) => {
           acc.push({
             type: 'received',
             text: item.en,
+            meta: {
+              originIndex: index,
+            },
           });
 
           acc.push({
             type: 'sent',
             text: item.zh,
+            meta: {
+              originIndex: index,
+            },
           });
 
           return acc;
         }, []);
 
         this.$nextTick(() => {
-          this.total = this.newsContent.length;
-          this.nextBubble(0);
+          this.total = this.newsContent.length / 2;
+          this.nextBubble(0, 0);
         });
       },
 
-      nextBubble(nextIndex, e) {
+      nextBubble(nextIndex, originIndex, e) {
         this.bubbleData = this.newsContent.slice(0, nextIndex + 1);
-        this.current = nextIndex + 1;
 
+        if (originIndex != null) {
+          this.current = originIndex + 1;
+        }
+        
         if (e) {
           e.target.classList.add('color-gray');
         }
@@ -172,30 +187,6 @@
 
       onWordClick(e) {
         e.target.classList.toggle('bg-color-yellow');
-      },
-
-      isFirstMessage(message, index) {
-        const self = this;
-        const previousMessage = self.newsContent[index - 1];
-        if (message.isTitle) return false;
-        if (!previousMessage || previousMessage.type !== message.type || previousMessage.name !== message.name) return true;
-        return false;
-      },
-
-      isLastMessage(message, index) {
-        const self = this;
-        const nextMessage = self.newsContent[index + 1];
-        if (message.isTitle) return false;
-        if (!nextMessage || nextMessage.type !== message.type || nextMessage.name !== message.name) return true;
-        return false;
-      },
-
-      isTailMessage(message, index) {
-        const self = this;
-        const nextMessage = self.newsContent[index + 1];
-        if (message.isTitle) return false;
-        if (!nextMessage || nextMessage.type !== message.type || nextMessage.name !== message.name) return true;
-        return false;
       },
     },
 
