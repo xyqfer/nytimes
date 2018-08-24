@@ -34,6 +34,20 @@
         text="色"
       >
       </f7-link>
+      <f7-link
+        tab-link=""
+        href="/te"
+        :animate="false"
+        text="犬"
+      >
+      </f7-link>
+      <f7-link
+        tab-link=""
+        href="/te2"
+        :animate="false"
+        text="马"
+      >
+      </f7-link>
     </f7-toolbar>
 
     <f7-list

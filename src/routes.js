@@ -3,7 +3,11 @@ import Today from './pages/Today.vue';
 import Category from './pages/Category.vue';
 import Content from './pages/Content.vue';
 import Content2 from './pages/Content2.vue';
+import Content3 from './pages/Content3.vue';
+import Content4 from './pages/Content4.vue';
 import Menu from './pages/Menu.vue';
+import TE from './pages/TE.vue';
+import TE2 from './pages/TE2.vue';
 
 import NotFound from './pages/404.vue';
 
@@ -18,6 +22,14 @@ export default [
     component: Today,
   },
   {
+    path: '/te',
+    component: TE,
+  },
+  {
+    path: '/te2',
+    component: TE2,
+  },
+  {
     path: '/category/:name',
     component: Category,
   },
@@ -28,6 +40,14 @@ export default [
   {
     path: '/content2',
     component: Content2,
+  },
+  {
+    path: '/content3',
+    component: Content3,
+  },
+  {
+    path: '/content4',
+    component: Content4,
   },
   {
     path: '/menu',

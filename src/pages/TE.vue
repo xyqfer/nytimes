@@ -19,7 +19,6 @@
       >
       </f7-link>
       <f7-link
-        tab-link-active
         tab-link=""
         href="/today"
         :animate="false"
@@ -27,6 +26,7 @@
       >
       </f7-link>
       <f7-link
+        tab-link-active
         tab-link=""
         href="/te"
         :animate="false"
@@ -49,7 +49,7 @@
       <f7-list-item
         v-for="item in newsList"
         :key="item.url"
-        :link="`/content2?name=${item.url}&title=${item.title}`"
+        :link="`/content3?name=${item.articleId}&title=${item.title}`"
       >
         <div slot="title">
           {{item.title}}
@@ -95,7 +95,7 @@
     data() {
       return {
         newsList: [],
-        lfKey: '/list/home/nyt',
+        lfKey: '/list/home/te',
       };
     },
 
@@ -126,7 +126,7 @@
       },
 
       getData() {
-        return this.$http.get(api.today)
+        return this.$http.get(api.te)
           .then((res) => {
             if (res.success) {
               this.newsList = res.data;
