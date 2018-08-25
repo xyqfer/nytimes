@@ -28,6 +28,13 @@
       </f7-link>
       <f7-link
         tab-link=""
+        href="/times"
+        :animate="false"
+        text="🌀"
+      >
+      </f7-link>
+      <f7-link
+        tab-link=""
         href="/te"
         :animate="false"
         text="犬"

@@ -10,6 +10,8 @@ const api = {
   teContent: `${path}/api/v1/nytimes/teContent`,
   te2: `${path}/api/v1/nytimes/te2`,
   teContent2: `${path}/api/v1/nytimes/teContent2`,
+  times: `${path}/api/v1/nytimes/times`,
+  timesContent: `${path}/api/v1/nytimes/timesContent`,
 };
 
 export default api;

@@ -5,9 +5,11 @@ import Content from './pages/Content.vue';
 import Content2 from './pages/Content2.vue';
 import Content3 from './pages/Content3.vue';
 import Content4 from './pages/Content4.vue';
+import Content5 from './pages/Content5.vue';
 import Menu from './pages/Menu.vue';
 import TE from './pages/TE.vue';
 import TE2 from './pages/TE2.vue';
+import Times from './pages/Times.vue';
 
 import NotFound from './pages/404.vue';
 
@@ -30,6 +32,10 @@ export default [
     component: TE2,
   },
   {
+    path: '/times',
+    component: Times,
+  },
+  {
     path: '/category/:name',
     component: Category,
   },
@@ -48,6 +54,10 @@ export default [
   {
     path: '/content4',
     component: Content4,
+  },
+  {
+    path: '/content5',
+    component: Content5,
   },
   {
     path: '/menu',
