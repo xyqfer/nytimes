@@ -56,6 +56,7 @@
       <f7-list-item
         v-for="item in newsList"
         :key="item.url"
+        :header="item.category"
         :link="`/content4?name=${item.name}&title=${item.title}`"
       >
         <div slot="title">
