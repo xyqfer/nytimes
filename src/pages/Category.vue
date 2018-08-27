@@ -33,76 +33,71 @@
 </template>
 
 <script>
-  import {
+import { f7Page, f7Navbar, f7List, f7ListItem, f7Link } from "framework7-vue";
+import api from "@/api";
+
+export default {
+  created() {
+    this.name = this.$f7route.params.name;
+    this.title = this.$f7route.query.title;
+  },
+
+  components: {
     f7Page,
     f7Navbar,
     f7List,
     f7ListItem,
-    f7Link,
-  } from 'framework7-vue';
-  import api from '@/api';
+    f7Link
+  },
 
-  export default {
-    created() {
-      this.name = this.$f7route.params.name;
-      this.title = this.$f7route.query.title;
+  data() {
+    return {
+      newsList: [],
+      name: "",
+      title: "",
+      p: 1,
+      allowInfinite: true,
+      showPreloader: true
+    };
+  },
+
+  methods: {
+    onPageInit() {
+      this.getData();
     },
 
-    components: {
-      f7Page,
-      f7Navbar,
-      f7List,
-      f7ListItem,
-      f7Link,
+    onInfinite() {
+      if (!this.allowInfinite) return;
+
+      this.allowInfinite = false;
+      this.getData().then(() => {
+        this.showPreloader = this.allowInfinite = !(this.p > this.total);
+      });
     },
 
-    data() {
-      return {
-        newsList: [],
-        name: '',
-        title: '',
-        p: 1,
-        allowInfinite: true,
-        showPreloader: true,
-      };
-    },
+    getData() {
+      const name = this.name;
 
-    methods: {
-      onPageInit() {
-        this.getData();
-      },
-
-      onInfinite() {
-        if (!this.allowInfinite) return;
-
-        this.allowInfinite = false;
-        this.getData().then(() => {
-          this.showPreloader = this.allowInfinite = !(this.p > this.total);
-        });
-      },
-
-      getData() {
-        const name = this.name;
-
-        return this.$http.get(`${api.category}/${name}?p=${this.p}`)
-          .then((res) => {
-            if (res.success) {
-              if (res.data && res.data.length > 0) {
-                this.newsList = this.newsList.concat(res.data);
-                this.p = this.p + 1;
-              } else {
-                this.showPreloader = false;
-                this.allowInfinite = false;
-              }
+      return this.$http
+        .get(`${api.category}/${name}?p=${this.p}`)
+        .then(res => {
+          if (res.success) {
+            if (res.data && res.data.length > 0) {
+              this.newsList = this.newsList.concat(res.data);
+              this.p = this.p + 1;
+            } else {
+              this.showPreloader = false;
+              this.allowInfinite = false;
             }
-          }).catch((err) => {
-            console.log(err);
-          });
-      },
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
-  };
+  }
+};
 </script>
 
 <style lang="scss">
-
 </style>

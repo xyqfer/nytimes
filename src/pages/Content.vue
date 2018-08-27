@@ -69,135 +69,135 @@
 </template>
 
 <script>
-  import {
+import {
+  f7Navbar,
+  f7Page,
+  f7Messages,
+  f7MessagesTitle,
+  f7Message,
+  f7Preloader,
+  f7Block
+} from "framework7-vue";
+import api from "@/api";
+
+export default {
+  components: {
     f7Navbar,
     f7Page,
     f7Messages,
     f7MessagesTitle,
     f7Message,
     f7Preloader,
-    f7Block,
-  } from 'framework7-vue';
-  import api from '@/api';
+    f7Block
+  },
 
-  export default {
-    components: {
-      f7Navbar,
-      f7Page,
-      f7Messages,
-      f7MessagesTitle,
-      f7Message,
-      f7Preloader,
-      f7Block,
-    },
+  data() {
+    return {
+      isLoading: true,
+      title: "加载中...",
+      newsContent: [],
+      bubbleData: [],
+      percent: "",
+      current: 0,
+      total: 0,
+      lfKey: ""
+    };
+  },
 
-    data() {
-      return {
-        isLoading: true,
-        title: '加载中...',
-        newsContent: [],
-        bubbleData: [],
-        percent: '',
-        current: 0,
-        total: 0,
-        lfKey: '',
-      };
-    },
+  methods: {
+    onPageInit() {
+      let lfKey = `/content/${this.$f7route.query.name}/nyt-cn`;
 
-    methods: {
-      onPageInit() {
-        let lfKey = `/content/${this.$f7route.query.name}/nyt-cn`;
-
-        this.$lf.getItem(lfKey)
-          .then((data) => {
-            if (data) {
-              this.initData(data);
-              this.isLoading = false;
-              this.title = this.$f7route.query.title;
-            } else {
-              this.getData();
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-        this.lfKey = lfKey;
-      },
-
-      getData() {
-        let { title, name } = this.$f7route.query;
-
-        this.$http.get(`${api.content}?name=${name}`)
-          .then((res) => {
-            if (res.success) {
-              this.initData(res.data);
-              this.$lf.setItem(this.lfKey, res.data)
-                .catch((err) => {
-                  console.log(err);
-                });
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          })
-          .finally(() => {
+      this.$lf
+        .getItem(lfKey)
+        .then(data => {
+          if (data) {
+            this.initData(data);
             this.isLoading = false;
-            this.title = title;
-          });
-      },
-
-      initData(data) {
-        this.newsContent = data.content.reduce((acc, item, index) => {
-          acc.push({
-            type: 'received',
-            text: item.en,
-            meta: {
-              originIndex: index,
-            },
-          });
-
-          acc.push({
-            type: 'sent',
-            text: item.zh,
-            meta: {
-              originIndex: index,
-            },
-          });
-
-          return acc;
-        }, []);
-
-        this.$nextTick(() => {
-          this.total = this.newsContent.length / 2;
-          this.nextBubble(0, 0);
+            this.title = this.$f7route.query.title;
+          } else {
+            this.getData();
+          }
+        })
+        .catch(err => {
+          console.log(err);
         });
-      },
-
-      nextBubble(nextIndex, originIndex, e) {
-        this.bubbleData = this.newsContent.slice(0, nextIndex + 1);
-
-        if (originIndex != null) {
-          this.current = originIndex + 1;
-        }
-        
-        if (e) {
-          e.target.classList.add('color-gray');
-        }
-      },
-
-      onWordClick(e) {
-        e.target.classList.toggle('bg-color-yellow');
-      },
+      this.lfKey = lfKey;
     },
 
-    watch: {
-      current(val) {
-        this.percent = `${val} / ${this.total}`;
-      },
+    getData() {
+      let { title, name } = this.$f7route.query;
+
+      this.$http
+        .get(`${api.content}?name=${name}`)
+        .then(res => {
+          if (res.success) {
+            this.initData(res.data);
+            this.$lf.setItem(this.lfKey, res.data).catch(err => {
+              console.log(err);
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(() => {
+          this.isLoading = false;
+          this.title = title;
+        });
+    },
+
+    initData(data) {
+      this.newsContent = data.content.reduce((acc, item, index) => {
+        acc.push({
+          type: "received",
+          text: item.en,
+          meta: {
+            originIndex: index
+          }
+        });
+
+        acc.push({
+          type: "sent",
+          text: item.zh,
+          meta: {
+            originIndex: index
+          }
+        });
+
+        return acc;
+      }, []);
+
+      this.$nextTick(() => {
+        this.total = this.newsContent.length / 2;
+        this.nextBubble(0, 0);
+      });
+    },
+
+    nextBubble(nextIndex, originIndex, e) {
+      this.bubbleData = this.newsContent.slice(0, nextIndex + 1);
+
+      if (originIndex != null) {
+        this.current = originIndex + 1;
+      }
+
+      if (e) {
+        e.target.classList.add("color-gray");
+      }
+    },
+
+    onWordClick(e) {
+      e.target.classList.toggle("bg-color-yellow");
     }
-  };
+  },
+
+  watch: {
+    current(val) {
+      this.percent = `${val} / ${this.total}`;
+    }
+  }
+};
 </script>
 
 <style lang="scss">
-  
 </style>

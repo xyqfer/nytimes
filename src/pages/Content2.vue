@@ -90,176 +90,179 @@
 </template>
 
 <script>
-  import {
+import {
+  f7Navbar,
+  f7Page,
+  f7Messages,
+  f7MessagesTitle,
+  f7Message,
+  f7Preloader,
+  f7Block
+} from "framework7-vue";
+import api from "@/api";
+
+export default {
+  components: {
     f7Navbar,
     f7Page,
     f7Messages,
     f7MessagesTitle,
     f7Message,
     f7Preloader,
-    f7Block,
-  } from 'framework7-vue';
-  import api from '@/api';
+    f7Block
+  },
 
-  export default {
-    components: {
-      f7Navbar,
-      f7Page,
-      f7Messages,
-      f7MessagesTitle,
-      f7Message,
-      f7Preloader,
-      f7Block,
-    },
+  data() {
+    return {
+      isLoading: true,
+      title: "加载中...",
+      newsContent: [],
+      bubbleData: [],
+      percent: "",
+      current: 0,
+      total: 0,
+      lfKey: "",
+      isTranslating: false
+    };
+  },
 
-    data() {
-      return {
-        isLoading: true,
-        title: '加载中...',
-        newsContent: [],
-        bubbleData: [],
-        percent: '',
-        current: 0,
-        total: 0,
-        lfKey: '',
-        isTranslating: false,
-      };
-    },
+  methods: {
+    onPageInit() {
+      let lfKey = `/content/${this.$f7route.query.name}/nyt`;
 
-    methods: {  
-      onPageInit() {
-        let lfKey = `/content/${this.$f7route.query.name}/nyt`;
-
-        this.$lf.getItem(lfKey)
-          .then((data) => {
-            if (data) {
-              this.initData(data);
-              this.isLoading = false;
-              this.title = this.$f7route.query.title;
-            } else {
-              this.getData();
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-        this.lfKey = lfKey;
-      },
-      
-      getData() {
-        let { title, name } = this.$f7route.query;
-
-        this.$http.get(`${api.content2}?name=${name}`)
-          .then((res) => {
-            if (res.success) {
-              this.initData(res.data);
-              this.$lf.setItem(this.lfKey, res.data)
-                .catch((err) => {
-                  console.log(err);
-                });
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          })
-          .finally(() => {
+      this.$lf
+        .getItem(lfKey)
+        .then(data => {
+          if (data) {
+            this.initData(data);
             this.isLoading = false;
-            this.title = title;
-          });
-      },
-
-      initData(data) {
-        this.newsContent = data.content.reduce((acc, item, index) => {
-          acc.push({
-            type: 'received',
-            text: item.en,
-            meta: {
-              originIndex: index,
-              origin: true,
-            },
-          });
-
-          return acc;
-        }, []);
-
-        this.$nextTick(() => {
-          this.total = this.newsContent.length;
-          this.nextBubble(0);
+            this.title = this.$f7route.query.title;
+          } else {
+            this.getData();
+          }
+        })
+        .catch(err => {
+          console.log(err);
         });
-      },
+      this.lfKey = lfKey;
+    },
 
-      nextBubble(nextIndex, e) {
-        this.bubbleData = this.bubbleData.concat(this.newsContent.slice(nextIndex, nextIndex + 1));
-        this.current = nextIndex + 1;
+    getData() {
+      let { title, name } = this.$f7route.query;
 
-        if (e) {
-          e.target.classList.add('color-gray');
-        }
-      },
-
-      onWordClick(e) {
-        e.target.classList.toggle('bg-color-yellow');
-      },
-
-      translateText(index, e) {
-        const { text } = this.newsContent[index];
-        const originIndex = index;
-        
-        this.isTranslating = true;
-        this.translate(text)
-          .then((sentence) => {
-            let next = originIndex !== this.newsContent.length - 1;
-
-            this.bubbleData.push({
-              type: 'sent',
-              text: sentence,
-              meta: {
-                next,
-                originIndex,
-              },
+      this.$http
+        .get(`${api.content2}?name=${name}`)
+        .then(res => {
+          if (res.success) {
+            this.initData(res.data);
+            this.$lf.setItem(this.lfKey, res.data).catch(err => {
+              console.log(err);
             });
-          })
-          .catch((err) => {
-            console.log(err);
-          })
-          .finally(() => {
-            if (e) {
-              e.target.classList.add('color-gray');
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(() => {
+          this.isLoading = false;
+          this.title = title;
+        });
+    },
+
+    initData(data) {
+      this.newsContent = data.content.reduce((acc, item, index) => {
+        acc.push({
+          type: "received",
+          text: item.en,
+          meta: {
+            originIndex: index,
+            origin: true
+          }
+        });
+
+        return acc;
+      }, []);
+
+      this.$nextTick(() => {
+        this.total = this.newsContent.length;
+        this.nextBubble(0);
+      });
+    },
+
+    nextBubble(nextIndex, e) {
+      this.bubbleData = this.bubbleData.concat(
+        this.newsContent.slice(nextIndex, nextIndex + 1)
+      );
+      this.current = nextIndex + 1;
+
+      if (e) {
+        e.target.classList.add("color-gray");
+      }
+    },
+
+    onWordClick(e) {
+      e.target.classList.toggle("bg-color-yellow");
+    },
+
+    translateText(index, e) {
+      const { text } = this.newsContent[index];
+      const originIndex = index;
+
+      this.isTranslating = true;
+      this.translate(text)
+        .then(sentence => {
+          let next = originIndex !== this.newsContent.length - 1;
+
+          this.bubbleData.push({
+            type: "sent",
+            text: sentence,
+            meta: {
+              next,
+              originIndex
             }
-
-            this.isTranslating = false;
           });
-      },
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(() => {
+          if (e) {
+            e.target.classList.add("color-gray");
+          }
 
-      translate(text) {
-        return this.$http.post({
+          this.isTranslating = false;
+        });
+    },
+
+    translate(text) {
+      return this.$http
+        .post({
           url: api.translate,
           data: {
-            text,
-          },
+            text
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.success) {
             return res.data.text;
           } else {
-            return '';
+            return "";
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
-          return '';
+          return "";
         });
-      },
-    },
-
-    watch: {
-      current(val) {
-        this.percent = `${val} / ${this.total}`;
-      },
     }
-  };
+  },
+
+  watch: {
+    current(val) {
+      this.percent = `${val} / ${this.total}`;
+    }
+  }
+};
 </script>
 
 <style lang="scss">
-  
 </style>
