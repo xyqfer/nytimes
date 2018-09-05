@@ -11,7 +11,9 @@ const api = {
   te2: `${path}/api/v1/nytimes/te2`,
   teContent2: `${path}/api/v1/nytimes/teContent2`,
   times: `${path}/api/v1/nytimes/times`,
-  timesContent: `${path}/api/v1/nytimes/timesContent`
+  timesContent: `${path}/api/v1/nytimes/timesContent`,
+  wanqu: `${path}/api/v1/nytimes/wanqu`,
+  crawl: `${path}/api/v1/nytimes/crawl`,
 };
 
 export default api;

@@ -19,16 +19,16 @@
       >
       </f7-link>
       <f7-link
+        tab-link-active
         tab-link=""
-        href="/today"
+        href="/times"
         :animate="false"
         text="色"
       >
       </f7-link>
       <f7-link
-        tab-link-active
         tab-link=""
-        href="/times"
+        href="/wanqu"
         :animate="false"
         text="🌀"
       >
@@ -56,7 +56,7 @@
       <f7-list-item
         v-for="item in newsList"
         :key="item.url"
-        :link="`/content5?name=${item.name}&title=${item.title}`"
+        :link="`/content2?name=${item.name}&title=${item.title}&region=times`"
       >
         <div slot="title">
           {{item.title}}

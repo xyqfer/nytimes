@@ -6,48 +6,12 @@
     ref="homePage"
     :hide-navbar-on-scroll="true"
   >
-    <f7-navbar>
-      <f7-nav-title>? × 🌀</f7-nav-title>
+    
+    <f7-navbar
+      title="Today’s Paper"
+      back-link="返回"
+    >
     </f7-navbar>
-
-    <f7-toolbar tabbar>
-      <f7-link
-        tab-link=""
-        href="/"
-        :animate="false"
-        text="声"
-      >
-      </f7-link>
-      <f7-link
-        tab-link-active
-        tab-link=""
-        href="/today"
-        :animate="false"
-        text="色"
-      >
-      </f7-link>
-      <f7-link
-        tab-link=""
-        href="/times"
-        :animate="false"
-        text="🌀"
-      >
-      </f7-link>
-      <f7-link
-        tab-link=""
-        href="/te"
-        :animate="false"
-        text="犬"
-      >
-      </f7-link>
-      <f7-link
-        tab-link=""
-        href="/te2"
-        :animate="false"
-        text="马"
-      >
-      </f7-link>
-    </f7-toolbar>
 
     <f7-list
       media-list
@@ -56,7 +20,7 @@
       <f7-list-item
         v-for="item in newsList"
         :key="item.url"
-        :link="`/content2?name=${item.url}&title=${item.title}`"
+        :link="`/content2?name=${item.url}&title=${item.title}&region=nyt`"
       >
         <div slot="title">
           {{item.title}}
@@ -78,7 +42,6 @@ import {
   f7Navbar,
   f7NavTitle,
   f7Link,
-  f7Toolbar,
   f7List,
   f7ListItem,
   f7Icon
@@ -93,7 +56,6 @@ export default {
     f7Navbar,
     f7NavTitle,
     f7Link,
-    f7Toolbar,
     f7List,
     f7ListItem,
     f7Icon

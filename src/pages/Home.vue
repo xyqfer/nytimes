@@ -29,14 +29,14 @@
       </f7-link>
       <f7-link
         tab-link=""
-        href="/today"
+        href="/times"
         :animate="false"
         text="色"
       >
       </f7-link>
       <f7-link
         tab-link=""
-        href="/times"
+        href="/wanqu"
         :animate="false"
         text="🌀"
       >
@@ -64,7 +64,7 @@
       <f7-list-item
         v-for="item in newsList"
         :key="item.url"
-        :link="`/content?name=${item.url}&title=${item.title}`"
+        :link="`/content?name=${item.url}&title=${item.title}&region=nyt-cn`"
       >
         <div slot="title">
           {{item.title}}
@@ -74,6 +74,16 @@
         </div>
       </f7-list-item>
     </f7-list>
+
+    <f7-fab
+      position="right-bottom"
+      slot="fixed"
+      href="/today"
+    >
+      <f7-icon
+        md="material:adb"
+      ></f7-icon>
+    </f7-fab>
 
   </f7-page>
 </template>
@@ -90,7 +100,8 @@ import {
   f7Toolbar,
   f7List,
   f7ListItem,
-  f7Icon
+  f7Icon,
+  f7Fab,
 } from "framework7-vue";
 import api from "@/api";
 
@@ -106,7 +117,8 @@ export default {
     f7Toolbar,
     f7List,
     f7ListItem,
-    f7Icon
+    f7Icon,
+    f7Fab,
   },
 
   data() {

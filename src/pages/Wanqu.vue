@@ -26,6 +26,7 @@
       >
       </f7-link>
       <f7-link
+        tab-link-active
         tab-link=""
         href="/wanqu"
         :animate="false"
@@ -40,7 +41,6 @@
       >
       </f7-link>
       <f7-link
-        tab-link-active
         tab-link=""
         href="/te2"
         :animate="false"
@@ -56,11 +56,13 @@
       <f7-list-item
         v-for="item in newsList"
         :key="item.url"
-        :header="item.category"
-        :link="`/content2?name=${item.name}&title=${item.title}&region=te`"
+        :link="`/content2?name=${encodeURIComponent(item.url)}&title=${item.title}&region=wanqu`"
       >
         <div slot="title">
           {{item.title}}
+        </div>
+        <div slot="text">
+          {{item.summary}}
         </div>
       </f7-list-item>
     </f7-list>
@@ -79,7 +81,7 @@ import {
   f7Toolbar,
   f7List,
   f7ListItem,
-  f7Icon
+  f7Icon,
 } from "framework7-vue";
 import api from "@/api";
 
@@ -94,13 +96,13 @@ export default {
     f7Toolbar,
     f7List,
     f7ListItem,
-    f7Icon
+    f7Icon,
   },
 
   data() {
     return {
       newsList: [],
-      lfKey: "/list/home/te2"
+      lfKey: "/list/home/wanqu"
     };
   },
 
@@ -134,7 +136,7 @@ export default {
 
     getData() {
       return this.$http
-        .get(api.te2)
+        .get(api.wanqu)
         .then(res => {
           if (res.success) {
             this.newsList = res.data;

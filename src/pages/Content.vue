@@ -79,6 +79,7 @@ import {
   f7Block
 } from "framework7-vue";
 import api from "@/api";
+import preference from "@/preference";
 
 export default {
   components: {
@@ -100,13 +101,16 @@ export default {
       percent: "",
       current: 0,
       total: 0,
-      lfKey: ""
+      lfKey: "",
+      region: '',
+      preference: {},
     };
   },
 
   methods: {
     onPageInit() {
-      let lfKey = `/content/${this.$f7route.query.name}/nyt-cn`;
+      let { name, region } = this.$f7route.query;
+      let lfKey = `/content/${name}/${region}`;
 
       this.$lf
         .getItem(lfKey)
@@ -123,19 +127,24 @@ export default {
           console.log(err);
         });
       this.lfKey = lfKey;
+      this.region = region;
+      this.preference = preference[region];
     },
 
     getData() {
       let { title, name } = this.$f7route.query;
 
       this.$http
-        .get(`${api.content}?name=${name}`)
+        .get(`${api[this.preference.api]}?name=${name}`)
         .then(res => {
           if (res.success) {
             this.initData(res.data);
-            this.$lf.setItem(this.lfKey, res.data).catch(err => {
-              console.log(err);
-            });
+
+            if (this.preference.cache) {
+              this.$lf.setItem(this.lfKey, res.data).catch(err => {
+                console.log(err);
+              });
+            }
           }
         })
         .catch(err => {
