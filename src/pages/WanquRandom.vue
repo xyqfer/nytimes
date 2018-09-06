@@ -6,48 +6,12 @@
     ref="homePage"
     :hide-navbar-on-scroll="true"
   >
-    <f7-navbar>
-      <f7-nav-title>? × 🌀</f7-nav-title>
+    
+    <f7-navbar
+      title="随机文章"
+      back-link="返回"
+    >
     </f7-navbar>
-
-    <f7-toolbar tabbar>
-      <f7-link
-        tab-link=""
-        href="/"
-        :animate="false"
-        text="声"
-      >
-      </f7-link>
-      <f7-link
-        tab-link=""
-        href="/times"
-        :animate="false"
-        text="色"
-      >
-      </f7-link>
-      <f7-link
-        tab-link-active
-        tab-link=""
-        href="/wanqu"
-        :animate="false"
-        text="🌀"
-      >
-      </f7-link>
-      <f7-link
-        tab-link=""
-        href="/te"
-        :animate="false"
-        text="犬"
-      >
-      </f7-link>
-      <f7-link
-        tab-link=""
-        href="/te2"
-        :animate="false"
-        text="马"
-      >
-      </f7-link>
-    </f7-toolbar>
 
     <f7-list
       media-list
@@ -67,16 +31,6 @@
       </f7-list-item>
     </f7-list>
 
-    <f7-fab
-      position="right-bottom"
-      slot="fixed"
-      href="/wanqu-random"
-    >
-      <f7-icon
-        md="material:adb"
-      ></f7-icon>
-    </f7-fab>
-
   </f7-page>
 </template>
 
@@ -88,11 +42,9 @@ import {
   f7Navbar,
   f7NavTitle,
   f7Link,
-  f7Toolbar,
   f7List,
   f7ListItem,
-  f7Icon,
-  f7Fab,
+  f7Icon
 } from "framework7-vue";
 import api from "@/api";
 
@@ -104,17 +56,15 @@ export default {
     f7Navbar,
     f7NavTitle,
     f7Link,
-    f7Toolbar,
     f7List,
     f7ListItem,
-    f7Icon,
-    f7Fab,
+    f7Icon
   },
 
   data() {
     return {
       newsList: [],
-      lfKey: "/list/home/wanqu"
+      lfKey: "/list/random/wanqu"
     };
   },
 
@@ -148,7 +98,7 @@ export default {
 
     getData() {
       return this.$http
-        .get(api.wanqu)
+        .get(api.wanquRandom)
         .then(res => {
           if (res.success) {
             this.newsList = res.data;

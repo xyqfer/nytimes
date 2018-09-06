@@ -13,6 +13,7 @@ const api = {
   times: `${path}/api/v1/nytimes/times`,
   timesContent: `${path}/api/v1/nytimes/timesContent`,
   wanqu: `${path}/api/v1/nytimes/wanqu`,
+  wanquRandom: `${path}/api/v1/nytimes/wanquRandom`,
   crawl: `${path}/api/v1/nytimes/crawl`,
 };
 

@@ -6,6 +6,7 @@ import TE from "./pages/TE.vue";
 import TE2 from "./pages/TE2.vue";
 import Times from "./pages/Times.vue";
 import Wanqu from "./pages/Wanqu.vue";
+import WanquRandom from "./pages/WanquRandom.vue";
 
 import NotFound from "./pages/404.vue";
 
@@ -34,6 +35,10 @@ export default [
   {
     path: "/wanqu",
     component: Wanqu
+  },
+  {
+    path: "/wanqu-random",
+    component: WanquRandom
   },
   {
     path: "/category/:name",
