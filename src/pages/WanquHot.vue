@@ -7,7 +7,7 @@
   >
     
     <f7-navbar
-      title="随机文章"
+      title="近期热门文章"
       back-link="返回"
     >
     </f7-navbar>
@@ -63,7 +63,7 @@ export default {
   data() {
     return {
       newsList: [],
-      lfKey: "/list/random/wanqu"
+      lfKey: "/list/hot/wanqu"
     };
   },
 
@@ -97,7 +97,7 @@ export default {
 
     getData() {
       return this.$http
-        .get(api.wanquRandom)
+        .get(api.wanquHot)
         .then(res => {
           if (res.success) {
             this.newsList = res.data;

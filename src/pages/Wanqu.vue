@@ -70,11 +70,22 @@
     <f7-fab
       position="right-bottom"
       slot="fixed"
-      href="/wanqu-random"
     >
       <f7-icon
         md="material:adb"
       ></f7-icon>
+      <f7-icon
+        md="material:close"
+      ></f7-icon>
+      <f7-fab-buttons position="top">
+        <f7-fab-button
+          v-for="item in fabConfig"
+          :key="item.url"
+          @click="onFabClick(item.url)"
+        >
+          {{item.text}}
+        </f7-fab-button>
+      </f7-fab-buttons>
     </f7-fab>
 
   </f7-page>
@@ -93,6 +104,8 @@ import {
   f7ListItem,
   f7Icon,
   f7Fab,
+  f7FabButtons,
+  f7FabButton,
 } from "framework7-vue";
 import api from "@/api";
 
@@ -109,12 +122,23 @@ export default {
     f7ListItem,
     f7Icon,
     f7Fab,
+    f7FabButtons,
+    f7FabButton,
   },
 
   data() {
     return {
       newsList: [],
-      lfKey: "/list/home/wanqu"
+      lfKey: "/list/home/wanqu",
+      fabConfig: [
+        {
+          text: '随机',
+          url: '/wanqu-random',
+        }, {
+          text: '热门',
+          url: '/wanqu-hot',
+        }
+      ],
     };
   },
 
@@ -160,7 +184,11 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    }
+    },
+
+    onFabClick(url) {
+      this.$f7router.navigate(url);
+    },
   }
 };
 </script>
