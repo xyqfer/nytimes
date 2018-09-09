@@ -102,6 +102,8 @@ export default {
       current: 0,
       total: 0,
       lfKey: "",
+      progressKey: '',
+      progressIndex: 0,
       region: '',
       preference: {},
     };
@@ -111,6 +113,18 @@ export default {
     onPageInit() {
       let { name, region } = this.$f7route.query;
       let lfKey = `/content/${name}/${region}`;
+      let progressKey = `/progress/${name}/${region}`;
+
+      this.$lf
+        .getItem(progressKey)
+        .then(data => {
+          if (data) {
+            this.progressIndex = data;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
 
       this.$lf
         .getItem(lfKey)
@@ -126,7 +140,9 @@ export default {
         .catch(err => {
           console.log(err);
         });
+
       this.lfKey = lfKey;
+      this.progressKey = progressKey;
       this.region = region;
       this.preference = preference[region];
     },
@@ -179,7 +195,7 @@ export default {
 
       this.$nextTick(() => {
         this.total = this.newsContent.length / 2;
-        this.nextBubble(0, 0);
+        this.nextBubble(this.progressIndex, Math.floor(this.progressIndex / 2));
       });
     },
 
@@ -189,6 +205,11 @@ export default {
       if (originIndex != null) {
         this.current = originIndex + 1;
       }
+
+      this.progressIndex = nextIndex;
+      this.$lf.setItem(this.progressKey, nextIndex).catch(err => {
+        console.log(err);
+      });
 
       if (e) {
         e.target.classList.add("color-gray");

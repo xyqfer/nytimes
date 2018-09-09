@@ -123,9 +123,12 @@ export default {
       current: 0,
       total: 0,
       lfKey: "",
+      progressKey: '',
+      progressIndex: 0,
       isTranslating: false,
       region: '',
       preference: {},
+      translatedText: null,
     };
   },
 
@@ -133,6 +136,18 @@ export default {
     onPageInit() {
       let { name, region } = this.$f7route.query;
       let lfKey = `/content/${name}/${region}`;
+      let progressKey = `/progress/${name}/${region}`;
+
+      this.$lf
+        .getItem(progressKey)
+        .then(data => {
+          if (data) {
+            this.progressIndex = data;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
 
       this.$lf
         .getItem(lfKey)
@@ -148,7 +163,9 @@ export default {
         .catch(err => {
           console.log(err);
         });
+
       this.lfKey = lfKey;
+      this.progressKey = progressKey;
       this.region = region;
       this.preference = preference[region];
     },
@@ -194,7 +211,7 @@ export default {
 
       this.$nextTick(() => {
         this.total = this.newsContent.length;
-        this.nextBubble(0);
+        this.nextBubble(this.progressIndex);
       });
     },
 
@@ -204,9 +221,33 @@ export default {
       );
       this.current = nextIndex + 1;
 
+      this.progressIndex = nextIndex;
+      this.$lf.setItem(this.progressKey, nextIndex).catch(err => {
+        console.log(err);
+      });
+
       if (e) {
         e.target.classList.add("color-gray");
       }
+
+      this.translate(this.newsContent[nextIndex].text)
+        .then(sentence => {
+          this.translatedText = sentence;
+
+          if (this.isTranslating) {
+            this.$nextTick(() => {
+              this.translateText(nextIndex - 1);
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(() => {
+          this.$nextTick(() => {
+            this.isTranslating = false;
+          });
+        });
     },
 
     onWordClick(e) {
@@ -214,33 +255,22 @@ export default {
     },
 
     translateText(index, e) {
-      const { text } = this.newsContent[index];
       const originIndex = index;
+      let next = index !== this.newsContent.length - 1;
 
-      this.isTranslating = true;
-      this.translate(text)
-        .then(sentence => {
-          let next = originIndex !== this.newsContent.length - 1;
-
-          this.bubbleData.push({
-            type: "sent",
-            text: sentence,
-            meta: {
-              next,
-              originIndex
-            }
-          });
-        })
-        .catch(err => {
-          console.log(err);
-        })
-        .finally(() => {
-          if (e) {
-            e.target.classList.add("color-gray");
+      if (this.translatedText) {
+        this.bubbleData.push({
+          type: "sent",
+          text: this.translatedText,
+          meta: {
+            next,
+            originIndex
           }
-
-          this.isTranslating = false;
         });
+        this.translatedText = null;
+      } else {
+        this.isTranslating = true;
+      }
     },
 
     translate(text) {

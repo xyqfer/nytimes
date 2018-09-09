@@ -4,7 +4,6 @@
     :ptr="true"
     @ptr:refresh="onRefresh"
     ref="homePage"
-    :hide-navbar-on-scroll="true"
   >
     
     <f7-navbar

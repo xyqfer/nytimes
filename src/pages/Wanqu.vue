@@ -72,7 +72,7 @@
       slot="fixed"
     >
       <f7-icon
-        md="material:adb"
+        md="material:adjust"
       ></f7-icon>
       <f7-icon
         md="material:close"
