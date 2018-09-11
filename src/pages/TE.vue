@@ -20,7 +20,7 @@
       </f7-link>
       <f7-link
         tab-link=""
-        href="/times"
+        href="/i21st"
         :animate="false"
         text="色"
       >

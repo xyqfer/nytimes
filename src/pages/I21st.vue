@@ -1,10 +1,9 @@
 <template>
   <f7-page
     @page:init="onPageInit"
-    :ptr="true"
-    @ptr:refresh="onRefresh"
-    ref="homePage"
-    :hide-navbar-on-scroll="true"
+    @infinite="onInfinite"
+    :infinite-preloader="showPreloader"
+    :infinite="true"
   >
     <f7-navbar>
       <f7-nav-title>? × 🌀</f7-nav-title>
@@ -19,6 +18,7 @@
       >
       </f7-link>
       <f7-link
+        tab-link-active
         tab-link=""
         href="/i21st"
         :animate="false"
@@ -40,7 +40,6 @@
       >
       </f7-link>
       <f7-link
-        tab-link-active
         tab-link=""
         href="/te2"
         :animate="false"
@@ -56,91 +55,98 @@
       <f7-list-item
         v-for="item in newsList"
         :key="item.url"
-        :header="item.category"
-        :link="`/content2?name=${item.name}&title=${item.title}&region=te`"
+        :link="`/content?name=${item.url}&title=${item.title}&region=i21st`"
       >
         <div slot="title">
           {{item.title}}
         </div>
+        <div slot="text">
+          {{item.summary}}
+        </div>
       </f7-list-item>
     </f7-list>
+
+    <f7-fab
+      position="right-bottom"
+      slot="fixed"
+      href="/times"
+    >
+      <f7-icon
+        md="material:palette"
+      ></f7-icon>
+    </f7-fab>
 
   </f7-page>
 </template>
 
 <script>
-import {
-  f7View,
-  f7Panel,
-  f7Page,
-  f7Navbar,
+import { 
+  f7Page, 
+  f7Navbar, 
   f7NavTitle,
+  f7List, 
+  f7ListItem, 
   f7Link,
   f7Toolbar,
-  f7List,
-  f7ListItem,
-  f7Icon
+  f7Icon,
+  f7Fab,
+  f7FabButtons,
+  f7FabButton,
 } from "framework7-vue";
 import api from "@/api";
 
 export default {
   components: {
-    f7View,
-    f7Panel,
     f7Page,
     f7Navbar,
     f7NavTitle,
-    f7Link,
-    f7Toolbar,
     f7List,
     f7ListItem,
-    f7Icon
+    f7Link,
+    f7Toolbar,
+    f7Icon,
+    f7Fab,
+    f7FabButtons,
+    f7FabButton,
   },
 
   data() {
     return {
       newsList: [],
-      lfKey: "/list/home/te2"
+      p: 1,
+      allowInfinite: true,
+      showPreloader: true
     };
-  },
-
-  created() {
-    this.$lf
-      .getItem(this.lfKey)
-      .then(data => {
-        if (data) {
-          this.newsList = data;
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
   },
 
   methods: {
     onPageInit() {
-      this.$nextTick(() => {
-        this.$f7.ptr
-          .get(this.$refs.homePage.$el.querySelector(".ptr-content"))
-          .refresh();
-      });
+      this.getData();
     },
 
-    onRefresh(e, done) {
+    onInfinite() {
+      if (!this.allowInfinite) return;
+
+      this.allowInfinite = false;
       this.getData().then(() => {
-        done();
+        this.showPreloader = this.allowInfinite = !(this.p > this.total);
       });
     },
 
     getData() {
+      const name = this.name;
+
       return this.$http
-        .get(api.te2)
+        .get(`${api.i21st}?p=${this.p}`)
         .then(res => {
           if (res.success) {
-            this.newsList = res.data;
-            this.$lf.setItem(this.lfKey, res.data).catch(err => {
-              console.log(err);
-            });
+            if (res.data && res.data.length > 0) {
+              this.newsList = this.newsList.concat(res.data);
+              this.p = this.p + 1;
+            } else {
+              this.showPreloader = false;
+              this.allowInfinite = false;
+            }
           }
         })
         .catch(err => {
@@ -151,5 +157,5 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 </style>

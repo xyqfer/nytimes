@@ -23,6 +23,10 @@ const preference = {
     api: 'crawl',
     cache: true,
   },
+  'i21st': {
+    api: 'i21stContent',
+    cache: true,
+  },
 };
 
 export default preference;

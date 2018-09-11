@@ -4,10 +4,10 @@ import Content from "./pages/Content.vue";
 import Content2 from "./pages/Content2.vue";
 import TE from "./pages/TE.vue";
 import TE2 from "./pages/TE2.vue";
-import Times from "./pages/Times.vue";
 import Wanqu from "./pages/Wanqu.vue";
 import WanquRandom from "./pages/WanquRandom.vue";
 import WanquHot from "./pages/WanquHot.vue";
+import I21st from "./pages/I21st.vue";
 
 import NotFound from "./pages/404.vue";
 
@@ -22,6 +22,19 @@ export default [
     component: Today
   },
   {
+    path: "/book",
+    async(routeTo, routeFrom, resolve) {
+      const vueComponent = () => import('./pages/Book.vue');
+      vueComponent().then((vc) => {
+        resolve({ component: vc.default });
+      });
+    },
+  },
+  {
+    path: "/i21st",
+    component: I21st
+  },
+  {
     path: "/te",
     component: TE
   },
@@ -31,7 +44,12 @@ export default [
   },
   {
     path: "/times",
-    component: Times
+    async(routeTo, routeFrom, resolve) {
+      const vueComponent = () => import('./pages/Times.vue');
+      vueComponent().then((vc) => {
+        resolve({ component: vc.default });
+      });
+    },
   },
   {
     path: "/wanqu",
@@ -47,10 +65,10 @@ export default [
   },
   {
     path: "/category/:name",
-    async(routeTo, routeFrom, resolve, reject) {
+    async(routeTo, routeFrom, resolve) {
       const vueComponent = () => import('./pages/Category.vue');
       vueComponent().then((vc) => {
-        resolve({ component: vc.default })
+        resolve({ component: vc.default });
       });
     },
   },
@@ -64,10 +82,10 @@ export default [
   },
   {
     path: "/menu",
-    async(routeTo, routeFrom, resolve, reject) {
+    async(routeTo, routeFrom, resolve) {
       const vueComponent = () => import('./pages/Menu.vue');
       vueComponent().then((vc) => {
-        resolve({ component: vc.default })
+        resolve({ component: vc.default });
       });
     },
   },

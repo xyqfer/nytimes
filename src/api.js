@@ -17,6 +17,9 @@ const api = {
   wanquHot: `${path}/api/v1/nytimes/wanquHot`,
   wanquIssue: `${path}/api/v1/nytimes/wanquIssue`,
   crawl: `${path}/api/v1/nytimes/crawl`,
+  book: `${path}/api/v1/nytimes/book`,
+  i21st: `${path}/api/v1/nytimes/i21st`,
+  i21stContent: `${path}/api/v1/nytimes/i21stContent`,
 };
 
 export default api;

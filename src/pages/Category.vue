@@ -18,7 +18,7 @@
       <f7-list-item
         v-for="item in newsList"
         :key="item.url"
-        :link="`/content?name=${item.url}&title=${item.title}`"
+        :link="`/content?name=${item.url}&title=${item.title}&region=nyt-cn`"
       >
         <div slot="title">
           {{item.title}}

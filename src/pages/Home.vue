@@ -29,7 +29,7 @@
       </f7-link>
       <f7-link
         tab-link=""
-        href="/times"
+        href="/i21st"
         :animate="false"
         text="色"
       >
@@ -78,11 +78,22 @@
     <f7-fab
       position="right-bottom"
       slot="fixed"
-      href="/today"
     >
       <f7-icon
         md="material:adb"
       ></f7-icon>
+      <f7-icon
+        md="material:close"
+      ></f7-icon>
+      <f7-fab-buttons position="top">
+        <f7-fab-button
+          v-for="item in fabConfig"
+          :key="item.url"
+          @click="onFabClick(item.url)"
+        >
+          <f7-icon :material="item.icon"></f7-icon>
+        </f7-fab-button>
+      </f7-fab-buttons>
     </f7-fab>
 
   </f7-page>
@@ -102,6 +113,8 @@ import {
   f7ListItem,
   f7Icon,
   f7Fab,
+  f7FabButtons,
+  f7FabButton,
 } from "framework7-vue";
 import api from "@/api";
 
@@ -119,12 +132,23 @@ export default {
     f7ListItem,
     f7Icon,
     f7Fab,
+    f7FabButtons,
+    f7FabButton,
   },
 
   data() {
     return {
       newsList: [],
-      lfKey: "/list/home/nyt-cn"
+      lfKey: "/list/home/nyt-cn",
+      fabConfig: [
+        {
+          icon: 'cloud_circle',
+          url: '/book',
+        }, {
+          icon: 'av_timer',
+          url: '/today',
+        }
+      ],
     };
   },
 
@@ -170,7 +194,11 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    }
+    },
+
+    onFabClick(url) {
+      this.$f7router.navigate(url);
+    },
   }
 };
 </script>

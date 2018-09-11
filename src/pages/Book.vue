@@ -4,50 +4,13 @@
     :ptr="true"
     @ptr:refresh="onRefresh"
     ref="homePage"
-    :hide-navbar-on-scroll="true"
   >
-    <f7-navbar>
-      <f7-nav-title>? × 🌀</f7-nav-title>
+    
+    <f7-navbar
+      title="Books"
+      back-link="返回"
+    >
     </f7-navbar>
-
-    <f7-toolbar tabbar>
-      <f7-link
-        tab-link=""
-        href="/"
-        :animate="false"
-        text="声"
-      >
-      </f7-link>
-      <f7-link
-        tab-link=""
-        href="/i21st"
-        :animate="false"
-        text="色"
-      >
-      </f7-link>
-      <f7-link
-        tab-link=""
-        href="/wanqu"
-        :animate="false"
-        text="🌀"
-      >
-      </f7-link>
-      <f7-link
-        tab-link=""
-        href="/te"
-        :animate="false"
-        text="犬"
-      >
-      </f7-link>
-      <f7-link
-        tab-link-active
-        tab-link=""
-        href="/te2"
-        :animate="false"
-        text="马"
-      >
-      </f7-link>
-    </f7-toolbar>
 
     <f7-list
       media-list
@@ -56,11 +19,13 @@
       <f7-list-item
         v-for="item in newsList"
         :key="item.url"
-        :header="item.category"
-        :link="`/content2?name=${item.name}&title=${item.title}&region=te`"
+        :link="`/content2?name=${item.url}&title=${item.title}&region=nyt`"
       >
         <div slot="title">
           {{item.title}}
+        </div>
+        <div slot="text">
+          {{item.summary}}
         </div>
       </f7-list-item>
     </f7-list>
@@ -76,7 +41,6 @@ import {
   f7Navbar,
   f7NavTitle,
   f7Link,
-  f7Toolbar,
   f7List,
   f7ListItem,
   f7Icon
@@ -91,7 +55,6 @@ export default {
     f7Navbar,
     f7NavTitle,
     f7Link,
-    f7Toolbar,
     f7List,
     f7ListItem,
     f7Icon
@@ -100,7 +63,7 @@ export default {
   data() {
     return {
       newsList: [],
-      lfKey: "/list/home/te2"
+      lfKey: "/list/book/nyt"
     };
   },
 
@@ -134,7 +97,7 @@ export default {
 
     getData() {
       return this.$http
-        .get(api.te2)
+        .get(api.book)
         .then(res => {
           if (res.success) {
             this.newsList = res.data;
