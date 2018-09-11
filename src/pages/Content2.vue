@@ -211,7 +211,7 @@ export default {
 
       this.$nextTick(() => {
         this.total = this.newsContent.length;
-        this.nextBubble(this.progressIndex);
+        this.nextBubble(this.preference.cache ? this.progressIndex : 0);
       });
     },
 
