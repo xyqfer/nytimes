@@ -236,7 +236,7 @@ export default {
 
           if (this.isTranslating) {
             this.$nextTick(() => {
-              this.translateText(nextIndex - 1);
+              this.translateText(nextIndex);
             });
           }
         })
