@@ -11,7 +11,7 @@
     >
       <f7-nav-right>
         <f7-link
-          popover-open=".search-input"
+          popover-open=".page-input"
           icon-md="material:location_searching">
         </f7-link>
       </f7-nav-right>
@@ -36,8 +36,8 @@
     </f7-list>
 
     <f7-popover
-      ref="searchInput"
-      class="search-input"
+      ref="pageInput"
+      class="page-input"
     >
       <f7-list>
         <f7-list-item
@@ -137,7 +137,7 @@ export default {
     jumpPage(e) {
         let page = +e.target.value;
 
-        this.$refs.searchInput.f7Popover.close();
+        this.$refs.pageInput.f7Popover.close();
         this.p = page;
         this.newsList = [];
         this.getData();
