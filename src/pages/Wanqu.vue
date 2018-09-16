@@ -11,7 +11,7 @@
       <f7-nav-right>
         <f7-link
           popover-open=".search-input"
-          icon-md="material:search">
+          icon-md="material:voicemail">
         </f7-link>
       </f7-nav-right>
     </f7-navbar>

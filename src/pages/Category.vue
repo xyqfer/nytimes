@@ -9,6 +9,12 @@
       :title="title"
       back-link="返回"
     >
+      <f7-nav-right>
+        <f7-link
+          popover-open=".search-input"
+          icon-md="material:location_searching">
+        </f7-link>
+      </f7-nav-right>
     </f7-navbar>
 
     <f7-list
@@ -29,11 +35,40 @@
       </f7-list-item>
     </f7-list>
 
+    <f7-popover
+      ref="searchInput"
+      class="search-input"
+    >
+      <f7-list>
+        <f7-list-item
+          :link="false"
+          title="页码"
+        >
+          <f7-input
+            type="number"
+            @keyup.enter.native="jumpPage"
+            placeholder="1~386"
+            clear-button
+          >
+          </f7-input>
+        </f7-list-item>
+      </f7-list>
+    </f7-popover>
+
   </f7-page>
 </template>
 
 <script>
-import { f7Page, f7Navbar, f7List, f7ListItem, f7Link } from "framework7-vue";
+import { 
+  f7Page, 
+  f7Navbar, 
+  f7List, 
+  f7ListItem, 
+  f7Link,
+  f7NavRight,
+  f7Popover,
+  f7Input,
+} from "framework7-vue";
 import api from "@/api";
 
 export default {
@@ -47,7 +82,10 @@ export default {
     f7Navbar,
     f7List,
     f7ListItem,
-    f7Link
+    f7Link,
+    f7NavRight,
+    f7Popover,
+    f7Input,
   },
 
   data() {
@@ -94,7 +132,16 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    }
+    },
+
+    jumpPage(e) {
+        let page = +e.target.value;
+
+        this.$refs.searchInput.f7Popover.close();
+        this.p = page;
+        this.newsList = [];
+        this.getData();
+      },
   }
 };
 </script>
