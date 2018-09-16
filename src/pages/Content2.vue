@@ -94,7 +94,6 @@
     ></f7-message>
 
     <f7-popover
-      ref="pageMenu"
       class="page-menu"
     >
       <f7-list>
@@ -104,6 +103,13 @@
           target="_blank"
           :external="true"
           title="查看原页面"
+          popover-close
+        >
+        </f7-list-item>
+        <f7-list-item
+          :link="`/paper?name=${link}&title=${title}&region=${region}`"
+          title="阅读模式"
+          popover-close
         >
         </f7-list-item>
       </f7-list>
@@ -197,7 +203,7 @@ export default {
           console.log(err);
         });
 
-      this.link = name;
+      this.link = encodeURIComponent(name);
       this.lfKey = lfKey;
       this.progressKey = progressKey;
       this.region = region;

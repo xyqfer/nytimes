@@ -31,6 +31,15 @@ export default [
     },
   },
   {
+    path: "/paper",
+    async(routeTo, routeFrom, resolve) {
+      const vueComponent = () => import('./pages/Paper.vue');
+      vueComponent().then((vc) => {
+        resolve({ component: vc.default });
+      });
+    },
+  },
+  {
     path: "/i21st",
     component: I21st
   },
