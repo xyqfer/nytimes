@@ -8,6 +8,12 @@
       :subtitle="percent"
       back-link="返回"
     >
+      <f7-nav-right v-if="!isLoading">
+        <f7-link
+          popover-open=".page-menu"
+          icon-md="material:menu">
+        </f7-link>
+      </f7-nav-right>
     </f7-navbar>
 
     <f7-block
@@ -86,6 +92,22 @@
       :last="true"
       :tail="true"
     ></f7-message>
+
+    <f7-popover
+      ref="pageMenu"
+      class="page-menu"
+    >
+      <f7-list>
+        <f7-list-item
+          v-if="preference.raw"
+          :link="link"
+          target="_blank"
+          :external="true"
+          title="查看原页面"
+        >
+        </f7-list-item>
+      </f7-list>
+    </f7-popover>
   </f7-page>
 </template>
 
@@ -97,7 +119,12 @@ import {
   f7MessagesTitle,
   f7Message,
   f7Preloader,
-  f7Block
+  f7Block,
+  f7NavRight,
+  f7Popover,
+  f7List,
+  f7ListItem,
+  f7Link,
 } from "framework7-vue";
 import api from "@/api";
 import preference from "@/preference";
@@ -110,11 +137,17 @@ export default {
     f7MessagesTitle,
     f7Message,
     f7Preloader,
-    f7Block
+    f7Block,
+    f7NavRight,
+    f7Popover,
+    f7List,
+    f7ListItem,
+    f7Link,
   },
 
   data() {
     return {
+      link: '',
       isLoading: true,
       title: "加载中...",
       newsContent: [],
@@ -164,6 +197,7 @@ export default {
           console.log(err);
         });
 
+      this.link = name;
       this.lfKey = lfKey;
       this.progressKey = progressKey;
       this.region = region;

@@ -22,6 +22,7 @@ const preference = {
   'wanqu': {
     api: 'crawl',
     cache: true,
+    raw: true,
   },
   'i21st': {
     api: 'i21stContent',
