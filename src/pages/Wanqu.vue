@@ -8,6 +8,12 @@
   >
     <f7-navbar>
       <f7-nav-title>? × 🌀</f7-nav-title>
+      <f7-nav-right>
+        <f7-link
+          popover-open=".search-input"
+          icon-md="material:search">
+        </f7-link>
+      </f7-nav-right>
     </f7-navbar>
 
     <f7-toolbar tabbar>
@@ -88,6 +94,26 @@
       </f7-fab-buttons>
     </f7-fab>
 
+    <f7-popover
+      ref="searchInput"
+      class="search-input"
+    >
+      <f7-list>
+        <f7-list-item
+          :link="false"
+          title="搜索"
+        >
+          <f7-input
+            type="text"
+            @keyup.enter.native="onFly"
+            placeholder="请输入地址"
+            clear-button
+          >
+          </f7-input>
+        </f7-list-item>
+      </f7-list>
+    </f7-popover>
+
   </f7-page>
 </template>
 
@@ -106,6 +132,9 @@ import {
   f7Fab,
   f7FabButtons,
   f7FabButton,
+  f7NavRight,
+  f7Popover,
+  f7Input,
 } from "framework7-vue";
 import api from "@/api";
 
@@ -124,6 +153,9 @@ export default {
     f7Fab,
     f7FabButtons,
     f7FabButton,
+    f7NavRight,
+    f7Popover,
+    f7Input,
   },
 
   data() {
@@ -188,6 +220,13 @@ export default {
 
     onFabClick(url) {
       this.$f7router.navigate(url);
+    },
+
+    onFly(e) {
+      let url = e.target.value;
+      this.$refs.searchInput.f7Popover.close();
+
+      this.$f7router.navigate(`/content2?name=${encodeURIComponent(url)}&title=&region=wanqu`);
     },
   }
 };
