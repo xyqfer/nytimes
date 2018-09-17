@@ -10,7 +10,7 @@
     >
       <f7-nav-right v-if="!isLoading">
         <f7-link
-          popover-open=".page-menu"
+          popover-open=".page-menu2"
           icon-md="material:menu">
         </f7-link>
       </f7-nav-right>
@@ -94,7 +94,7 @@
     ></f7-message>
 
     <f7-popover
-      class="page-menu"
+      class="page-menu2"
     >
       <f7-list>
         <f7-list-item
@@ -107,13 +107,14 @@
         >
         </f7-list-item>
         <f7-list-item
-          :link="`/paper?name=${link}&title=${title}&region=${region}`"
+          :link="`/paper?name=${encodeURIComponent(link)}&title=${title}&region=${region}`"
           title="阅读模式"
           popover-close
         >
         </f7-list-item>
       </f7-list>
     </f7-popover>
+    
   </f7-page>
 </template>
 
@@ -203,7 +204,7 @@ export default {
           console.log(err);
         });
 
-      this.link = encodeURIComponent(name);
+      this.link = name;
       this.lfKey = lfKey;
       this.progressKey = progressKey;
       this.region = region;

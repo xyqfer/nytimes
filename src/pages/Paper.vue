@@ -16,8 +16,14 @@
       <p 
         v-for="(item, index) in newsList"
         :key="index"
-        v-html="item.en"
       >
+        <span
+          v-for="(word, index) in item.en.split(' ')"
+          :key="index"
+          @click="onWordClick"
+        >
+          {{word}}
+        </span>
       </p>
     </f7-block>
 
@@ -96,6 +102,10 @@ export default {
           this.title = title;
         });
     },
+
+    onWordClick(e) {
+      e.target.classList.toggle("bg-color-yellow");
+    }
   }
 };
 </script>
@@ -110,12 +120,12 @@ export default {
     }
 
     p {
-      line-height: 32px;
+      line-height: 30px;
       margin: 0;
       padding-bottom: 20px;
       color: #333;
       font-family: Georgia, serif;
-      font-size: 20px;
+      font-size: 18px;
       word-wrap: break-word;
     }
   }

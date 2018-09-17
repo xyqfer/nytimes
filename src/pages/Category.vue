@@ -135,13 +135,13 @@ export default {
     },
 
     jumpPage(e) {
-        let page = +e.target.value;
+      let page = +e.target.value;
 
-        this.$refs.pageInput.f7Popover.close();
-        this.p = page;
-        this.newsList = [];
-        this.getData();
-      },
+      this.$refs.pageInput.f7Popover.close();
+      this.p = page;
+      this.newsList = [];
+      this.getData();
+    },
   }
 };
 </script>

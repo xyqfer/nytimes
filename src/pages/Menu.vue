@@ -1,6 +1,6 @@
 <template>
   <f7-page>
-    <f7-block-title>分类菜单</f7-block-title>
+    <f7-block-title>分类</f7-block-title>
     <f7-list>
       <f7-list-item
         v-for="item in list"
