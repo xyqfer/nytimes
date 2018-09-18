@@ -31,6 +31,15 @@ export default [
     },
   },
   {
+    path: "/pocket",
+    async(routeTo, routeFrom, resolve) {
+      const vueComponent = () => import('./pages/Pocket.vue');
+      vueComponent().then((vc) => {
+        resolve({ component: vc.default });
+      });
+    },
+  },
+  {
     path: "/paper",
     async(routeTo, routeFrom, resolve) {
       const vueComponent = () => import('./pages/Paper.vue');

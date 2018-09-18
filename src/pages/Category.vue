@@ -22,9 +22,10 @@
       class="news-list"
     >
       <f7-list-item
+        swipeout
         v-for="item in newsList"
         :key="item.url"
-        :link="`/content?name=${item.url}&title=${item.title}&region=nyt-cn`"
+        :link="formatLink(item)"
       >
         <div slot="title">
           {{item.title}}
@@ -32,6 +33,15 @@
         <div slot="text">
           {{item.summary}}
         </div>
+        <f7-swipeout-actions right>
+          <f7-swipeout-button 
+            color="blue"
+            close
+            @click="savePocket(item)"
+          >
+            Save
+          </f7-swipeout-button>
+        </f7-swipeout-actions>
       </f7-list-item>
     </f7-list>
 
@@ -68,8 +78,10 @@ import {
   f7NavRight,
   f7Popover,
   f7Input,
+  f7SwipeoutActions,
+  f7SwipeoutButton,
 } from "framework7-vue";
-import api from "@/api";
+import mixin from "@/mixin";
 
 export default {
   created() {
@@ -86,7 +98,11 @@ export default {
     f7NavRight,
     f7Popover,
     f7Input,
+    f7SwipeoutActions,
+    f7SwipeoutButton,
   },
+
+  mixins: [mixin],
 
   data() {
     return {
@@ -117,7 +133,7 @@ export default {
       const name = this.name;
 
       return this.$http
-        .get(`${api.category}/${name}?p=${this.p}`)
+        .get(`${this.api.category}/${name}?p=${this.p}`)
         .then(res => {
           if (res.success) {
             if (res.data && res.data.length > 0) {
@@ -141,6 +157,10 @@ export default {
       this.p = page;
       this.newsList = [];
       this.getData();
+    },
+
+    formatLink(item) {
+      return `/content?name=${item.url}&title=${item.title}&region=nyt-cn`;
     },
   }
 };

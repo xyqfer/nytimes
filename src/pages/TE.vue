@@ -12,39 +12,13 @@
 
     <f7-toolbar tabbar>
       <f7-link
+        v-for="item in tab"
+        :tab-link-active="item.name === name"
+        :key="item.name"
         tab-link=""
-        href="/"
+        :href="item.link"
         :animate="false"
-        text="声"
-      >
-      </f7-link>
-      <f7-link
-        tab-link=""
-        href="/i21st"
-        :animate="false"
-        text="色"
-      >
-      </f7-link>
-      <f7-link
-        tab-link=""
-        href="/wanqu"
-        :animate="false"
-        text="🌀"
-      >
-      </f7-link>
-      <f7-link
-        tab-link-active
-        tab-link=""
-        href="/te"
-        :animate="false"
-        text="犬"
-      >
-      </f7-link>
-      <f7-link
-        tab-link=""
-        href="/te2"
-        :animate="false"
-        text="马"
+        :text="item.text"
       >
       </f7-link>
     </f7-toolbar>
@@ -67,6 +41,16 @@
       </f7-list-item>
     </f7-list>
 
+    <f7-fab
+      position="right-bottom"
+      slot="fixed"
+      href="/te2"
+    >
+      <f7-icon
+        md="material:beach_access"
+      ></f7-icon>
+    </f7-fab>
+
   </f7-page>
 </template>
 
@@ -81,9 +65,11 @@ import {
   f7Toolbar,
   f7List,
   f7ListItem,
-  f7Icon
+  f7Icon,
+  f7Fab,
 } from "framework7-vue";
 import api from "@/api";
+import tab from "@/tab";
 
 export default {
   components: {
@@ -96,17 +82,22 @@ export default {
     f7Toolbar,
     f7List,
     f7ListItem,
-    f7Icon
+    f7Icon,
+    f7Fab,
   },
 
   data() {
     return {
+      name: 'te',
       newsList: [],
-      lfKey: "/list/home/te"
+      lfKey: "/list/home/te",
+      tab: [],
     };
   },
 
   created() {
+    this.tab = tab;
+
     this.$lf
       .getItem(this.lfKey)
       .then(data => {

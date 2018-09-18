@@ -6,48 +6,11 @@
     ref="homePage"
     :hide-navbar-on-scroll="true"
   >
-    <f7-navbar>
-      <f7-nav-title>? × 🌀</f7-nav-title>
+    <f7-navbar
+      title="The Economist"
+      back-link="返回"
+    >
     </f7-navbar>
-
-    <f7-toolbar tabbar>
-      <f7-link
-        tab-link=""
-        href="/"
-        :animate="false"
-        text="声"
-      >
-      </f7-link>
-      <f7-link
-        tab-link=""
-        href="/i21st"
-        :animate="false"
-        text="色"
-      >
-      </f7-link>
-      <f7-link
-        tab-link=""
-        href="/wanqu"
-        :animate="false"
-        text="🌀"
-      >
-      </f7-link>
-      <f7-link
-        tab-link=""
-        href="/te"
-        :animate="false"
-        text="犬"
-      >
-      </f7-link>
-      <f7-link
-        tab-link-active
-        tab-link=""
-        href="/te2"
-        :animate="false"
-        text="马"
-      >
-      </f7-link>
-    </f7-toolbar>
 
     <f7-list
       media-list
@@ -76,7 +39,6 @@ import {
   f7Navbar,
   f7NavTitle,
   f7Link,
-  f7Toolbar,
   f7List,
   f7ListItem,
   f7Icon
@@ -91,7 +53,6 @@ export default {
     f7Navbar,
     f7NavTitle,
     f7Link,
-    f7Toolbar,
     f7List,
     f7ListItem,
     f7Icon

@@ -18,53 +18,17 @@
       <f7-nav-title>? × 🌀</f7-nav-title>
     </f7-navbar>
 
-    <f7-toolbar tabbar>
-      <f7-link
-        tab-link-active
-        tab-link=""
-        href="/"
-        :animate="false"
-        text="声"
-      >
-      </f7-link>
-      <f7-link
-        tab-link=""
-        href="/i21st"
-        :animate="false"
-        text="色"
-      >
-      </f7-link>
-      <f7-link
-        tab-link=""
-        href="/wanqu"
-        :animate="false"
-        text="🌀"
-      >
-      </f7-link>
-      <f7-link
-        tab-link=""
-        href="/te"
-        :animate="false"
-        text="犬"
-      >
-      </f7-link>
-      <f7-link
-        tab-link=""
-        href="/te2"
-        :animate="false"
-        text="马"
-      >
-      </f7-link>
-    </f7-toolbar>
+    <tab :name="name"></tab>
 
     <f7-list
       media-list
       class="news-list"
     >
       <f7-list-item
+        swipeout
         v-for="item in newsList"
         :key="item.url"
-        :link="`/content?name=${item.url}&title=${item.title}&region=nyt-cn`"
+        :link="formatLink(item)"
       >
         <div slot="title">
           {{item.title}}
@@ -72,6 +36,15 @@
         <div slot="text">
           {{item.summary}}
         </div>
+        <f7-swipeout-actions right>
+          <f7-swipeout-button 
+            color="blue"
+            close
+            @click="savePocket(item)"
+          >
+            Save
+          </f7-swipeout-button>
+        </f7-swipeout-actions>
       </f7-list-item>
     </f7-list>
 
@@ -115,8 +88,11 @@ import {
   f7Fab,
   f7FabButtons,
   f7FabButton,
+  f7SwipeoutActions,
+  f7SwipeoutButton,
 } from "framework7-vue";
-import api from "@/api";
+import mixin from "@/mixin";
+import Tab from "@/components/Tab";
 
 export default {
   components: {
@@ -134,10 +110,16 @@ export default {
     f7Fab,
     f7FabButtons,
     f7FabButton,
+    f7SwipeoutActions,
+    f7SwipeoutButton,
+    Tab,
   },
+
+  mixins: [mixin],
 
   data() {
     return {
+      name: 'home',
       newsList: [],
       lfKey: "/list/home/nyt-cn",
       fabConfig: [
@@ -182,7 +164,7 @@ export default {
 
     getData() {
       return this.$http
-        .get(api.home)
+        .get(this.api.home)
         .then(res => {
           if (res.success) {
             this.newsList = res.data;
@@ -198,6 +180,10 @@ export default {
 
     onFabClick(url) {
       this.$f7router.navigate(url);
+    },
+
+    formatLink(item) {
+      return `/content?name=${item.url}&title=${item.title}&region=nyt-cn`;
     },
   }
 };

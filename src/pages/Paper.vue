@@ -3,30 +3,31 @@
     @page:init="onPageInit"
     class="paper-page"
   >
-    <f7-block
-      class="text-align-center"
-      v-if="isLoading">
-      <f7-preloader></f7-preloader>
-    </f7-block>
+    <f7-page-content @scroll.native="onScroll">
+      <f7-block
+        class="text-align-center"
+        v-if="isLoading">
+        <f7-preloader></f7-preloader>
+      </f7-block>
 
-    <f7-block
-      class="popup-block-content"
-    >
-      <h1>{{title}}</h1>
-      <p 
-        v-for="(item, index) in newsList"
-        :key="index"
+      <f7-block
+        class="popup-block-content"
       >
-        <span
-          v-for="(word, index) in item.en.split(' ')"
+        <h1>{{title}}</h1>
+        <p 
+          v-for="(item, index) in newsList"
           :key="index"
-          @click="onWordClick"
         >
-          {{word}}
-        </span>
-      </p>
-    </f7-block>
-
+          <span
+            v-for="(word, index) in item.en.split(' ')"
+            :key="index"
+            @click="onWordClick"
+          >
+            {{word}}
+          </span>
+        </p>
+      </f7-block>
+    </f7-page-content>
   </f7-page>
 </template>
 
@@ -36,6 +37,7 @@ import {
   f7Page,
   f7Preloader,
   f7Block,
+  f7PageContent,
 } from "framework7-vue";
 import api from "@/api";
 import preference from "@/preference";
@@ -46,6 +48,7 @@ export default {
     f7Page,
     f7Preloader,
     f7Block,
+    f7PageContent,
   },
 
   data() {
@@ -82,6 +85,8 @@ export default {
       this.lfKey = lfKey;
       this.region = region;
       this.preference = preference[region];
+
+      this.$f7.progressbar.show(0, 'orange')
     },
 
     getData() {
@@ -105,8 +110,13 @@ export default {
 
     onWordClick(e) {
       e.target.classList.toggle("bg-color-yellow");
-    }
-  }
+    },
+
+    onScroll(e) {
+      let progress = e.target.scrollTop / (e.target.scrollHeight - e.target.offsetHeight) * 100;
+      this.$f7.progressbar.show(progress, 'orange')
+    },
+  },
 };
 </script>
 

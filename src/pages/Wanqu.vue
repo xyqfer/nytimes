@@ -16,53 +16,17 @@
       </f7-nav-right>
     </f7-navbar>
 
-    <f7-toolbar tabbar>
-      <f7-link
-        tab-link=""
-        href="/"
-        :animate="false"
-        text="声"
-      >
-      </f7-link>
-      <f7-link
-        tab-link=""
-        href="/i21st"
-        :animate="false"
-        text="色"
-      >
-      </f7-link>
-      <f7-link
-        tab-link-active
-        tab-link=""
-        href="/wanqu"
-        :animate="false"
-        text="🌀"
-      >
-      </f7-link>
-      <f7-link
-        tab-link=""
-        href="/te"
-        :animate="false"
-        text="犬"
-      >
-      </f7-link>
-      <f7-link
-        tab-link=""
-        href="/te2"
-        :animate="false"
-        text="马"
-      >
-      </f7-link>
-    </f7-toolbar>
+    <tab :name="name"></tab>
 
     <f7-list
       media-list
       class="news-list"
     >
       <f7-list-item
+        swipeout
         v-for="item in newsList"
         :key="item.url"
-        :link="`/content2?name=${encodeURIComponent(item.url)}&title=${item.title}&region=wanqu`"
+        :link="formatLink(item)"
       >
         <div slot="title">
           {{item.title}}
@@ -70,6 +34,15 @@
         <div slot="text">
           {{item.summary}}
         </div>
+        <f7-swipeout-actions right>
+          <f7-swipeout-button 
+            color="blue"
+            close
+            @click="savePocket(item)"
+          >
+            Save
+          </f7-swipeout-button>
+        </f7-swipeout-actions>
       </f7-list-item>
     </f7-list>
 
@@ -135,8 +108,11 @@ import {
   f7NavRight,
   f7Popover,
   f7Input,
+  f7SwipeoutActions,
+  f7SwipeoutButton,
 } from "framework7-vue";
-import api from "@/api";
+import mixin from "@/mixin";
+import Tab from "@/components/Tab";
 
 export default {
   components: {
@@ -156,10 +132,16 @@ export default {
     f7NavRight,
     f7Popover,
     f7Input,
+    f7SwipeoutActions,
+    f7SwipeoutButton,
+    Tab,
   },
+
+  mixins: [mixin],
 
   data() {
     return {
+      name: 'wanqu',
       newsList: [],
       lfKey: "/list/home/wanqu",
       fabConfig: [
@@ -204,7 +186,7 @@ export default {
 
     getData() {
       return this.$http
-        .get(api.wanqu)
+        .get(this.api.wanqu)
         .then(res => {
           if (res.success) {
             this.newsList = res.data;
@@ -227,6 +209,10 @@ export default {
       this.$refs.searchInput.f7Popover.close();
 
       this.$f7router.navigate(`/content2?name=${encodeURIComponent(url)}&title=&region=wanqu`);
+    },
+
+    formatLink(item) {
+      return `/content2?name=${encodeURIComponent(item.url)}&title=${item.title}&region=wanqu`;
     },
   }
 };
