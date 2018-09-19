@@ -26,7 +26,7 @@ const mixin = {
           }
 
           this.$lf.setItem(lfKey, pockList).then(() => {
-            this.showNotificationFull('收藏成功');
+            this.showNotificationFull('Saved');
           }).catch(err => {
             console.log(err);
           });
@@ -40,7 +40,7 @@ const mixin = {
       if (!this.notificationFull) {
         this.notificationFull = this.$f7.notification.create({
           title: '? × 🌀',
-          titleRightText: 'now',
+          titleRightText: 'Now',
           text,
           closeTimeout: 1200,
         });

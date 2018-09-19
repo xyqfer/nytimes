@@ -99,6 +99,15 @@ export default [
     component: Content2
   },
   {
+    path: "/content3",
+    async(routeTo, routeFrom, resolve) {
+      const vueComponent = () => import('./pages/Content3.vue');
+      vueComponent().then((vc) => {
+        resolve({ component: vc.default });
+      });
+    },
+  },
+  {
     path: "/menu",
     async(routeTo, routeFrom, resolve) {
       const vueComponent = () => import('./pages/Menu.vue');

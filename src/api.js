@@ -6,6 +6,7 @@ const api = {
   today: `${path}/api/v1/nytimes/today`,
   content2: `${path}/api/v1/nytimes/content2`,
   translate: `${path}/api/v1/nytimes/translate`,
+  translate2: `${path}/api/v1/nytimes/translate2`,
   te: `${path}/api/v1/nytimes/te`,
   teContent: `${path}/api/v1/nytimes/teContent`,
   te2: `${path}/api/v1/nytimes/te2`,

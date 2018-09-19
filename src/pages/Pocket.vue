@@ -128,8 +128,8 @@ export default {
       if (!self.notificationFull) {
         self.notificationFull = self.$f7.notification.create({
           title: '? × 🌀',
-          titleRightText: 'now',
-          text: '删除成功',
+          titleRightText: 'Now',
+          text: 'Deleted',
           closeTimeout: 1200,
         });
       }

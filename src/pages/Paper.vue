@@ -1,6 +1,7 @@
 <template>
   <f7-page
     @page:init="onPageInit"
+    @page:beforeout="onBeforeOut"
     class="paper-page"
   >
     <f7-page-content @scroll.native="onScroll">
@@ -25,6 +26,10 @@
           >
             {{word}}
           </span>
+          <f7-icon 
+            md="material:filter_b_and_w"
+            @click.native="openTheater(index)"
+          ></f7-icon>
         </p>
       </f7-block>
     </f7-page-content>
@@ -38,6 +43,7 @@ import {
   f7Preloader,
   f7Block,
   f7PageContent,
+  f7Icon,
 } from "framework7-vue";
 import api from "@/api";
 import preference from "@/preference";
@@ -49,6 +55,7 @@ export default {
     f7Preloader,
     f7Block,
     f7PageContent,
+    f7Icon,
   },
 
   data() {
@@ -57,6 +64,7 @@ export default {
       newsList: [],
       lfKey: "",
       isLoading: true,
+      name: '',
       region: '',
       preference: {},
     };
@@ -83,6 +91,7 @@ export default {
         });
 
       this.lfKey = lfKey;
+      this.name = name;
       this.region = region;
       this.preference = preference[region];
 
@@ -113,8 +122,18 @@ export default {
     },
 
     onScroll(e) {
-      let progress = e.target.scrollTop / (e.target.scrollHeight - e.target.offsetHeight) * 100;
-      this.$f7.progressbar.show(progress, 'orange')
+      let { scrollTop, scrollHeight, offsetHeight } = e.target;
+      let progress = scrollTop / (scrollHeight - offsetHeight) * 100;
+
+      this.$f7.progressbar.show(progress, 'orange');
+    },
+
+    onBeforeOut() {
+      this.$f7.progressbar.hide();
+    },
+
+    openTheater(index) {
+      this.$f7router.navigate(`/content3?name=${encodeURIComponent(this.name)}&region=${this.region}&index=${index}`);
     },
   },
 };
