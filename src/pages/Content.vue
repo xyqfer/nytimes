@@ -59,6 +59,7 @@
         <div
           slot="footer"
           v-if="index < (total * 2 - 1)"
+          class="display-flex justify-content-space-between align-items-flex-end"
         >
           <a
             href="#"
@@ -66,6 +67,13 @@
             class="message-link"
           >
             Next
+          </a>
+          <a 
+            :href="`/content3?name=${link}&region=${region}&index=${news.meta.originIndex}`" 
+            class="message-link"
+            v-if="index % 2 === 0"
+          >
+            Theater
           </a>
         </div>
       </f7-message>

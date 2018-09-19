@@ -8,11 +8,6 @@
       :subtitle="percent"
       back-link="返回"
     >
-      <f7-nav-right v-if="!isLoading">
-        <f7-link
-          icon-md="material:swap_vert">
-        </f7-link>
-      </f7-nav-right>
     </f7-navbar>
 
     <f7-block
@@ -82,7 +77,6 @@ import {
   f7Message,
   f7Preloader,
   f7Block,
-  f7NavRight,
   f7List,
   f7ListItem,
   f7Link,
@@ -99,7 +93,6 @@ export default {
     f7Message,
     f7Preloader,
     f7Block,
-    f7NavRight,
     f7List,
     f7ListItem,
     f7Link,

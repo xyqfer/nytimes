@@ -96,6 +96,10 @@ export default {
             margin-top: 5px;
           }
         }
+
+        .message-footer {
+          width: 100%;
+        }
       }
     }
   }
