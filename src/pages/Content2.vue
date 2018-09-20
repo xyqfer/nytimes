@@ -58,6 +58,7 @@
         </div>
         <div
           slot="footer"
+          class="display-flex justify-content-space-between align-items-flex-end"
         >
           <template
             v-if="news.meta.next"
@@ -73,22 +74,19 @@
           <template
             v-else-if="news.meta.origin"
           >
-            <div class="display-flex justify-content-space-between align-items-flex-end">
-              <a
-                href="#"
-                @click.once="translateText(news.meta.originIndex, $event)"
-                class="message-link"
-              >
-                Translate
-              </a>
-              <a 
-                :href="`/content3?name=${encodeURIComponent(link)}&region=${region}&index=${news.meta.originIndex}`" 
-                class="message-link"
-              >
-                Theater
-              </a>
-            </div>
-            
+            <f7-link 
+              :href="`/content3?name=${encodeURIComponent(link)}&region=${region}&index=${news.meta.originIndex}`" 
+              class="message-link"
+            >
+              Theater
+            </f7-link>
+            <f7-link
+              href="#"
+              @click.once="translateText(news.meta.originIndex, $event)"
+              class="message-link"
+            >
+              Translate
+            </f7-link>
           </template>
         </div>
       </f7-message>

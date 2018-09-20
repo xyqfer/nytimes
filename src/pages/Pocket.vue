@@ -26,8 +26,9 @@
       <f7-list-item
         swipeout
         v-for="(item, index) in pockList"
-        :key="index"
+        :key="`${item.url}-${index}`"
         :link="item.url"
+        @swipeout:deleted="deletePocket(index)"
       >
         <div slot="title">
           {{item.title}}
@@ -38,7 +39,6 @@
         <f7-swipeout-actions right>
           <f7-swipeout-button 
             delete
-            @click="deletePocket(index)"
           >
             Delete
           </f7-swipeout-button>
@@ -83,6 +83,7 @@ export default {
       name: 'pocket',
       tab: [],
       pockList: [],
+      _pockList: [],
       lfKey: '/pocket',
     };
   },
@@ -102,6 +103,7 @@ export default {
       .then(pockList => {
         if (pockList) {
           this.pockList = pockList;
+          this._pockList = [...pockList];
         }
       })
       .catch(err => {
@@ -110,11 +112,13 @@ export default {
     },
 
     deletePocket(index) {
-      let pockList = [...this.pockList];
-      pockList.splice(index, 1);
+      let pockIndex = this._pockList.findIndex((item) => {
+        return item.url === this.pockList[index].url;
+      });
+      this._pockList.splice(pockIndex, 1);
 
       this.$nextTick(() => {
-        this.$lf.setItem(this.lfKey, pockList).then(() => {
+        this.$lf.setItem(this.lfKey, this._pockList).then(() => {
           this.showNotificationFull();
         }).catch(err => {
           console.log(err);

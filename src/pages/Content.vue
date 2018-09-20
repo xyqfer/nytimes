@@ -61,20 +61,20 @@
           v-if="index < (total * 2 - 1)"
           class="display-flex justify-content-space-between align-items-flex-end"
         >
-          <a
-            href="#"
-            @click.once="nextBubble(index + 1, news.type === 'sent' ? news.meta.originIndex + 1 : null, $event)"
-            class="message-link"
-          >
-            Next
-          </a>
-          <a 
+          <f7-link 
             :href="`/content3?name=${link}&region=${region}&index=${news.meta.originIndex}`" 
             class="message-link"
             v-if="index % 2 === 0"
           >
             Theater
-          </a>
+          </f7-link>
+          <f7-link
+            href="#"
+            @click.once.native="nextBubble(index + 1, news.type === 'sent' ? news.meta.originIndex + 1 : null, $event)"
+            class="message-link"
+          >
+            Next
+          </f7-link>
         </div>
       </f7-message>
     </f7-messages>

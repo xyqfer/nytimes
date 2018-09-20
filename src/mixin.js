@@ -19,17 +19,28 @@ const mixin = {
       this.$lf
         .getItem(lfKey)
         .then(pockList => {
-          if (pockList) {
-            pockList.unshift(item);
-          } else {
-            pockList = [item];
+          if (!pockList) {
+            pockList = [];
           }
 
-          this.$lf.setItem(lfKey, pockList).then(() => {
-            this.showNotificationFull('Saved');
-          }).catch(err => {
-            console.log(err);
+          let index = pockList.findIndex((a) => {
+            return a.url === item.url;
           });
+
+          if (index === -1) {
+            pockList.unshift(item);
+
+            this.$lf
+              .setItem(lfKey, pockList)
+              .then(() => {
+                this.showNotificationFull('Saved');
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          } else {
+            this.showNotificationFull('Duplicated');
+          }
         })
         .catch(err => {
           console.log(err);
@@ -37,16 +48,12 @@ const mixin = {
     },
 
     showNotificationFull(text) {
-      if (!this.notificationFull) {
-        this.notificationFull = this.$f7.notification.create({
-          title: '? × 🌀',
-          titleRightText: 'Now',
-          text,
-          closeTimeout: 1200,
-        });
-      }
-
-      this.notificationFull.open();
+      this.$f7.notification.create({
+        title: '? × 🌀',
+        titleRightText: 'Now',
+        text,
+        closeTimeout: 1200,
+      }).open();
     },
   },
 };

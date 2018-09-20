@@ -4,18 +4,15 @@
     class="messages-page"
   >
     <f7-navbar
-      title="Theater"
-      :subtitle="percent"
       back-link="返回"
     >
+      <f7-nav-title>
+        Theater <f7-preloader v-if="isLoading" color="white" :size="20"></f7-preloader>
+      </f7-nav-title>
+      <f7-nav-right style="font-size: 14px;margin-right: 16px;">
+        {{percent}}
+      </f7-nav-right>
     </f7-navbar>
-
-    <f7-block
-      class="text-align-center"
-      v-if="isLoading"
-    >
-      <f7-preloader></f7-preloader>
-    </f7-block>
 
     <f7-messages
       class="news-content-list"
@@ -53,7 +50,9 @@
         <div
           slot="footer"
           v-if="index < (total * 2 - 1)"
+          class="display-flex justify-content-space-between align-items-flex-end"
         >
+          <div v-if="news.type === 'received'"></div>
           <a
             href="#"
             @click.once="nextBubble(index + 1, news.type === 'sent' ? news.meta.originIndex + 1 : null, $event)"
@@ -61,6 +60,7 @@
           >
             Next
           </a>
+          <div v-if="news.type === 'sent'"></div>
         </div>
       </f7-message>
     </f7-messages>
@@ -80,6 +80,8 @@ import {
   f7List,
   f7ListItem,
   f7Link,
+  f7NavTitle,
+  f7NavRight,
 } from "framework7-vue";
 import api from "@/api";
 import preference from "@/preference";
@@ -96,6 +98,8 @@ export default {
     f7List,
     f7ListItem,
     f7Link,
+    f7NavTitle,
+    f7NavRight,
   },
 
   data() {
