@@ -10,27 +10,17 @@
       <f7-nav-title>? × 🌀</f7-nav-title>
     </f7-navbar>
 
-    <f7-toolbar tabbar>
-      <f7-link
-        v-for="item in tab"
-        :tab-link-active="item.name === name"
-        :key="item.name"
-        tab-link=""
-        :href="item.link"
-        :animate="false"
-        :text="item.text"
-      >
-      </f7-link>
-    </f7-toolbar>
+    <tab :name="name"></tab>
 
     <f7-list
       media-list
       class="news-list"
     >
       <f7-list-item
+        swipeout
         v-for="item in newsList"
         :key="item.url"
-        :link="`/content?name=${item.articleId}&title=${item.title}&region=te-cn`"
+        :link="formatLink(item)"
       >
         <div slot="title">
           {{item.title}}
@@ -38,6 +28,15 @@
         <div slot="text">
           {{item.summary}}
         </div>
+        <f7-swipeout-actions right>
+          <f7-swipeout-button 
+            color="blue"
+            close
+            @click="savePocket(item)"
+          >
+            Save
+          </f7-swipeout-button>
+        </f7-swipeout-actions>
       </f7-list-item>
     </f7-list>
 
@@ -67,9 +66,11 @@ import {
   f7ListItem,
   f7Icon,
   f7Fab,
+  f7SwipeoutActions,
+  f7SwipeoutButton,
 } from "framework7-vue";
-import api from "@/api";
-import tab from "@/tab";
+import mixin from "@/mixin";
+import Tab from "@/components/Tab";
 
 export default {
   components: {
@@ -84,20 +85,22 @@ export default {
     f7ListItem,
     f7Icon,
     f7Fab,
+    f7SwipeoutActions,
+    f7SwipeoutButton,
+    Tab,
   },
+
+  mixins: [mixin],
 
   data() {
     return {
       name: 'te',
       newsList: [],
       lfKey: "/list/home/te",
-      tab: [],
     };
   },
 
   created() {
-    this.tab = tab;
-
     this.$lf
       .getItem(this.lfKey)
       .then(data => {
@@ -127,7 +130,7 @@ export default {
 
     getData() {
       return this.$http
-        .get(api.te)
+        .get(this.api.te)
         .then(res => {
           if (res.success) {
             this.newsList = res.data;
@@ -139,7 +142,11 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    }
+    },
+
+    formatLink(item) {
+      return `/content?name=${item.articleId}&title=${item.title}&region=te-cn`;
+    },
   }
 };
 </script>
