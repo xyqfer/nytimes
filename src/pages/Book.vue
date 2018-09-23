@@ -10,6 +10,15 @@
       title="Books"
       back-link="返回"
     >
+      <f7-nav-right>
+        <f7-link
+          href="https://www.nytimes.com/books/best-sellers/combined-print-and-e-book-nonfiction/"
+          :external="true"
+          target="_blank"
+          icon-md="material:all_out"
+        >
+        </f7-link>
+      </f7-nav-right>
     </f7-navbar>
 
     <f7-list
@@ -56,6 +65,7 @@ import {
   f7Icon,
   f7SwipeoutActions,
   f7SwipeoutButton,
+  f7NavRight,
 } from "framework7-vue";
 import mixin from "@/mixin";
 
@@ -72,6 +82,7 @@ export default {
     f7Icon,
     f7SwipeoutActions,
     f7SwipeoutButton,
+    f7NavRight,
   },
 
   mixins: [mixin],
