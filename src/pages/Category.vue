@@ -46,21 +46,17 @@
     </f7-list>
 
     <f7-popover
-      ref="pageInput"
       class="page-input"
     >
       <f7-list>
         <f7-list-item
           :link="false"
-          title="页码"
+          title="乱序模式"
         >
-          <f7-input
-            type="number"
-            @keyup.enter.native="jumpPage"
-            placeholder="1~386"
-            clear-button
-          >
-          </f7-input>
+          <f7-toggle 
+            color="blue"
+            @toggle:change="onToggleChange"
+          ></f7-toggle>
         </f7-list-item>
       </f7-list>
     </f7-popover>
@@ -77,9 +73,9 @@ import {
   f7Link,
   f7NavRight,
   f7Popover,
-  f7Input,
   f7SwipeoutActions,
   f7SwipeoutButton,
+  f7Toggle,
 } from "framework7-vue";
 import mixin from "@/mixin";
 
@@ -97,9 +93,9 @@ export default {
     f7Link,
     f7NavRight,
     f7Popover,
-    f7Input,
     f7SwipeoutActions,
     f7SwipeoutButton,
+    f7Toggle,
   },
 
   mixins: [mixin],
@@ -111,7 +107,9 @@ export default {
       title: "",
       p: 1,
       allowInfinite: true,
-      showPreloader: true
+      showPreloader: true,
+      maxPage: 386,
+      isRandom: false,
     };
   },
 
@@ -125,7 +123,7 @@ export default {
 
       this.allowInfinite = false;
       this.getData().then(() => {
-        this.showPreloader = this.allowInfinite = !(this.p > this.total);
+        this.allowInfinite = true;
       });
     },
 
@@ -138,7 +136,7 @@ export default {
           if (res.success) {
             if (res.data && res.data.length > 0) {
               this.newsList = this.newsList.concat(res.data);
-              this.p = this.p + 1;
+              this.p = this.isRandom ? this.getRandomPage() : this.p + 1;
             } else {
               this.showPreloader = false;
               this.allowInfinite = false;
@@ -150,13 +148,21 @@ export default {
         });
     },
 
-    jumpPage(e) {
-      let page = +e.target.value;
-
-      this.$refs.pageInput.f7Popover.close();
-      this.p = page;
+    onToggleChange(isRandom) {
+      this.isRandom = isRandom;
       this.newsList = [];
-      this.getData();
+      this.p = isRandom ? this.getRandomPage() : 1;
+      
+      if (!this.allowInfinite) return;
+
+      this.allowInfinite = false;
+      this.getData().then(() => {
+        this.allowInfinite = true;
+      });
+    },
+
+    getRandomPage() {
+      return Math.floor(1 + Math.random() * this.maxPage);
     },
 
     formatLink(item) {
