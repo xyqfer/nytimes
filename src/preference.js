@@ -28,6 +28,10 @@ const preference = {
     api: 'i21stContent',
     cache: true,
   },
+  'subtitle': {
+    api: 'subtitleContent',
+    cache: true,
+  },
 };
 
 export default preference;

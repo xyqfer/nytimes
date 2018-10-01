@@ -21,6 +21,8 @@ const api = {
   book: `${path}/api/v1/nytimes/book`,
   i21st: `${path}/api/v1/nytimes/i21st`,
   i21stContent: `${path}/api/v1/nytimes/i21stContent`,
+  subtitles: `${path}/api/v1/nytimes/subtitles`,
+  subtitleContent: `${path}/api/v1/nytimes/subtitleContent`,
 };
 
 export default api;

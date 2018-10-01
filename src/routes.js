@@ -8,6 +8,8 @@ import Wanqu from "./pages/Wanqu.vue";
 import WanquRandom from "./pages/WanquRandom.vue";
 import WanquHot from "./pages/WanquHot.vue";
 import I21st from "./pages/I21st.vue";
+import Pocket from "./pages/Pocket.vue";
+import Subtitles from "./pages/Subtitles.vue";
 
 import NotFound from "./pages/404.vue";
 
@@ -32,12 +34,11 @@ export default [
   },
   {
     path: "/pocket",
-    async(routeTo, routeFrom, resolve) {
-      const vueComponent = () => import('./pages/Pocket.vue');
-      vueComponent().then((vc) => {
-        resolve({ component: vc.default });
-      });
-    },
+    component: Pocket
+  },
+  {
+    path: "/subtitles",
+    component: Subtitles
   },
   {
     path: "/paper",
