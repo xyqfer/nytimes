@@ -11,9 +11,9 @@ const preference = {
     api: 'teContent',
     cache: true,
   },
-  'te': {
-    api: 'teContent2',
-    cache: false,
+  'te3': {
+    api: 'teContent3',
+    cache: true,
   },
   'times': {
     api: 'timesContent',

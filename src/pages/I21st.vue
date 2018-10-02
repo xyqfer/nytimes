@@ -48,11 +48,23 @@
     <f7-fab
       position="right-bottom"
       slot="fixed"
-      href="/times"
     >
       <f7-icon
         md="material:palette"
       ></f7-icon>
+      <f7-icon
+        md="material:close"
+      ></f7-icon>
+      <f7-fab-buttons position="top">
+        <f7-fab-button
+          v-for="item in fabConfig"
+          :key="item.url"
+        >
+          <f7-link :href="item.url">
+            <f7-icon :material="item.icon"></f7-icon>
+          </f7-link>
+        </f7-fab-button>
+      </f7-fab-buttons>
     </f7-fab>
 
     <f7-popover
@@ -129,7 +141,16 @@ export default {
       newsList: [],
       p: 1,
       allowInfinite: true,
-      showPreloader: true
+      showPreloader: true,
+      fabConfig: [
+        {
+          icon: 'tonality',
+          url: '/times',
+        }, {
+          icon: 'timelapse',
+          url: '/subtitles',
+        }
+      ],
     };
   },
 

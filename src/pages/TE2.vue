@@ -4,7 +4,6 @@
     :ptr="true"
     @ptr:refresh="onRefresh"
     ref="homePage"
-    :hide-navbar-on-scroll="true"
   >
     <f7-navbar
       title="The Economist"
@@ -16,16 +15,24 @@
       media-list
       class="news-list"
     >
-      <f7-list-item
-        v-for="item in newsList"
-        :key="item.url"
-        :header="item.category"
-        :link="`/content2?name=${item.name}&title=${item.title}&region=te`"
-      >
-        <div slot="title">
-          {{item.title}}
-        </div>
-      </f7-list-item>
+      <f7-list-group 
+        v-for="group in newsList.list"
+        :key="group.title">
+        <f7-list-item :title="group.title" group-title></f7-list-item>
+        <f7-list-item
+          v-for="item in group.list"
+          :key="item.url"
+          header=" "
+          :link="`/content2?name=${item.url}&title=${item.title}&region=te3`"
+        >
+          <div slot="header" class="text-color-pink">
+            {{item.flyTitle}}
+          </div>
+          <div slot="title">
+            {{item.title}}
+          </div>
+        </f7-list-item>
+      </f7-list-group>
     </f7-list>
 
   </f7-page>
@@ -41,7 +48,8 @@ import {
   f7Link,
   f7List,
   f7ListItem,
-  f7Icon
+  f7Icon,
+  f7ListGroup,
 } from "framework7-vue";
 import api from "@/api";
 
@@ -55,7 +63,8 @@ export default {
     f7Link,
     f7List,
     f7ListItem,
-    f7Icon
+    f7Icon,
+    f7ListGroup,
   },
 
   data() {

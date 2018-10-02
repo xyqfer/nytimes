@@ -23,6 +23,8 @@ const api = {
   i21stContent: `${path}/api/v1/nytimes/i21stContent`,
   subtitles: `${path}/api/v1/nytimes/subtitles`,
   subtitleContent: `${path}/api/v1/nytimes/subtitleContent`,
+  te3: `${path}/api/v1/nytimes/te3`,
+  teContent3: `${path}/api/v1/nytimes/teContent3`,
 };
 
 export default api;

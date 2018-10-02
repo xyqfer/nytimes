@@ -79,6 +79,10 @@ export default {
       background-size: cover;
       background-position: center;
 
+      .message {
+        max-width: 85%;
+      }
+
       .messages-content {
         background: initial;
 

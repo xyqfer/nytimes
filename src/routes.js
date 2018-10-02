@@ -4,6 +4,7 @@ import Content from "./pages/Content.vue";
 import Content2 from "./pages/Content2.vue";
 import TE from "./pages/TE.vue";
 import TE2 from "./pages/TE2.vue";
+import TE3 from "./pages/TE3.vue";
 import Wanqu from "./pages/Wanqu.vue";
 import WanquRandom from "./pages/WanquRandom.vue";
 import WanquHot from "./pages/WanquHot.vue";
@@ -60,6 +61,10 @@ export default [
   {
     path: "/te2",
     component: TE2
+  },
+  {
+    path: "/te3",
+    component: TE3
   },
   {
     path: "/times",
