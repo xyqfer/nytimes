@@ -133,10 +133,23 @@ export default {
           .message-received {
             .message-bubble {
               background-color: #fff;
+
+              .message-text {
+                font-family: Georgia, serif;
+              }
             }
           }
         }
       }
+    }
+  }
+}
+
+.message-received {
+  .message-bubble {
+    .message-text {
+      font-family: Georgia, serif;
+      font-size: 17px;
     }
   }
 }
