@@ -6,8 +6,9 @@
     ref="homePage"
   >
     <f7-navbar
-      title="The Economist Web"
+      title="Editors’ picks"
       back-link="返回"
+      class="bg-color-red"
     >
     </f7-navbar>
 
@@ -21,7 +22,7 @@
         header=" "
         :link="`/content2?name=${item.url}&title=${item.title}&region=te3`"
       >
-        <div slot="header" class="text-color-pink">
+        <div slot="header" class="text-color-red">
           {{item.flyTitle}}
         </div>
         <div slot="title">

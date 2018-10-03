@@ -8,8 +8,16 @@
     <f7-navbar
       title="The Economist"
       back-link="返回"
+      class="bg-color-red"
     >
     </f7-navbar>
+
+    <f7-block v-if="newsList.cover">
+      <img 
+        class="cover"
+        :src="newsList.cover.img" 
+        :alt="newsList.cover.topic">
+    </f7-block>
 
     <f7-list
       media-list
@@ -18,14 +26,17 @@
       <f7-list-group 
         v-for="group in newsList.list"
         :key="group.title">
-        <f7-list-item :title="group.title" group-title></f7-list-item>
+        <f7-list-item 
+          :title="group.title" 
+          group-title
+          class="bg-color-red text-color-white"></f7-list-item>
         <f7-list-item
           v-for="item in group.list"
           :key="item.url"
           header=" "
           :link="`/content2?name=${item.url}&title=${item.title}&region=te3`"
         >
-          <div slot="header" class="text-color-pink">
+          <div slot="header" class="text-color-red">
             {{item.flyTitle}}
           </div>
           <div slot="title">
@@ -50,6 +61,7 @@ import {
   f7ListItem,
   f7Icon,
   f7ListGroup,
+  f7Block,
 } from "framework7-vue";
 import api from "@/api";
 
@@ -65,12 +77,13 @@ export default {
     f7ListItem,
     f7Icon,
     f7ListGroup,
+    f7Block,
   },
 
   data() {
     return {
-      newsList: [],
-      lfKey: "/list/home/te2"
+      newsList: {},
+      lfKey: "/list/home/te2",
     };
   },
 
@@ -122,4 +135,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  .cover {
+    display: block;
+    width: 80%;
+    margin: auto;
+  }
 </style>
