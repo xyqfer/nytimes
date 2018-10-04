@@ -6,8 +6,9 @@
     @ptr:refresh="onRefresh">
 
     <poliwag-navbar 
-      title="Times"
-      back-link="返回">
+      title="商论"
+      back-link="返回"
+      class="bg-color-red">
     </poliwag-navbar>
 
     <poliwag-list 
@@ -26,7 +27,7 @@ export default {
 
   data() {
     return {
-      region: 'times'
+      region: 'te-gbr',
     };
   },
 };

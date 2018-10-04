@@ -1,15 +1,15 @@
 import Tab1 from "./pages/Tab1.vue";
-import Content from "./pages/Content.vue";
-import Content2 from "./pages/Content2.vue";
-import TE from "./pages/TE.vue";
-import TE2 from "./pages/TE2.vue";
-import TE3 from "./pages/TE3.vue";
-import Wanqu from "./pages/Wanqu.vue";
+import Tab2 from "./pages/Tab2.vue";
+import Tab3 from "./pages/Tab3.vue";
+import Tab4 from "./pages/Tab4.vue";
+import Tab5 from "./pages/Tab5.vue";
+import TEGbr from "./pages/TE-Gbr.vue";
+import TEMagazine from "./pages/TE-Magazine.vue";
 import WanquRandom from "./pages/WanquRandom.vue";
 import WanquHot from "./pages/WanquHot.vue";
-import I21st from "./pages/I21st.vue";
-import Pocket from "./pages/Pocket.vue";
-import Subtitles from "./pages/Subtitles.vue";
+import Content from "./pages/Content.vue";
+import Content2 from "./pages/Content2.vue";
+import Subtitle from "./pages/Subtitle.vue";
 
 import NotFound from "./pages/404.vue";
 
@@ -38,37 +38,32 @@ export default [
     },
   },
   {
-    path: "/pocket",
-    component: Pocket
+    path: "/te-today",
+    component: Tab2
   },
   {
-    path: "/subtitles",
-    component: Subtitles
+    path: "/te-gbr",
+    component: TEGbr
   },
   {
-    path: "/paper",
-    async(routeTo, routeFrom, resolve) {
-      const vueComponent = () => import('./pages/Paper.vue');
-      vueComponent().then((vc) => {
-        resolve({ component: vc.default });
-      });
-    },
+    path: "/te-magazine",
+    component: TEMagazine
+  },
+  {
+    path: "/wanqu",
+    component: Tab3
+  },
+  {
+    path: "/wanqu-random",
+    component: WanquRandom
+  },
+  {
+    path: "/wanqu-hot",
+    component: WanquHot
   },
   {
     path: "/i21st",
-    component: I21st
-  },
-  {
-    path: "/te",
-    component: TE
-  },
-  {
-    path: "/te2",
-    component: TE2
-  },
-  {
-    path: "/te3",
-    component: TE3
+    component: Tab4
   },
   {
     path: "/times",
@@ -80,21 +75,26 @@ export default [
     },
   },
   {
-    path: "/wanqu",
-    component: Wanqu
+    path: "/subtitle",
+    component: Subtitle
   },
   {
-    path: "/wanqu-random",
-    component: WanquRandom
+    path: "/pocket",
+    component: Tab5
   },
   {
-    path: "/wanqu-hot",
-    component: WanquHot
-  },
-  {
-    path: "/category/:name",
+    path: "/paper",
     async(routeTo, routeFrom, resolve) {
-      const vueComponent = () => import('./pages/Category.vue');
+      const vueComponent = () => import('./pages/Paper.vue');
+      vueComponent().then((vc) => {
+        resolve({ component: vc.default });
+      });
+    },
+  },
+  {
+    path: "/nyt-category/:name",
+    async(routeTo, routeFrom, resolve) {
+      const vueComponent = () => import('./pages/NYT-Category.vue');
       vueComponent().then((vc) => {
         resolve({ component: vc.default });
       });
@@ -109,9 +109,9 @@ export default [
     component: Content2
   },
   {
-    path: "/content3",
+    path: "/theater",
     async(routeTo, routeFrom, resolve) {
-      const vueComponent = () => import('./pages/Content3.vue');
+      const vueComponent = () => import('./pages/Theater.vue');
       vueComponent().then((vc) => {
         resolve({ component: vc.default });
       });

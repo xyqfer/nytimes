@@ -32,15 +32,13 @@
 
 <script>
 import mixin from "@/mixin";
-const region = 'nyt-cn';
 
 export default {
   mixins: [mixin],
 
   data() {
     return {
-      region,
-      pageRef: `ref-${region}`,
+      region: 'nyt-cn',
       fabIcons: ['adb', 'close'],
       fabButtons: [
         {

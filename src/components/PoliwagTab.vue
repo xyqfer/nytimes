@@ -2,8 +2,8 @@
   <f7-toolbar tabbar>
     <f7-link
       v-for="tab in tabs"
-      :tab-link-active="tab.name === current"
-      :key="tab.name"
+      :tab-link-active="tab.region === current"
+      :key="tab.region"
       tab-link=""
       :href="tab.link"
       :animate="false"
@@ -28,27 +28,27 @@ export default {
     return {
       tabs: [
         {
-          name: "home",
+          region: "nyt-cn",
           link: "/",
           text: "声"
         },
         {
-          name: "i21st",
-          link: "/i21st",
+          region: "te-today",
+          link: "/te-today",
           text: "色"
         },
         {
-          name: "wanqu",
+          region: "wanqu",
           link: "/wanqu",
           text: "🌀"
         },
         {
-          name: "te",
-          link: "/te",
+          region: "i21st",
+          link: "/i21st",
           text: "犬"
         },
         {
-          name: "pocket",
+          region: "pocket",
           link: "/pocket",
           text: "马"
         }

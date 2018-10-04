@@ -5,45 +5,22 @@
     :infinite-preloader="showPreloader"
     :infinite="true"
   >
-    <f7-navbar
+
+    <poliwag-navbar 
       :title="title"
-      back-link="返回"
-    >
-      <f7-nav-right>
+      back-link="返回">
+      <template slot="right">
         <f7-link
           popover-open=".page-input"
           icon-md="material:location_searching">
         </f7-link>
-      </f7-nav-right>
-    </f7-navbar>
+      </template>
+    </poliwag-navbar>
 
-    <f7-list
-      media-list
-      class="news-list"
-    >
-      <f7-list-item
-        swipeout
-        v-for="item in newsList"
-        :key="item.url"
-        :link="formatLink(item)"
-      >
-        <div slot="title">
-          {{item.title}}
-        </div>
-        <div slot="text">
-          {{item.summary}}
-        </div>
-        <f7-swipeout-actions right>
-          <f7-swipeout-button 
-            color="blue"
-            close
-            @click="savePocket(item)"
-          >
-            Save
-          </f7-swipeout-button>
-        </f7-swipeout-actions>
-      </f7-list-item>
-    </f7-list>
+    <poliwag-list 
+      :data="pageData"
+      @swipeout-button:click="savePocket">
+    </poliwag-list>
 
     <f7-popover
       class="page-input"
@@ -66,15 +43,6 @@
 
 <script>
 import { 
-  f7Page, 
-  f7Navbar, 
-  f7List, 
-  f7ListItem, 
-  f7Link,
-  f7NavRight,
-  f7Popover,
-  f7SwipeoutActions,
-  f7SwipeoutButton,
   f7Toggle,
 } from "framework7-vue";
 import mixin from "@/mixin";
@@ -86,15 +54,6 @@ export default {
   },
 
   components: {
-    f7Page,
-    f7Navbar,
-    f7List,
-    f7ListItem,
-    f7Link,
-    f7NavRight,
-    f7Popover,
-    f7SwipeoutActions,
-    f7SwipeoutButton,
     f7Toggle,
   },
 
@@ -102,7 +61,7 @@ export default {
 
   data() {
     return {
-      newsList: [],
+      region: 'nyt-category',
       name: "",
       title: "",
       p: 1,
@@ -128,20 +87,12 @@ export default {
     },
 
     getData() {
-      const name = this.name;
-
-      return this.$http
-        .get(`${this.api.category}/${name}?p=${this.p}`)
-        .then(res => {
-          if (res.success) {
-            if (res.data && res.data.length > 0) {
-              this.newsList = this.newsList.concat(res.data);
-              this.p = this.isRandom ? this.getRandomPage() : this.p + 1;
-            } else {
-              this.showPreloader = false;
-              this.allowInfinite = false;
-            }
-          }
+      return this.$store.dispatch(`${this.region}/getData`, {
+        p: this.p,
+        name: this.name
+      })
+        .then(() => {
+          this.p = this.isRandom ? this.getRandomPage() : this.p + 1;
         })
         .catch(err => {
           console.log(err);
@@ -150,7 +101,7 @@ export default {
 
     onToggleChange(isRandom) {
       this.isRandom = isRandom;
-      this.newsList = [];
+      this.$store.commit(`${this.region}/reset`);
       this.p = isRandom ? this.getRandomPage() : 1;
       
       if (!this.allowInfinite) return;
@@ -164,13 +115,6 @@ export default {
     getRandomPage() {
       return Math.floor(1 + Math.random() * this.maxPage);
     },
-
-    formatLink(item) {
-      return `/content?name=${item.url}&title=${item.title}&region=nyt-cn`;
-    },
   }
 };
 </script>
-
-<style lang="scss">
-</style>

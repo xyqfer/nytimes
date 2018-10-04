@@ -133,7 +133,7 @@ export default {
     },
 
     openTheater(index) {
-      this.$f7router.navigate(`/content3?name=${encodeURIComponent(this.name)}&region=${this.region}&index=${index}`);
+      this.$f7router.navigate(`/content3?url=${encodeURIComponent(this.name)}&region=${this.region}&index=${index}`);
     },
   },
 };

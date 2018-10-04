@@ -1,31 +1,28 @@
 <template>
   <f7-page
     class="messages-page"
-    @page:init="onPageInit"
-  >
-    <f7-navbar
+    @page:init="onPageInit">
+
+    <poliwag-navbar 
       :title="title"
-      :subtitle="percent"
-      back-link="返回"
-    >
-      <f7-nav-right v-if="!isLoading">
+      back-link="返回">
+      <template 
+        slot="right" 
+        v-if="!isLoading">
         <f7-link
           popover-open=".page-menu1"
           icon-md="material:menu">
         </f7-link>
-      </f7-nav-right>
-    </f7-navbar>
+      </template>
+    </poliwag-navbar>
 
     <f7-block
       class="text-align-center"
-      v-if="isLoading"
-    >
+      v-if="isLoading">
       <f7-preloader></f7-preloader>
     </f7-block>
 
-    <f7-messages
-      class="news-content-list"
-    >
+    <f7-messages class="news-content-list">
       <f7-message
         v-for="(news, index) in bubbleData"
         :key="index"
@@ -97,40 +94,26 @@
 
 <script>
 import {
-  f7Navbar,
-  f7Page,
   f7Messages,
   f7MessagesTitle,
   f7Message,
   f7Preloader,
-  f7Block,
-  f7NavRight,
-  f7Popover,
-  f7List,
-  f7ListItem,
-  f7Link,
 } from "framework7-vue";
-import api from "@/api";
-import preference from "@/preference";
+import mixin from "@/mixin";
 
 export default {
   components: {
-    f7Navbar,
-    f7Page,
     f7Messages,
     f7MessagesTitle,
     f7Message,
     f7Preloader,
-    f7Block,
-    f7NavRight,
-    f7Popover,
-    f7List,
-    f7ListItem,
-    f7Link,
   },
+
+  mixins: [mixin],
 
   data() {
     return {
+      region: 'content',
       isLoading: true,
       title: "加载中...",
       newsContent: [],
@@ -143,15 +126,14 @@ export default {
       progressIndex: 0,
       region: '',
       link: '',
-      preference: {},
     };
   },
 
   methods: {
     onPageInit() {
-      let { name, region } = this.$f7route.query;
-      let lfKey = `/content/${name}/${region}`;
-      let progressKey = `/progress/${name}/${region}`;
+      let { url, region } = this.$f7route.query;
+      let lfKey = `/content/${url}/${region}`;
+      let progressKey = `/progress/${url}/${region}`;
 
       this.$lf
         .getItem(progressKey)

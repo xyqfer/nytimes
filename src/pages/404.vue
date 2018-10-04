@@ -3,7 +3,7 @@
     <f7-navbar title="Not found" backLink="返回"></f7-navbar>
     <f7-block strong>
       <p>Sorry</p>
-      <p>Requested content not found.</p>
+      <p>Page not found.</p>
     </f7-block>
   </f7-page>
 </template>

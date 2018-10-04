@@ -5,9 +5,8 @@ import {
   f7List,
   f7ListItem,
   f7Icon,
-  f7SwipeoutActions,
-  f7SwipeoutButton,
   f7Popover,
+  f7Block,
 } from "framework7-vue";
 import PoliwagTab from "@/components/PoliwagTab";
 import PoliwagFab from "@/components/PoliwagFab";
@@ -22,12 +21,11 @@ const mixin = {
     f7List,
     f7ListItem,
     f7Icon,
-    f7SwipeoutActions,
-    f7SwipeoutButton,
+    f7Popover,
+    f7Block,
     PoliwagTab,
     PoliwagFab,
     PoliwagNavbar,
-    f7Popover,
     PoliwagList
   },
 
@@ -82,13 +80,13 @@ const mixin = {
             this.$lf
               .setItem(lfKey, pockList)
               .then(() => {
-                this.showNotificationFull("Saved");
+                this.showNotification("Saved");
               })
               .catch(err => {
                 console.log(err);
               });
           } else {
-            this.showNotificationFull("Duplicated");
+            this.showNotification("Duplicated");
           }
         })
         .catch(err => {
@@ -96,7 +94,7 @@ const mixin = {
         });
     },
 
-    showNotificationFull(text) {
+    showNotification(text) {
       this.$f7.notification
         .create({
           title: "? × 🌀",
@@ -114,7 +112,14 @@ const mixin = {
 
   computed: {
     pageData() {
-      return this.$store.state[this.region].data;
+      return this.$store.state[this.region].data.map((item) => {
+        item.link = this.formatLink(item);
+        return item;
+      });
+    },
+
+    pageRef() {
+      return `ref-${this.region}`;
     },
   }
 };

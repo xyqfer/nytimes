@@ -3,6 +3,7 @@ const api = {};
 
 [
   'nyt-cn',
+  'nyt-category',
   'nyt-today',
   'nyt-book',
   'te-gbr',

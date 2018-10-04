@@ -20,15 +20,13 @@
 
 <script>
 import mixin from "@/mixin";
-const region = 'nyt-today';
 
 export default {
   mixins: [mixin],
 
   data() {
     return {
-      region,
-      pageRef: `ref-${region}`,
+      region: 'nyt-today',
     };
   },
 };

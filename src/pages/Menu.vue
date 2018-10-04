@@ -3,12 +3,11 @@
     <f7-block-title>分类</f7-block-title>
     <f7-list>
       <f7-list-item
-        v-for="item in list"
-        :key="item.name"
-        :link="`/category/${item.name}?title=${item.title}`"
-        :title="item.title"
+        v-for="item in pageData"
         panel-close
-      >
+        :key="item.name"
+        :link="`/nyt-category/${item.name}?title=${item.title}`"
+        :title="item.title">
       </f7-list-item>
     </f7-list>
   </f7-page>
@@ -33,7 +32,7 @@ export default {
 
   data() {
     return {
-      list: [
+      pageData: [
         {
           name: "world",
           title: "国际"
