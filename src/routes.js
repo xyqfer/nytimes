@@ -1,5 +1,4 @@
-import Home from "./pages/Home.vue";
-import Today from "./pages/Today.vue";
+import Tab1 from "./pages/Tab1.vue";
 import Content from "./pages/Content.vue";
 import Content2 from "./pages/Content2.vue";
 import TE from "./pages/TE.vue";
@@ -18,16 +17,21 @@ import NotFound from "./pages/404.vue";
 export default [
   {
     path: "/",
-    component: Home
+    component: Tab1
   },
   {
-    path: "/today",
-    component: Today
-  },
-  {
-    path: "/book",
+    path: "/nyt-today",
     async(routeTo, routeFrom, resolve) {
-      const vueComponent = () => import('./pages/Book.vue');
+      const vueComponent = () => import('./pages/NYT-Today.vue');
+      vueComponent().then((vc) => {
+        resolve({ component: vc.default });
+      });
+    },
+  },
+  {
+    path: "/nyt-book",
+    async(routeTo, routeFrom, resolve) {
+      const vueComponent = () => import('./pages/NYT-Book.vue');
       vueComponent().then((vc) => {
         resolve({ component: vc.default });
       });

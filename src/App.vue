@@ -36,7 +36,7 @@ export default {
       f7Params: {
         theme,
         routes,
-        id: "m.nytimes"
+        id: "liangliang.poliwag"
       },
       pushStateRoot: "/"
     };

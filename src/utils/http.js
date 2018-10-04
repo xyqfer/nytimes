@@ -1,20 +1,6 @@
-import Vue from "vue";
-import Framework7 from "framework7/framework7.esm.bundle";
-import Framework7Vue from "framework7-vue";
-import localforage from "localforage";
-import App from "./App.vue";
-import store from "./store";
-import "./registerServiceWorker";
+import { Request } from "framework7/framework7.esm.bundle";
 
-Framework7.use(Framework7Vue);
-
-localforage.config({
-  name: "liangliang.poliwag"
-});
-
-Vue.config.productionTip = false;
-
-Vue.prototype.$http = {
+const http = {
   get(config) {
     if (typeof config === "string") {
       config = {
@@ -23,7 +9,7 @@ Vue.prototype.$http = {
     }
 
     return new Promise((resolve, reject) => {
-      Framework7.request(
+      Request(
         Object.assign(
           {},
           {
@@ -46,7 +32,7 @@ Vue.prototype.$http = {
 
   post(config = {}) {
     return new Promise((resolve, reject) => {
-      Framework7.request(
+      Request(
         Object.assign(
           {},
           {
@@ -68,9 +54,4 @@ Vue.prototype.$http = {
   }
 };
 
-Vue.prototype.$lf = localforage;
-
-new Vue({
-  store,
-  render: h => h(App)
-}).$mount("#app");
+export default http;

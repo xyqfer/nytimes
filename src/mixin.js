@@ -1,20 +1,69 @@
-import api from "@/api";
+import {
+  f7Page,
+  f7Link,
+  f7Toolbar,
+  f7List,
+  f7ListItem,
+  f7Icon,
+  f7SwipeoutActions,
+  f7SwipeoutButton,
+  f7Popover,
+} from "framework7-vue";
+import PoliwagTab from "@/components/PoliwagTab";
+import PoliwagFab from "@/components/PoliwagFab";
+import PoliwagNavbar from "@/components/PoliwagNavbar";
+import PoliwagList from "@/components/PoliwagList";
 
 const mixin = {
-  data() {
-    return {
-      api: {},
-    }
+  components: {
+    f7Page,
+    f7Link,
+    f7Toolbar,
+    f7List,
+    f7ListItem,
+    f7Icon,
+    f7SwipeoutActions,
+    f7SwipeoutButton,
+    PoliwagTab,
+    PoliwagFab,
+    PoliwagNavbar,
+    f7Popover,
+    PoliwagList
   },
 
-  created() {
-    this.api = api;
+  data() {
+    return {
+      
+    };
   },
 
   methods: {
+    getData() {
+      return this.$store.dispatch(`${this.region}/getData`);
+    },
+
+    onPageInit() {
+      this.triggerRefresh();
+    },
+
+    triggerRefresh() {
+      this.$nextTick(() => {
+        this.$f7.ptr
+          .get(this.$refs[this.pageRef].$el.querySelector(".ptr-content"))
+          .refresh();
+      });
+    },
+
+    onRefresh(e, done) {
+      this.getData()
+        .then()
+        .catch(err => console.log(err))
+        .finally(done);
+    },
+
     savePocket(obj) {
-      const lfKey = '/pocket';
-      let item = {...obj, url: this.formatLink(obj)};
+      const lfKey = "/pocket";
+      let item = { ...obj, url: this.formatLink(obj) };
 
       this.$lf
         .getItem(lfKey)
@@ -23,7 +72,7 @@ const mixin = {
             pockList = [];
           }
 
-          let index = pockList.findIndex((a) => {
+          let index = pockList.findIndex(a => {
             return a.url === item.url;
           });
 
@@ -33,13 +82,13 @@ const mixin = {
             this.$lf
               .setItem(lfKey, pockList)
               .then(() => {
-                this.showNotificationFull('Saved');
+                this.showNotificationFull("Saved");
               })
               .catch(err => {
                 console.log(err);
               });
           } else {
-            this.showNotificationFull('Duplicated');
+            this.showNotificationFull("Duplicated");
           }
         })
         .catch(err => {
@@ -48,14 +97,26 @@ const mixin = {
     },
 
     showNotificationFull(text) {
-      this.$f7.notification.create({
-        title: '? × 🌀',
-        titleRightText: 'Now',
-        text,
-        closeTimeout: 1200,
-      }).open();
+      this.$f7.notification
+        .create({
+          title: "? × 🌀",
+          titleRightText: "Now",
+          text,
+          closeTimeout: 1200
+        })
+        .open();
     },
+
+    formatLink(item) {
+      return `/content?url=${item.url}&title=${item.title}&region=${this.region}`;
+    }
   },
+
+  computed: {
+    pageData() {
+      return this.$store.state[this.region].data;
+    },
+  }
 };
 
 export default mixin;

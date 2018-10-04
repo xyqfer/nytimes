@@ -1,6 +1,6 @@
 {
-  "name": "nytimes",
-  "short_name": "nytimes",
+  "name": "Poliwag",
+  "short_name": "Poliwag",
   "icons": [
     {
       "src": "https://sy2bnjwp1a.leanapp.cn/v2ex/m/img/icons/android-chrome-192x192.png",
@@ -13,7 +13,7 @@
       "type": "image/png"
     }
   ],
-  "start_url": "/nytimes/m/",
+  "start_url": "/poliwag",
   "display": "standalone",
   "background_color": "#f7f7f8",
   "theme_color": "#f7f7f8"
