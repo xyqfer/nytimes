@@ -68,6 +68,25 @@ export default {
       region: 'te-magazine',
     };
   },
+
+  methods: {
+    formatLink(item) {
+      return `/content?url=${encodeURIComponent(item.url)}&title=${item.title || ''}&region=te`;
+    }
+  },
+
+  computed: {
+    pageData() {
+      return this.$store.state[this.region].data;
+    },
+
+    "pageData.list"() {
+      return this.$store.state[this.region].data.list.map((item) => {
+        item.link = this.formatLink(item);
+        return item;
+      });
+    },
+  }
 };
 </script>
 

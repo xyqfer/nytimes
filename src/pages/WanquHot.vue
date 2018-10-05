@@ -29,5 +29,11 @@ export default {
       region: 'wanqu-hot'
     };
   },
+
+  methods: {
+    formatLink(item) {
+      return `/content?url=${encodeURIComponent(item.url)}&title=${item.title || ''}&region=crawl`;
+    }
+  }
 };
 </script>

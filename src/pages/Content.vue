@@ -5,12 +5,13 @@
 
     <poliwag-navbar 
       :title="title"
+      :subtitle="percent"
       back-link="返回">
       <template 
         slot="right" 
         v-if="!isLoading">
         <f7-link
-          popover-open=".page-menu1"
+          popover-open=".content-menu"
           icon-md="material:menu">
         </f7-link>
       </template>
@@ -29,23 +30,18 @@
         :type="news.type"
         :first="true"
         :last="true"
-        :tail="true"
-      >
+        :tail="true">
         <div 
           slot="name"
-          v-if="news.type === 'received'"
-        >
+          v-if="news.type === 'received'">
           {{news.meta.originIndex + 1}}楼
         </div>
-        <div
-          slot="text"
-        >
+        <div slot="text">
           <template v-if="news.type === 'received'">
             <span
               v-for="(word, index) in news.text.split(' ')"
               :key="index"
-              @click="onWordClick"
-            >
+              @click="onWordClick">
               {{word}}
             </span>
           </template>
@@ -56,35 +52,37 @@
         <div
           slot="footer"
           v-if="index < (total * 2 - 1)"
-          class="display-flex justify-content-space-between align-items-flex-end"
-        >
+          class="display-flex justify-content-space-between align-items-flex-end">
           <f7-link 
-            :href="`/content3?name=${link}&region=${region}&index=${news.meta.originIndex}`" 
+            :href="`/theater?url=${link}&region=${region}&index=${news.meta.originIndex}`" 
             class="message-link"
-            v-if="index % 2 === 0"
-          >
+            v-if="index % 2 === 0">
             Theater
           </f7-link>
           <f7-link
             href="#"
-            @click.once.native="nextBubble(index + 1, news.type === 'sent' ? news.meta.originIndex + 1 : null, $event)"
             class="message-link"
-          >
+            @click.once.native="nextBubble(index + 1, news.type === 'sent' ? news.meta.originIndex + 1 : null, $event)">
             Next
           </f7-link>
         </div>
       </f7-message>
+
+      <f7-message v-if="isTranslating"
+        type="received"
+        :typing="true"
+        :first="true"
+        :last="true"
+        :tail="true">
+      </f7-message>
     </f7-messages>
 
-    <f7-popover
-      class="page-menu1"
-    >
+    <f7-popover class="content-menu">
       <f7-list>
         <f7-list-item
-          :link="`/paper?name=${link}&title=${title}&region=${region}`"
           title="阅读模式"
           popover-close
-        >
+          :link="`/paper?url=${link}&title=${title}&region=${contentRegion}`">
         </f7-list-item>
       </f7-list>
     </f7-popover>
@@ -99,7 +97,10 @@ import {
   f7Message,
   f7Preloader,
 } from "framework7-vue";
+import http from '@/utils/http';
+import api from '@/utils/api';
 import mixin from "@/mixin";
+const region = 'content';
 
 export default {
   components: {
@@ -113,7 +114,8 @@ export default {
 
   data() {
     return {
-      region: 'content',
+      region,
+      contentRegion: '',
       isLoading: true,
       title: "加载中...",
       newsContent: [],
@@ -121,68 +123,36 @@ export default {
       percent: "",
       current: 0,
       total: 0,
-      lfKey: "",
-      progressKey: '',
-      progressIndex: 0,
-      region: '',
       link: '',
+      url: '',
+      isTranslating: false,
+      translatedText: null,
     };
   },
 
   methods: {
     onPageInit() {
-      let { url, region } = this.$f7route.query;
-      let lfKey = `/content/${url}/${region}`;
-      let progressKey = `/progress/${url}/${region}`;
+      let { url, region, title } = this.$f7route.query;
 
-      this.$lf
-        .getItem(progressKey)
-        .then(data => {
-          if (data) {
-            this.progressIndex = data;
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-
-      this.$lf
-        .getItem(lfKey)
-        .then(data => {
-          if (data) {
-            this.initData(data);
-            this.isLoading = false;
-            this.title = this.$f7route.query.title;
-          } else {
-            this.getData();
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-
-      this.lfKey = lfKey;
-      this.progressKey = progressKey;
-      this.region = region;
-      this.link = encodeURIComponent(name);
-      this.preference = preference[region];
+      this.getData({ url, region });
+      this.contentRegion = region;
+      this.url = url;
+      this.link = encodeURIComponent(url);
     },
 
-    getData() {
-      let { title, name } = this.$f7route.query;
+    getData({ url, region }) {
+      let { title } = this.$f7route.query;
+      let payload = { 
+        url, 
+        region
+      };
 
-      this.$http
-        .get(`${api[this.preference.api]}?name=${name}`)
-        .then(res => {
-          if (res.success) {
-            this.initData(res.data);
-
-            if (this.preference.cache) {
-              this.$lf.setItem(this.lfKey, res.data).catch(err => {
-                console.log(err);
-              });
-            }
-          }
+      return Promise.all([
+        this.$store.dispatch(`${this.region}/getContent`, payload),
+        this.$store.dispatch(`${this.region}/getProgress`, payload)
+      ])
+        .then(() => {
+          this.initData();
         })
         .catch(err => {
           console.log(err);
@@ -193,8 +163,8 @@ export default {
         });
     },
 
-    initData(data) {
-      this.newsContent = data.content.reduce((acc, item, index) => {
+    initData() {
+      this.newsContent = this.contentData.reduce((acc, item, index) => {
         acc.push({
           type: "received",
           text: item.en,
@@ -216,20 +186,53 @@ export default {
 
       this.$nextTick(() => {
         this.total = this.newsContent.length / 2;
-        this.nextBubble(this.progressIndex, Math.floor(this.progressIndex / 2));
+        this.nextBubble(this.progress, Math.floor(this.progress / 2));
       });
     },
 
     nextBubble(nextIndex, originIndex, e) {
-      this.bubbleData = this.newsContent.slice(0, nextIndex + 1);
+      let newBubbleData = this.newsContent.slice(0, nextIndex + 1);
+      
+      if (newBubbleData[nextIndex].text == null) {
+        if (this.translatedText) {
+          newBubbleData[nextIndex].text = this.translatedText;
+          this.bubbleData = this.newsContent.slice(0, nextIndex + 1);
+          this.translatedText = null;
+        } else {
+          this.isTranslating = true;
+          this.translate({
+            text: newBubbleData[nextIndex - 1].text,
+            type: 'all'
+          }).then(text => {
+            newBubbleData[nextIndex].text = text;
+            this.bubbleData = this.newsContent.slice(0, nextIndex + 1);
+          }).finally(() => {
+            this.isTranslating = false;
+          });
+        }        
+      } else {
+        this.bubbleData = newBubbleData;
+      }
+
+      if (nextIndex !== 0 && nextIndex % 2 === 0 && this.newsContent[nextIndex + 1].text == null) {
+        this.translate({
+          text: newBubbleData[nextIndex].text,
+          type: 'all'
+        }).then(text => {
+          this.translatedText = text;
+        }).catch((err) => {
+          console.log(err);
+        });
+      }
 
       if (originIndex != null) {
         this.current = originIndex + 1;
       }
 
-      this.progressIndex = nextIndex;
-      this.$lf.setItem(this.progressKey, nextIndex).catch(err => {
-        console.log(err);
+      this.$store.dispatch(`${this.region}/setProgress`, {
+        url: this.url,
+        region: this.contentRegion,
+        progress: nextIndex
       });
 
       if (e) {
@@ -239,7 +242,39 @@ export default {
 
     onWordClick(e) {
       e.target.classList.toggle("bg-color-yellow");
+    },
+
+    translate({ text, type }) {
+      return http
+        .post({
+          url: api.translate,
+          data: {
+            text,
+            type
+          }
+        })
+        .then(res => {
+          if (res.success) {
+            return res.data.text;
+          } else {
+            return "";
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          return "";
+        });
     }
+  },
+
+  computed: {
+    contentData() {
+      return this.$store.state[this.region].contentGroup[`/${this.url}/${this.contentRegion}`];
+    },
+
+    progress() {
+      return this.$store.state[this.region].progressGroup[`/${this.url}/${this.contentRegion}`];
+    },
   },
 
   watch: {

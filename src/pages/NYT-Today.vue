@@ -29,5 +29,11 @@ export default {
       region: 'nyt-today',
     };
   },
+
+  methods: {
+    formatLink(item) {
+      return `/content?url=${encodeURIComponent(item.url)}&title=${item.title}&region=nyt`;
+    }
+  }
 };
 </script>

@@ -97,7 +97,7 @@ const mixin = {
     showNotification(text) {
       this.$f7.notification
         .create({
-          title: "? × 🌀",
+          title: "Poliwag × 🌀",
           titleRightText: "Now",
           text,
           closeTimeout: 1200
@@ -106,7 +106,7 @@ const mixin = {
     },
 
     formatLink(item) {
-      return `/content?url=${item.url}&title=${item.title}&region=${this.region}`;
+      return `/content?url=${encodeURIComponent(item.url)}&title=${item.title || ''}&region=${this.region}`;
     }
   },
 

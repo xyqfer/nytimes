@@ -4,6 +4,7 @@ import api from '@/utils/api';
 import i21st from './i21st';
 import nytCategory from './nyt-category';
 import pocket from './pocket';
+import content from './content';
 
 localforage.config({
   name: "liangliang.poliwag"
@@ -30,7 +31,7 @@ regions.forEach(region => {
     namespaced: true,
 
     state: {
-      data: specialRegions.includes(region) ? {} : []
+      data: specialRegions.includes(region) ? { list: [] } : []
     },
 
     mutations: {
@@ -78,5 +79,6 @@ regions.forEach(region => {
 modules['i21st'] = i21st;
 modules['nyt-category'] = nytCategory;
 modules['pocket'] = pocket;
+modules['content'] = content;
 
 export default modules;

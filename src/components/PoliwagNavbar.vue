@@ -1,11 +1,12 @@
 <template>
   <f7-navbar
-    :back-link="backLink ? backLink : false"
-  >
+    :title="backLink ? title : ''"
+    :subtitle="subtitle"
+    :back-link="backLink ? backLink : false">
     <f7-nav-left>
       <slot name="left"></slot>
     </f7-nav-left>
-    <f7-nav-title>{{title}}</f7-nav-title>
+    <f7-nav-title v-if="!backLink">{{title}}</f7-nav-title>
     <f7-nav-right>
       <slot name="right"></slot>
     </f7-nav-right>
@@ -42,7 +43,12 @@ export default {
       default: 'Poliwag × 🌀',
     },
     backLink: {
+      type: [String, Boolean],
+      default: false,
+    },
+    subtitle: {
       type: String,
+      default: ''
     }
   }
 };

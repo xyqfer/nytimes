@@ -8,7 +8,6 @@ import TEMagazine from "./pages/TE-Magazine.vue";
 import WanquRandom from "./pages/WanquRandom.vue";
 import WanquHot from "./pages/WanquHot.vue";
 import Content from "./pages/Content.vue";
-import Content2 from "./pages/Content2.vue";
 import Subtitle from "./pages/Subtitle.vue";
 
 import NotFound from "./pages/404.vue";
@@ -103,10 +102,6 @@ export default [
   {
     path: "/content",
     component: Content
-  },
-  {
-    path: "/content2",
-    component: Content2
   },
   {
     path: "/theater",

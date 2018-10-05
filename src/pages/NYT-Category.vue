@@ -115,6 +115,10 @@ export default {
     getRandomPage() {
       return Math.floor(1 + Math.random() * this.maxPage);
     },
+
+    formatLink(item) {
+      return `/content?url=${encodeURIComponent(item.url)}&title=${item.title}&region=nyt-cn`;
+    }
   }
 };
 </script>

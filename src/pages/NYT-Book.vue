@@ -37,5 +37,11 @@ export default {
       region: 'nyt-book',
     };
   },
+
+  methods: {
+    formatLink(item) {
+      return `/content?url=${encodeURIComponent(item.url)}&title=${item.title}&region=nyt`;
+    }
+  }
 };
 </script>

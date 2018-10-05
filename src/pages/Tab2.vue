@@ -86,6 +86,12 @@ export default {
       ],
     };
   },
+
+  methods: {
+    formatLink(item) {
+      return `/content?url=${encodeURIComponent(item.url)}&title=${item.title || ''}&region=te`;
+    }
+  }
 };
 </script>
 

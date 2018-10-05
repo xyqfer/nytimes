@@ -82,8 +82,12 @@ export default {
       let url = e.target.value;
       this.$refs.searchInput.f7Popover.close();
 
-      this.$f7router.navigate(`/content?url=${encodeURIComponent(url)}&title=&region=wanqu`);
+      this.$f7router.navigate(`/content?url=${encodeURIComponent(url)}&title=&region=crawl`);
     },
+
+    formatLink(item) {
+      return `/content?url=${encodeURIComponent(item.url)}&title=${item.title || ''}&region=crawl`;
+    }
   }
 };
 </script>

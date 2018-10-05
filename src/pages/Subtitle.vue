@@ -41,7 +41,7 @@ export default {
 
   methods: {
     formatLink(item) {
-      return `/content?name=${item.articleId}&title=${item.articleId}&region=subtitle`;
+      return `/content?url=${item.articleId}&title=${item.articleId}&region=subtitle`;
     },
   }
 };

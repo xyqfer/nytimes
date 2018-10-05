@@ -30,5 +30,15 @@ export default {
       region: 'te-gbr',
     };
   },
+
+  computed: {
+    pageData() {
+      return this.$store.state[this.region].data.map((item) => {
+        item.url = item.articleId;
+        item.link = this.formatLink(item);
+        return item;
+      });
+    },
+  },
 };
 </script>

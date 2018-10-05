@@ -84,7 +84,6 @@ import {
   f7NavRight,
 } from "framework7-vue";
 import api from "@/api";
-import preference from "@/preference";
 
 export default {
   components: {
