@@ -26,8 +26,8 @@ export default {
 
   data() {
     return {
-      region: 'times'
+      region: "times"
     };
-  },
+  }
 };
 </script>

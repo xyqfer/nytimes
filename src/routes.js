@@ -21,20 +21,20 @@ export default [
   {
     path: "/nyt-today",
     async(routeTo, routeFrom, resolve) {
-      const vueComponent = () => import('./pages/NYT-Today.vue');
-      vueComponent().then((vc) => {
+      const vueComponent = () => import("./pages/NYT-Today.vue");
+      vueComponent().then(vc => {
         resolve({ component: vc.default });
       });
-    },
+    }
   },
   {
     path: "/nyt-book",
     async(routeTo, routeFrom, resolve) {
-      const vueComponent = () => import('./pages/NYT-Book.vue');
-      vueComponent().then((vc) => {
+      const vueComponent = () => import("./pages/NYT-Book.vue");
+      vueComponent().then(vc => {
         resolve({ component: vc.default });
       });
-    },
+    }
   },
   {
     path: "/te-today",
@@ -67,11 +67,11 @@ export default [
   {
     path: "/times",
     async(routeTo, routeFrom, resolve) {
-      const vueComponent = () => import('./pages/Times.vue');
-      vueComponent().then((vc) => {
+      const vueComponent = () => import("./pages/Times.vue");
+      vueComponent().then(vc => {
         resolve({ component: vc.default });
       });
-    },
+    }
   },
   {
     path: "/subtitle",
@@ -84,20 +84,20 @@ export default [
   {
     path: "/paper",
     async(routeTo, routeFrom, resolve) {
-      const vueComponent = () => import('./pages/Paper.vue');
-      vueComponent().then((vc) => {
+      const vueComponent = () => import("./pages/Paper.vue");
+      vueComponent().then(vc => {
         resolve({ component: vc.default });
       });
-    },
+    }
   },
   {
     path: "/nyt-category/:name",
     async(routeTo, routeFrom, resolve) {
-      const vueComponent = () => import('./pages/NYT-Category.vue');
-      vueComponent().then((vc) => {
+      const vueComponent = () => import("./pages/NYT-Category.vue");
+      vueComponent().then(vc => {
         resolve({ component: vc.default });
       });
-    },
+    }
   },
   {
     path: "/content",
@@ -106,20 +106,20 @@ export default [
   {
     path: "/theater",
     async(routeTo, routeFrom, resolve) {
-      const vueComponent = () => import('./pages/Theater.vue');
-      vueComponent().then((vc) => {
+      const vueComponent = () => import("./pages/Theater.vue");
+      vueComponent().then(vc => {
         resolve({ component: vc.default });
       });
-    },
+    }
   },
   {
     path: "/menu",
     async(routeTo, routeFrom, resolve) {
-      const vueComponent = () => import('./pages/Menu.vue');
-      vueComponent().then((vc) => {
+      const vueComponent = () => import("./pages/Menu.vue");
+      vueComponent().then(vc => {
         resolve({ component: vc.default });
       });
-    },
+    }
   },
   {
     path: "(.*)",

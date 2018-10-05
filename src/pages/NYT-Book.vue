@@ -34,13 +34,15 @@ export default {
 
   data() {
     return {
-      region: 'nyt-book',
+      region: "nyt-book"
     };
   },
 
   methods: {
     formatLink(item) {
-      return `/content?url=${encodeURIComponent(item.url)}&title=${item.title}&region=nyt`;
+      return `/content?url=${encodeURIComponent(item.url)}&title=${
+        item.title
+      }&region=nyt`;
     }
   }
 };

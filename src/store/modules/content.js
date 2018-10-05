@@ -1,5 +1,5 @@
-import http from '@/utils/http';
-import api from '@/utils/api';
+import http from "@/utils/http";
+import api from "@/utils/api";
 import localforage from "localforage";
 
 localforage.config({
@@ -23,7 +23,7 @@ const content = {
 
     setProgress(state, { url, region, progress }) {
       state.progressGroup[`/${url}/${region}`] = progress;
-    },
+    }
   },
 
   actions: {
@@ -33,10 +33,14 @@ const content = {
       return new Promise((resolve, reject) => {
         const fetchContent = () => {
           http
-            .get(`${api['content']}?url=${encodeURIComponent(url)}&region=${region}`)
+            .get(
+              `${api["content"]}?url=${encodeURIComponent(
+                url
+              )}&region=${region}`
+            )
             .then(({ success, data }) => {
               if (success) {
-                commit('setContent', { url, region, data });
+                commit("setContent", { url, region, data });
                 resolve(data);
                 localforage.setItem(storageKey, data);
               } else {
@@ -51,9 +55,9 @@ const content = {
 
         localforage
           .getItem(storageKey)
-          .then((data) => {
+          .then(data => {
             if (data) {
-              commit('setContent', { url, region, data });
+              commit("setContent", { url, region, data });
               resolve(data);
             } else {
               fetchContent();
@@ -72,10 +76,10 @@ const content = {
       return new Promise((resolve, reject) => {
         localforage
           .getItem(storageKey)
-          .then((data) => {
+          .then(data => {
             let progress = data || 0;
 
-            commit('setProgress', { url, region, progress });
+            commit("setProgress", { url, region, progress });
             resolve(progress);
           })
           .catch(err => {
@@ -92,15 +96,15 @@ const content = {
         localforage
           .setItem(storageKey, progress)
           .then(() => {
-            commit('setProgress', { url, region, progress });            
+            commit("setProgress", { url, region, progress });
             resolve(progress);
           })
           .catch(err => {
             console.log(err);
             reject(err);
           });
-      });  
-    },
+      });
+    }
   }
 };
 

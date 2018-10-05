@@ -9,11 +9,11 @@
   },
   "dependencies": {
     "@vue/cli-service": "^3.0.0-rc.3",
-    "framework7": "^3.0.7",
-    "framework7-vue": "^3.0.7",
+    "framework7": "^3.4.0",
+    "framework7-vue": "^3.4.0",
     "localforage": "^1.7.2",
-    "register-service-worker": "^1.0.0",
-    "vue": "^2.5.16",
+    "register-service-worker": "^1.5.2",
+    "vue": "^2.5.17",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
@@ -24,7 +24,7 @@
     "node-sass": "^4.9.0",
     "postcss-px-to-viewport": "0.0.3",
     "sass-loader": "^7.0.1",
-    "vue-template-compiler": "^2.5.16"
+    "vue-template-compiler": "^2.5.17"
   },
   "browserslist": [
     "Android >= 4",

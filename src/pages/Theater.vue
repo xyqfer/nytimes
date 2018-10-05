@@ -81,7 +81,7 @@ import {
   f7ListItem,
   f7Link,
   f7NavTitle,
-  f7NavRight,
+  f7NavRight
 } from "framework7-vue";
 import api from "@/api";
 
@@ -98,12 +98,12 @@ export default {
     f7ListItem,
     f7Link,
     f7NavTitle,
-    f7NavRight,
+    f7NavRight
   },
 
   data() {
     return {
-      link: '',
+      link: "",
       isLoading: true,
       newsContent: [],
       bubbleData: [],
@@ -113,10 +113,10 @@ export default {
       lfKey: "",
       index: -1,
       progressIndex: 0,
-      region: '',
-      paragraph: '',
+      region: "",
+      paragraph: "",
       preference: {},
-      translatedText: null,
+      translatedText: null
     };
   },
 
@@ -142,7 +142,6 @@ export default {
       this.index = index;
       this.lfKey = lfKey;
       this.region = region;
-      this.preference = preference[region];
     },
 
     getData() {
@@ -204,7 +203,7 @@ export default {
       }
 
       this.progressIndex = nextIndex;
-      
+
       if (e) {
         e.target.classList.add("color-gray");
       }

@@ -14,41 +14,34 @@
 </template>
 
 <script>
-import { 
-  f7Navbar,
-  f7NavTitle,
-  f7NavLeft,
-  f7NavRight,
-} from "framework7-vue";
+import { f7Navbar, f7NavTitle, f7NavLeft, f7NavRight } from "framework7-vue";
 
 export default {
   components: {
     f7Navbar,
     f7NavTitle,
     f7NavLeft,
-    f7NavRight,
+    f7NavRight
   },
 
   extends: f7Navbar,
 
   data() {
-    return {
-      
-    };
+    return {};
   },
 
   props: {
     title: {
       type: String,
-      default: 'Poliwag × 🌀',
+      default: "Poliwag × 🌀"
     },
     backLink: {
       type: [String, Boolean],
-      default: false,
+      default: false
     },
     subtitle: {
       type: String,
-      default: ''
+      default: ""
     }
   }
 };

@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { f7Input } from 'framework7-vue';
+import { f7Input } from "framework7-vue";
 import mixin from "@/mixin";
 
 export default {
@@ -63,20 +63,21 @@ export default {
 
   data() {
     return {
-      region: 'i21st',
+      region: "i21st",
       p: 1,
       allowInfinite: true,
       showPreloader: true,
-      fabIcons: ['palette', 'close'],
+      fabIcons: ["palette", "close"],
       fabButtons: [
         {
-          icon: 'tonality',
-          url: '/times',
-        }, {
-          icon: 'timelapse',
-          url: '/subtitle',
+          icon: "tonality",
+          url: "/times"
+        },
+        {
+          icon: "timelapse",
+          url: "/subtitle"
         }
-      ],
+      ]
     };
   },
 
@@ -95,10 +96,11 @@ export default {
     },
 
     getData() {
-      return this.$store.dispatch(`${this.region}/getData`, {
-        p: this.p
-      })
-        .then(res => {
+      return this.$store
+        .dispatch(`${this.region}/getData`, {
+          p: this.p
+        })
+        .then(() => {
           this.p = this.p + 1;
         })
         .catch(err => {
@@ -113,7 +115,7 @@ export default {
       this.p = page;
       this.$store.commit(`${this.region}/reset`);
       this.getData();
-    },
+    }
   }
 };
 </script>

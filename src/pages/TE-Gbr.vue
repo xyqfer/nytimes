@@ -27,18 +27,18 @@ export default {
 
   data() {
     return {
-      region: 'te-gbr',
+      region: "te-gbr"
     };
   },
 
   computed: {
     pageData() {
-      return this.$store.state[this.region].data.map((item) => {
+      return this.$store.state[this.region].data.map(item => {
         item.url = item.articleId;
         item.link = this.formatLink(item);
         return item;
       });
-    },
-  },
+    }
+  }
 };
 </script>

@@ -57,48 +57,47 @@
 </template>
 
 <script>
-import {
-  f7SwipeoutActions,
-  f7SwipeoutButton,
-} from "framework7-vue";
+import { f7SwipeoutActions, f7SwipeoutButton } from "framework7-vue";
 import mixin from "@/mixin";
 
 export default {
   components: {
     f7SwipeoutActions,
-    f7SwipeoutButton,
+    f7SwipeoutButton
   },
 
   mixins: [mixin],
 
   data() {
     return {
-      region: 'te-today',
-      fabIcons: ['beach_access', 'close'],
+      region: "te-today",
+      fabIcons: ["beach_access", "close"],
       fabButtons: [
         {
-          icon: 'tonality',
-          url: '/te-magazine',
-        }, {
-          icon: 'timelapse',
-          url: '/te-gbr',
+          icon: "tonality",
+          url: "/te-magazine"
+        },
+        {
+          icon: "timelapse",
+          url: "/te-gbr"
         }
-      ],
+      ]
     };
   },
 
   methods: {
     formatLink(item) {
-      return `/content?url=${encodeURIComponent(item.url)}&title=${item.title || ''}&region=te`;
+      return `/content?url=${encodeURIComponent(item.url)}&title=${item.title ||
+        ""}&region=te`;
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
-  .footer-img {
-    display: block;
-    width: 100%;
-    margin-top: 14px;
-  }
+.footer-img {
+  display: block;
+  width: 100%;
+  margin-top: 14px;
+}
 </style>

@@ -32,12 +32,12 @@
 </template>
 
 <script>
-import { 
+import {
   f7Fab,
   f7FabButtons,
   f7FabButton,
   f7Icon,
-  f7Link,
+  f7Link
 } from "framework7-vue";
 
 export default {
@@ -46,30 +46,28 @@ export default {
     f7FabButtons,
     f7FabButton,
     f7Icon,
-    f7Link,
+    f7Link
   },
 
   extends: f7Fab,
 
   data() {
-    return {
-      
-    };
+    return {};
   },
 
   props: {
     href: {
-      type: String,
+      type: String
     },
     icons: {
       type: Array,
-      default: () => [],
+      default: () => []
     },
     buttons: {
       type: Array,
-      default: () => [],
+      default: () => []
     }
-  },
+  }
 };
 </script>
 

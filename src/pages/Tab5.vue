@@ -37,24 +37,21 @@
 </template>
 
 <script>
-import { 
-  f7SwipeoutActions,
-  f7SwipeoutButton,
-} from "framework7-vue";
+import { f7SwipeoutActions, f7SwipeoutButton } from "framework7-vue";
 import mixin from "@/mixin";
 
 export default {
   components: {
     f7SwipeoutActions,
-    f7SwipeoutButton,
+    f7SwipeoutButton
   },
 
   mixins: [mixin],
 
   data() {
     return {
-      region: 'pocket',
-      pockList: [],
+      region: "pocket",
+      pockList: []
     };
   },
 
@@ -64,7 +61,8 @@ export default {
     },
 
     getData() {
-      return this.$store.dispatch(`${this.region}/getData`)
+      return this.$store
+        .dispatch(`${this.region}/getData`)
         .then(pockList => {
           if (pockList) {
             this.pockList = [...pockList];
@@ -76,20 +74,22 @@ export default {
     },
 
     deletePocket(index) {
-      let pockIndex = this.pockList.findIndex((item) => {
+      let pockIndex = this.pockList.findIndex(item => {
         return item.url === this.pockList[index].url;
       });
       this.pockList.splice(pockIndex, 1);
 
       this.$nextTick(() => {
-        this.$store.dispatch(`${this.region}/updateData`, this.pockList)
+        this.$store
+          .dispatch(`${this.region}/updateData`, this.pockList)
           .then(() => {
             this.showNotification("Deleted");
-          }).catch(err => {
+          })
+          .catch(err => {
             console.log(err);
           });
       });
-    },
+    }
   }
 };
 </script>

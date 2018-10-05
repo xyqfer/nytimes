@@ -4,7 +4,7 @@ localforage.config({
   name: "liangliang.poliwag"
 });
 
-const storageKey = '/pocket';
+const storageKey = "/pocket";
 const pocket = {
   namespaced: true,
 
@@ -21,10 +21,11 @@ const pocket = {
   actions: {
     getData({ commit }) {
       return new Promise((resovle, reject) => {
-        localforage.getItem(storageKey)
-          .then((data) => {
+        localforage
+          .getItem(storageKey)
+          .then(data => {
             if (data) {
-              commit('update', data);
+              commit("update", data);
             }
 
             resovle(data);
@@ -38,9 +39,10 @@ const pocket = {
 
     updateData({ commit }, data) {
       return new Promise((resolve, reject) => {
-        localforage.setItem(storageKey, data)
+        localforage
+          .setItem(storageKey, data)
           .then(() => {
-            commit('update', data);
+            commit("update", data);
             resolve();
           })
           .catch(err => {
@@ -48,7 +50,7 @@ const pocket = {
             reject(err);
           });
       });
-    },
+    }
   }
 };
 

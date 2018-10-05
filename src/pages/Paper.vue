@@ -43,7 +43,7 @@ import {
   f7Preloader,
   f7Block,
   f7PageContent,
-  f7Icon,
+  f7Icon
 } from "framework7-vue";
 import api from "@/api";
 
@@ -54,18 +54,18 @@ export default {
     f7Preloader,
     f7Block,
     f7PageContent,
-    f7Icon,
+    f7Icon
   },
 
   data() {
     return {
-      title: '',
+      title: "",
       newsList: [],
       lfKey: "",
       isLoading: true,
-      name: '',
-      region: '',
-      preference: {},
+      name: "",
+      region: "",
+      preference: {}
     };
   },
 
@@ -92,9 +92,8 @@ export default {
       this.lfKey = lfKey;
       this.name = name;
       this.region = region;
-      this.preference = preference[region];
 
-      this.$f7.progressbar.show(0, 'orange')
+      this.$f7.progressbar.show(0, "orange");
     },
 
     getData() {
@@ -122,9 +121,9 @@ export default {
 
     onScroll(e) {
       let { scrollTop, scrollHeight, offsetHeight } = e.target;
-      let progress = scrollTop / (scrollHeight - offsetHeight) * 100;
+      let progress = (scrollTop / (scrollHeight - offsetHeight)) * 100;
 
-      this.$f7.progressbar.show(progress, 'orange');
+      this.$f7.progressbar.show(progress, "orange");
     },
 
     onBeforeOut() {
@@ -132,29 +131,33 @@ export default {
     },
 
     openTheater(index) {
-      this.$f7router.navigate(`/content3?url=${encodeURIComponent(this.name)}&region=${this.region}&index=${index}`);
-    },
-  },
+      this.$f7router.navigate(
+        `/content3?url=${encodeURIComponent(this.name)}&region=${
+          this.region
+        }&index=${index}`
+      );
+    }
+  }
 };
 </script>
 
 <style scoped lang="scss">
-  .paper-page {
+.paper-page {
+  background-color: #fff1e5;
+
+  .navbar {
     background-color: #fff1e5;
-
-    .navbar {
-      background-color: #fff1e5;
-      color: #000;
-    }
-
-    p {
-      line-height: 30px;
-      margin: 0;
-      padding-bottom: 20px;
-      color: #333;
-      font-family: Georgia, serif;
-      font-size: 18px;
-      word-wrap: break-word;
-    }
+    color: #000;
   }
+
+  p {
+    line-height: 30px;
+    margin: 0;
+    padding-bottom: 20px;
+    color: #333;
+    font-family: Georgia, serif;
+    font-size: 18px;
+    word-wrap: break-word;
+  }
+}
 </style>

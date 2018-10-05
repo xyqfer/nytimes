@@ -1,7 +1,7 @@
-import http from '@/utils/http';
-import api from '@/utils/api';
+import http from "@/utils/http";
+import api from "@/utils/api";
 
-const region = 'i21st';
+const region = "i21st";
 const i21st = {
   namespaced: true,
 
@@ -26,7 +26,7 @@ const i21st = {
           .get(`${api[region]}?p=${p}`)
           .then(res => {
             if (res.success) {
-              commit('update', res.data);
+              commit("update", res.data);
               resovle();
             } else {
               reject();

@@ -26,13 +26,14 @@ export default {
 
   data() {
     return {
-      region: 'wanqu-hot'
+      region: "wanqu-hot"
     };
   },
 
   methods: {
     formatLink(item) {
-      return `/content?url=${encodeURIComponent(item.url)}&title=${item.title || ''}&region=crawl`;
+      return `/content?url=${encodeURIComponent(item.url)}&title=${item.title ||
+        ""}&region=crawl`;
     }
   }
 };

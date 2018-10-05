@@ -1,7 +1,7 @@
-import http from '@/utils/http';
-import api from '@/utils/api';
+import http from "@/utils/http";
+import api from "@/utils/api";
 
-const region = 'nyt-category';
+const region = "nyt-category";
 const nytCategory = {
   namespaced: true,
 
@@ -26,7 +26,7 @@ const nytCategory = {
           .get(`${api[region]}?name=${name}&p=${p}`)
           .then(res => {
             if (res.success) {
-              commit('update', res.data);
+              commit("update", res.data);
               resovle();
             } else {
               reject();

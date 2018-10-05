@@ -6,7 +6,7 @@ import {
   f7ListItem,
   f7Icon,
   f7Popover,
-  f7Block,
+  f7Block
 } from "framework7-vue";
 import PoliwagTab from "@/components/PoliwagTab";
 import PoliwagFab from "@/components/PoliwagFab";
@@ -30,9 +30,7 @@ const mixin = {
   },
 
   data() {
-    return {
-      
-    };
+    return {};
   },
 
   methods: {
@@ -106,13 +104,14 @@ const mixin = {
     },
 
     formatLink(item) {
-      return `/content?url=${encodeURIComponent(item.url)}&title=${item.title || ''}&region=${this.region}`;
+      return `/content?url=${encodeURIComponent(item.url)}&title=${item.title ||
+        ""}&region=${this.region}`;
     }
   },
 
   computed: {
     pageData() {
-      return this.$store.state[this.region].data.map((item) => {
+      return this.$store.state[this.region].data.map(item => {
         item.link = this.formatLink(item);
         return item;
       });
@@ -120,7 +119,7 @@ const mixin = {
 
     pageRef() {
       return `ref-${this.region}`;
-    },
+    }
   }
 };
 

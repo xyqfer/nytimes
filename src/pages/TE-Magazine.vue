@@ -51,27 +51,26 @@
 </template>
 
 <script>
-import {
-  f7ListGroup,
-} from "framework7-vue";
+import { f7ListGroup } from "framework7-vue";
 import mixin from "@/mixin";
 
 export default {
   components: {
-    f7ListGroup,
+    f7ListGroup
   },
 
   mixins: [mixin],
 
   data() {
     return {
-      region: 'te-magazine',
+      region: "te-magazine"
     };
   },
 
   methods: {
     formatLink(item) {
-      return `/content?url=${encodeURIComponent(item.url)}&title=${item.title || ''}&region=te`;
+      return `/content?url=${encodeURIComponent(item.url)}&title=${item.title ||
+        ""}&region=te`;
     }
   },
 
@@ -81,19 +80,19 @@ export default {
     },
 
     "pageData.list"() {
-      return this.$store.state[this.region].data.list.map((item) => {
+      return this.$store.state[this.region].data.list.map(item => {
         item.link = this.formatLink(item);
         return item;
       });
-    },
+    }
   }
 };
 </script>
 
 <style scoped lang="scss">
-  .cover {
-    display: block;
-    width: 80%;
-    margin: auto;
-  }
+.cover {
+  display: block;
+  width: 80%;
+  margin: auto;
+}
 </style>

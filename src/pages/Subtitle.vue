@@ -35,14 +35,16 @@ export default {
 
   data() {
     return {
-      region: 'subtitle',
+      region: "subtitle"
     };
   },
 
   methods: {
     formatLink(item) {
-      return `/content?url=${item.articleId}&title=${item.articleId}&region=subtitle`;
-    },
+      return `/content?url=${item.articleId}&title=${
+        item.articleId
+      }&region=subtitle`;
+    }
   }
 };
 </script>

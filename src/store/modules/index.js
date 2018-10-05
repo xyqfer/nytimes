@@ -1,29 +1,29 @@
 import localforage from "localforage";
-import http from '@/utils/http';
-import api from '@/utils/api';
-import i21st from './i21st';
-import nytCategory from './nyt-category';
-import pocket from './pocket';
-import content from './content';
+import http from "@/utils/http";
+import api from "@/utils/api";
+import i21st from "./i21st";
+import nytCategory from "./nyt-category";
+import pocket from "./pocket";
+import content from "./content";
 
 localforage.config({
   name: "liangliang.poliwag"
 });
 
 const regions = [
-  'nyt-cn', 
-  'nyt-today',
-  'nyt-book',
-  'te-gbr',
-  'te-today',
-  'te-magazine',
-  'wanqu',
-  'wanqu-hot',
-  'wanqu-random',
-  'times',
-  'subtitle'
+  "nyt-cn",
+  "nyt-today",
+  "nyt-book",
+  "te-gbr",
+  "te-today",
+  "te-magazine",
+  "wanqu",
+  "wanqu-hot",
+  "wanqu-random",
+  "times",
+  "subtitle"
 ];
-const specialRegions = ['te-magazine'];
+const specialRegions = ["te-magazine"];
 const modules = {};
 
 regions.forEach(region => {
@@ -45,10 +45,11 @@ regions.forEach(region => {
         const storageKey = `/page/${region}`;
 
         return new Promise((resovle, reject) => {
-          localforage.getItem(storageKey)
-            .then((data) => {
+          localforage
+            .getItem(storageKey)
+            .then(data => {
               if (data) {
-                commit('update', data);
+                commit("update", data);
               }
             })
             .catch(err => console.log(err));
@@ -60,7 +61,7 @@ regions.forEach(region => {
                 localforage.setItem(storageKey, res.data).catch(err => {
                   console.log(err);
                 });
-                commit('update', res.data);
+                commit("update", res.data);
                 resovle();
               } else {
                 reject();
@@ -76,9 +77,9 @@ regions.forEach(region => {
   };
 });
 
-modules['i21st'] = i21st;
-modules['nyt-category'] = nytCategory;
-modules['pocket'] = pocket;
-modules['content'] = content;
+modules["i21st"] = i21st;
+modules["nyt-category"] = nytCategory;
+modules["pocket"] = pocket;
+modules["content"] = content;
 
 export default modules;

@@ -38,8 +38,8 @@ export default {
 
   data() {
     return {
-      region: 'nyt-cn',
-      fabIcons: ['adb', 'close'],
+      region: "nyt-cn",
+      fabIcons: ["adb", "close"],
       fabButtons: [
         {
           icon: "cloud_circle",
@@ -51,6 +51,6 @@ export default {
         }
       ]
     };
-  },
+  }
 };
 </script>

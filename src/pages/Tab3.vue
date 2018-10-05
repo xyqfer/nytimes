@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { f7Input } from 'framework7-vue';
+import { f7Input } from "framework7-vue";
 import mixin from "@/mixin";
 
 export default {
@@ -63,17 +63,18 @@ export default {
 
   data() {
     return {
-      region: 'wanqu',
-      fabIcons: ['adjust', 'close'],
+      region: "wanqu",
+      fabIcons: ["adjust", "close"],
       fabButtons: [
         {
-          text: '随机',
-          url: '/wanqu-random',
-        }, {
-          text: '热门',
-          url: '/wanqu-hot',
+          text: "随机",
+          url: "/wanqu-random"
+        },
+        {
+          text: "热门",
+          url: "/wanqu-hot"
         }
-      ],
+      ]
     };
   },
 
@@ -82,11 +83,14 @@ export default {
       let url = e.target.value;
       this.$refs.searchInput.f7Popover.close();
 
-      this.$f7router.navigate(`/content?url=${encodeURIComponent(url)}&title=&region=crawl`);
+      this.$f7router.navigate(
+        `/content?url=${encodeURIComponent(url)}&title=&region=crawl`
+      );
     },
 
     formatLink(item) {
-      return `/content?url=${encodeURIComponent(item.url)}&title=${item.title || ''}&region=crawl`;
+      return `/content?url=${encodeURIComponent(item.url)}&title=${item.title ||
+        ""}&region=crawl`;
     }
   }
 };

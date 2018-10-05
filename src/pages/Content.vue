@@ -51,20 +51,22 @@
         </div>
         <div
           slot="footer"
-          v-if="index < (total * 2 - 1)"
-          class="display-flex justify-content-space-between align-items-flex-end">
-          <f7-link 
+          v-if="index < (total * 2 - 1)">
+          <f7-button 
             :href="`/theater?url=${link}&region=${region}&index=${news.meta.originIndex}`" 
             class="message-link"
+            :outline="true"
+            color="gray"
             v-if="index % 2 === 0">
             Theater
-          </f7-link>
-          <f7-link
-            href="#"
+          </f7-button>
+          <f7-button
             class="message-link"
+            :outline="true"
+            color="gray"
             @click.once.native="nextBubble(index + 1, news.type === 'sent' ? news.meta.originIndex + 1 : null, $event)">
             Next
-          </f7-link>
+          </f7-button>
         </div>
       </f7-message>
 
@@ -96,11 +98,12 @@ import {
   f7MessagesTitle,
   f7Message,
   f7Preloader,
+  f7Button
 } from "framework7-vue";
-import http from '@/utils/http';
-import api from '@/utils/api';
+import http from "@/utils/http";
+import api from "@/utils/api";
 import mixin from "@/mixin";
-const region = 'content';
+const region = "content";
 
 export default {
   components: {
@@ -108,6 +111,7 @@ export default {
     f7MessagesTitle,
     f7Message,
     f7Preloader,
+    f7Button
   },
 
   mixins: [mixin],
@@ -115,7 +119,7 @@ export default {
   data() {
     return {
       region,
-      contentRegion: '',
+      contentRegion: "",
       isLoading: true,
       title: "加载中...",
       newsContent: [],
@@ -123,16 +127,16 @@ export default {
       percent: "",
       current: 0,
       total: 0,
-      link: '',
-      url: '',
+      link: "",
+      url: "",
       isTranslating: false,
-      translatedText: null,
+      translatedText: null
     };
   },
 
   methods: {
     onPageInit() {
-      let { url, region, title } = this.$f7route.query;
+      let { url, region } = this.$f7route.query;
 
       this.getData({ url, region });
       this.contentRegion = region;
@@ -142,8 +146,8 @@ export default {
 
     getData({ url, region }) {
       let { title } = this.$f7route.query;
-      let payload = { 
-        url, 
+      let payload = {
+        url,
         region
       };
 
@@ -192,7 +196,7 @@ export default {
 
     nextBubble(nextIndex, originIndex, e) {
       let newBubbleData = this.newsContent.slice(0, nextIndex + 1);
-      
+
       if (newBubbleData[nextIndex].text == null) {
         if (this.translatedText) {
           newBubbleData[nextIndex].text = this.translatedText;
@@ -202,27 +206,35 @@ export default {
           this.isTranslating = true;
           this.translate({
             text: newBubbleData[nextIndex - 1].text,
-            type: 'all'
-          }).then(text => {
-            newBubbleData[nextIndex].text = text;
-            this.bubbleData = this.newsContent.slice(0, nextIndex + 1);
-          }).finally(() => {
-            this.isTranslating = false;
-          });
-        }        
+            type: "all"
+          })
+            .then(text => {
+              newBubbleData[nextIndex].text = text;
+              this.bubbleData = this.newsContent.slice(0, nextIndex + 1);
+            })
+            .finally(() => {
+              this.isTranslating = false;
+            });
+        }
       } else {
         this.bubbleData = newBubbleData;
       }
 
-      if (nextIndex !== 0 && nextIndex % 2 === 0 && this.newsContent[nextIndex + 1].text == null) {
+      if (
+        nextIndex !== 0 &&
+        nextIndex % 2 === 0 &&
+        this.newsContent[nextIndex + 1].text == null
+      ) {
         this.translate({
           text: newBubbleData[nextIndex].text,
-          type: 'all'
-        }).then(text => {
-          this.translatedText = text;
-        }).catch((err) => {
-          console.log(err);
-        });
+          type: "all"
+        })
+          .then(text => {
+            this.translatedText = text;
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
 
       if (originIndex != null) {
@@ -269,12 +281,16 @@ export default {
 
   computed: {
     contentData() {
-      return this.$store.state[this.region].contentGroup[`/${this.url}/${this.contentRegion}`];
+      return this.$store.state[this.region].contentGroup[
+        `/${this.url}/${this.contentRegion}`
+      ];
     },
 
     progress() {
-      return this.$store.state[this.region].progressGroup[`/${this.url}/${this.contentRegion}`];
-    },
+      return this.$store.state[this.region].progressGroup[
+        `/${this.url}/${this.contentRegion}`
+      ];
+    }
   },
 
   watch: {

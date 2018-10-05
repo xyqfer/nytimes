@@ -42,9 +42,7 @@
 </template>
 
 <script>
-import { 
-  f7Toggle,
-} from "framework7-vue";
+import { f7Toggle } from "framework7-vue";
 import mixin from "@/mixin";
 
 export default {
@@ -54,21 +52,21 @@ export default {
   },
 
   components: {
-    f7Toggle,
+    f7Toggle
   },
 
   mixins: [mixin],
 
   data() {
     return {
-      region: 'nyt-category',
+      region: "nyt-category",
       name: "",
       title: "",
       p: 1,
       allowInfinite: true,
       showPreloader: true,
       maxPage: 386,
-      isRandom: false,
+      isRandom: false
     };
   },
 
@@ -87,10 +85,11 @@ export default {
     },
 
     getData() {
-      return this.$store.dispatch(`${this.region}/getData`, {
-        p: this.p,
-        name: this.name
-      })
+      return this.$store
+        .dispatch(`${this.region}/getData`, {
+          p: this.p,
+          name: this.name
+        })
         .then(() => {
           this.p = this.isRandom ? this.getRandomPage() : this.p + 1;
         })
@@ -103,7 +102,7 @@ export default {
       this.isRandom = isRandom;
       this.$store.commit(`${this.region}/reset`);
       this.p = isRandom ? this.getRandomPage() : 1;
-      
+
       if (!this.allowInfinite) return;
 
       this.allowInfinite = false;
@@ -117,7 +116,9 @@ export default {
     },
 
     formatLink(item) {
-      return `/content?url=${encodeURIComponent(item.url)}&title=${item.title}&region=nyt-cn`;
+      return `/content?url=${encodeURIComponent(item.url)}&title=${
+        item.title
+      }&region=nyt-cn`;
     }
   }
 };

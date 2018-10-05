@@ -40,11 +40,11 @@
 </template>
 
 <script>
-import { 
+import {
   f7List,
   f7ListItem,
   f7SwipeoutActions,
-  f7SwipeoutButton,
+  f7SwipeoutButton
 } from "framework7-vue";
 
 export default {
@@ -52,32 +52,30 @@ export default {
     f7List,
     f7ListItem,
     f7SwipeoutActions,
-    f7SwipeoutButton,
+    f7SwipeoutButton
   },
 
   extends: f7List,
 
   data() {
-    return {
-      
-    };
+    return {};
   },
 
   props: {
     swipeout: {
       type: Boolean,
-      default: true,
+      default: true
     },
     data: {
       type: Array,
-      default: () => [],
-    },
+      default: () => []
+    }
   },
 
   methods: {
     onButtonClick(item, index) {
-      this.$emit('swipeout-button:click', item, index);
-    },
+      this.$emit("swipeout-button:click", item, index);
+    }
   }
 };
 </script>
