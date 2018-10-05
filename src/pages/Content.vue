@@ -52,19 +52,21 @@
         <div
           slot="footer"
           v-if="index < (total * 2 - 1)">
-          <f7-button 
-            :href="`/theater?url=${link}&region=${region}&index=${news.meta.originIndex}`" 
-            class="message-link"
-            color="gray"
-            v-if="index % 2 === 0">
-            Theater
-          </f7-button>
-          <f7-button
-            class="message-link"
-            color="gray"
-            @click.once.native="nextBubble(index + 1, news.type === 'sent' ? news.meta.originIndex + 1 : null, $event)">
-            Next
-          </f7-button>
+          <f7-segmented>
+            <f7-button 
+              :href="`/theater?url=${link}&region=${region}&index=${news.meta.originIndex}`" 
+              class="message-link"
+              color="gray"
+              v-if="index % 2 === 0">
+              Theater
+            </f7-button>
+            <f7-button
+              class="message-link"
+              color="gray"
+              @click.once.native="nextBubble(index + 1, news.type === 'sent' ? news.meta.originIndex + 1 : null, $event)">
+              Next
+            </f7-button>
+          </f7-segmented>
         </div>
       </f7-message>
 
@@ -96,7 +98,8 @@ import {
   f7MessagesTitle,
   f7Message,
   f7Preloader,
-  f7Button
+  f7Button,
+  f7Segmented
 } from "framework7-vue";
 import http from "@/utils/http";
 import api from "@/utils/api";
@@ -109,7 +112,8 @@ export default {
     f7MessagesTitle,
     f7Message,
     f7Preloader,
-    f7Button
+    f7Button,
+    f7Segmented
   },
 
   mixins: [mixin],

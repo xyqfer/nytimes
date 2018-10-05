@@ -74,13 +74,14 @@ export default {
   .view {
     .messages-page {
       background: initial;
+      background-color: #eee;
       background-image: url(~@/assets/img/background_1.jpg);
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center;
 
       .message {
-        max-width: 85%;
+        max-width: 95%;
       }
 
       .messages-content {
@@ -98,7 +99,8 @@ export default {
           .message-link {
             margin-top: 6px;
             color: #fff;
-            background-color: rgba(0, 0, 0, 0.2);
+            background-color: rgba(0, 0, 0, 0.14);
+            text-transform: initial;
           }
         }
 
