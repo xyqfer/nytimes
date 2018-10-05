@@ -38,12 +38,13 @@
         </div>
         <div slot="text">
           <template v-if="news.type === 'received'">
-            <span
+            <div
               v-for="(word, index) in news.text.split(' ')"
               :key="index"
+              style="display: inline-block"
               @click="onWordClick">
-              {{word}}
-            </span>
+              <span>{{word}}</span>&nbsp;
+            </div>
           </template>
           <template v-else>
             {{news.text}}
