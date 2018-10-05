@@ -55,14 +55,12 @@
           <f7-button 
             :href="`/theater?url=${link}&region=${region}&index=${news.meta.originIndex}`" 
             class="message-link"
-            :outline="true"
             color="gray"
             v-if="index % 2 === 0">
             Theater
           </f7-button>
           <f7-button
             class="message-link"
-            :outline="true"
             color="gray"
             @click.once.native="nextBubble(index + 1, news.type === 'sent' ? news.meta.originIndex + 1 : null, $event)">
             Next

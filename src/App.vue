@@ -96,8 +96,9 @@ export default {
           }
 
           .message-link {
-            display: block;
-            margin-top: 5px;
+            margin-top: 6px;
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.2);
           }
         }
 
