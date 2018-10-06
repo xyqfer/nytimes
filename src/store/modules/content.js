@@ -104,6 +104,19 @@ const content = {
             reject(err);
           });
       });
+    },
+
+    clearStorage({ commit }, { url, region }) {
+      const contentKey = `/content/${url}/${region}`;
+      const progressKey = `/progress/${url}/${region}`;
+
+      return Promise.all([
+        localforage.removeItem(contentKey),
+        localforage.removeItem(progressKey)
+      ]).then(() => {
+        commit("setProgress", { url, region, progress: 0 });
+        commit("setContent", { url, region, data: {} });
+      });
     }
   }
 };

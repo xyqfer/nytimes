@@ -87,6 +87,12 @@
           popover-close
           :link="`/paper?url=${link}&title=${title}&region=${contentRegion}`">
         </f7-list-item>
+        <f7-list-item
+          title="清除缓存"
+          popover-close
+          @click="clearStorage"
+          :link="false">
+        </f7-list-item>
       </f7-list>
     </f7-popover>
 
@@ -278,6 +284,17 @@ export default {
         .catch(err => {
           console.log(err);
           return "";
+        });
+    },
+
+    clearStorage() {
+      this.$store
+        .dispatch(`${this.region}/clearStorage`, {
+          url: this.url,
+          region: this.contentRegion
+        })
+        .then(() => {
+          location.reload(true);
         });
     }
   },
