@@ -24,16 +24,15 @@
 
     <f7-popover
       class="page-input"
-    >
+      ref="nytCategory">
       <f7-list>
         <f7-list-item
-          :link="false"
           title="乱序模式"
-        >
+          :link="false">
           <f7-toggle 
             color="blue"
-            @toggle:change="onToggleChange"
-          ></f7-toggle>
+            @toggle:change="onToggleChange">
+          </f7-toggle>
         </f7-list-item>
       </f7-list>
     </f7-popover>
@@ -109,6 +108,8 @@ export default {
       this.getData().then(() => {
         this.allowInfinite = true;
       });
+
+      this.$refs.nytCategory.f7Popover.close();
     },
 
     getRandomPage() {

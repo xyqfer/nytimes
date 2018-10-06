@@ -71,7 +71,8 @@
         </div>
       </f7-message>
 
-      <f7-message v-if="isTranslating"
+      <f7-message 
+        v-if="isTranslating"
         type="received"
         :typing="true"
         :first="true"
@@ -262,7 +263,7 @@ export default {
     },
 
     onWordClick(e) {
-      e.target.classList.toggle("bg-color-yellow");
+      e.target.classList.add("bg-color-yellow");
     },
 
     translate({ text, type }) {
