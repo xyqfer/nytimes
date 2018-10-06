@@ -41,7 +41,7 @@
             <div
               v-for="(word, index) in news.text.split(' ')"
               :key="index"
-              style="display: inline-block"
+              class="word"
               @click="onWordClick">
               <span>{{word}}</span>&nbsp;
             </div>
@@ -304,5 +304,9 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+  .word {
+    display: inline-block;
+    line-height: 1.35;
+  }
 </style>

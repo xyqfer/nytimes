@@ -128,31 +128,12 @@ export default {
   }
 }
 
-.md {
-  .theme-dark {
-    .view {
-      .messages-page {
-        .messages-content {
-          .message-received {
-            .message-bubble {
-              background-color: #fff;
-
-              .message-text {
-                font-family: Georgia, serif;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
 .message-received {
   .message-bubble {
     .message-text {
-      font-family: Georgia, serif;
-      font-size: 17px;
+      font-family: 'medium-content-serif-font', Georgia, serif;
+      font-size: 18px;
+      line-height: 1.4;
     }
   }
 }
