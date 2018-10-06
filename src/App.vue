@@ -131,7 +131,7 @@ export default {
 .message-received {
   .message-bubble {
     .message-text {
-      font-family: 'medium-content-serif-font', Georgia, serif;
+      font-family: "medium-content-serif-font", Georgia, serif;
       font-size: 18px;
       line-height: 1.4;
     }

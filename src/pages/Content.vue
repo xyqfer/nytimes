@@ -305,8 +305,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .word {
-    display: inline-block;
-    line-height: 1.35;
-  }
+.word {
+  display: inline-block;
+  line-height: 1.35;
+}
 </style>
