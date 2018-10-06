@@ -6,6 +6,9 @@ import App from "./App.vue";
 import store from "./store";
 import "./registerServiceWorker";
 
+import "framework7/css/framework7.css";
+import "./assets/css/app.scss";
+
 Framework7.use(Framework7Vue);
 
 localforage.config({
