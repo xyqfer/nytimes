@@ -39,12 +39,12 @@
         <div slot="text">
           <template v-if="news.type === 'received'">
             <div
+              class="word-container"
               v-for="(word, index) in news.text.split(' ')"
-              :key="index"
-              class="word"
-              @click="onWordClick">
-              <span>{{word}}</span>&nbsp;
-            </div>
+              :key="index">
+              <span
+                class="word" 
+                @click="onWordClick">{{word}}</span>&nbsp;</div>
           </template>
           <template v-else>
             {{news.text}}
@@ -322,8 +322,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.word {
+.word-container {
   display: inline-block;
-  line-height: 1.35;
+
+  .word {
+    line-height: 1.35;
+  }
 }
 </style>
