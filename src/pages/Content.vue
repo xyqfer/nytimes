@@ -231,7 +231,6 @@ export default {
       }
 
       if (
-        nextIndex !== 0 &&
         nextIndex % 2 === 0 &&
         this.newsContent[nextIndex + 1].text == null
       ) {
