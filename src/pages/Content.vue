@@ -64,7 +64,7 @@
             <f7-button
               class="message-link"
               color="gray"
-              @click.once.native="nextBubble(index + 1, news.type === 'sent' ? news.meta.originIndex + 1 : null, $event)">
+              @click.once.native="nextBubble(index + 1, news.type === 'sent' ? news.meta.originIndex + 1 : null)">
               Next
             </f7-button>
           </f7-segmented>
@@ -169,7 +169,7 @@ export default {
           this.initData();
         })
         .catch(err => {
-          console.log(err);
+          console.error(err);
         })
         .finally(() => {
           this.isLoading = false;
@@ -204,7 +204,7 @@ export default {
       });
     },
 
-    nextBubble(nextIndex, originIndex, e) {
+    nextBubble(nextIndex, originIndex) {
       let newBubbleData = this.newsContent.slice(0, nextIndex + 1);
 
       if (newBubbleData[nextIndex].text == null) {
@@ -230,10 +230,7 @@ export default {
         this.bubbleData = newBubbleData;
       }
 
-      if (
-        nextIndex % 2 === 0 &&
-        this.newsContent[nextIndex + 1].text == null
-      ) {
+      if (nextIndex % 2 === 0 && this.newsContent[nextIndex + 1].text == null) {
         this.translate({
           text: newBubbleData[nextIndex].text,
           type: "all"
@@ -242,7 +239,7 @@ export default {
             this.translatedText = text;
           })
           .catch(err => {
-            console.log(err);
+            console.error(err);
           });
       }
 
@@ -255,10 +252,6 @@ export default {
         region: this.contentRegion,
         progress: nextIndex
       });
-
-      if (e) {
-        e.target.classList.add("color-gray");
-      }
     },
 
     onWordClick(e) {
@@ -282,7 +275,7 @@ export default {
           }
         })
         .catch(err => {
-          console.log(err);
+          console.error(err);
           return "";
         });
     },
