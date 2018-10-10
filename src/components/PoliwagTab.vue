@@ -43,8 +43,8 @@ export default {
           text: "🌀"
         },
         {
-          region: "i21st",
-          link: "/i21st",
+          region: "sciam",
+          link: "/sciam",
           text: "犬"
         },
         {

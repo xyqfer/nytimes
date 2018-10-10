@@ -61,7 +61,7 @@ export default [
     component: WanquHot
   },
   {
-    path: "/i21st",
+    path: "/sciam",
     component: Tab4
   },
   {

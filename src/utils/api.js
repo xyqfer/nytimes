@@ -17,7 +17,8 @@ const api = {};
   "subtitle",
   "times",
   "translate",
-  "content"
+  "content",
+  "sciam"
 ].forEach(key => {
   api[key] = `${path}/api/v1/poliwag/${key}`;
 });

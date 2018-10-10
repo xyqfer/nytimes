@@ -39,7 +39,7 @@
           <f7-input
             type="number"
             @keyup.enter.native="jumpPage"
-            placeholder="1~100"
+            placeholder="1~175"
             clear-button
           >
           </f7-input>
@@ -63,7 +63,7 @@ export default {
 
   data() {
     return {
-      region: "sciam",
+      region: "i21st",
       p: 1,
       allowInfinite: true,
       showPreloader: true,

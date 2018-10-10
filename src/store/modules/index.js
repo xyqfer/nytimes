@@ -1,7 +1,7 @@
 import localforage from "localforage";
 import http from "@/utils/http";
 import api from "@/utils/api";
-import i21st from "./i21st";
+import sciam from "./sciam";
 import nytCategory from "./nyt-category";
 import pocket from "./pocket";
 import content from "./content";
@@ -77,7 +77,7 @@ regions.forEach(region => {
   };
 });
 
-modules["i21st"] = i21st;
+modules["sciam"] = sciam;
 modules["nyt-category"] = nytCategory;
 modules["pocket"] = pocket;
 modules["content"] = content;

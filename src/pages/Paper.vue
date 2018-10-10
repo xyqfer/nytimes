@@ -45,7 +45,7 @@ import {
   f7PageContent,
   f7Icon
 } from "framework7-vue";
-import api from "@/api";
+// import api from "@/api";
 
 export default {
   components: {
