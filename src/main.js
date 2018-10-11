@@ -6,7 +6,8 @@ import App from "./App.vue";
 import store from "./store";
 import "./registerServiceWorker";
 
-import "framework7/css/framework7.md.css";
+// import "framework7/css/framework7.md.css";
+import "@/assets/framework7/framework7.md.css";
 import "./assets/css/app.scss";
 
 Framework7.use(Framework7Vue);

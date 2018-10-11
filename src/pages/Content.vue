@@ -255,7 +255,8 @@ export default {
     },
 
     onWordClick(e) {
-      e.target.classList.add("bg-color-yellow");
+      e.target.classList.add("bg-color-purple");
+      e.target.classList.add("text-color-white");
     },
 
     translate({ text, type }) {
