@@ -20,7 +20,7 @@
         :key="item.url"
         :link="formatLink(item)">
 
-        <div slot="header" class="text-color-red">
+        <div slot="header" class="text-color-purple">
           {{item.flyTitle}}
         </div>
         <div slot="title">

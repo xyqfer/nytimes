@@ -8,7 +8,7 @@
     <poliwag-navbar 
       title="The Economist"
       back-link="返回"
-      class="bg-color-red">
+      class="bg-color-purple">
     </poliwag-navbar>
 
     <f7-block v-if="pageData.cover">
@@ -27,7 +27,7 @@
 
         <f7-list-item 
           group-title
-          class="bg-color-red text-color-white"
+          class="bg-color-purple text-color-white"
           :title="group.title">
         </f7-list-item>
 
@@ -37,7 +37,7 @@
           :key="item.url"
           :link="formatLink(item)">
 
-          <div slot="header" class="text-color-red">
+          <div slot="header" class="text-color-purple">
             {{item.flyTitle}}
           </div>
           <div slot="title">
