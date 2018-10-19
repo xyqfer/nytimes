@@ -122,6 +122,15 @@ export default [
     }
   },
   {
+    path: "/zhihu",
+    async(routeTo, routeFrom, resolve) {
+      const vueComponent = () => import("./pages/Zhihu.vue");
+      vueComponent().then(vc => {
+        resolve({ component: vc.default });
+      });
+    }
+  },
+  {
     path: "(.*)",
     component: NotFound
   }

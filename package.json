@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "sh build.sh",
-    "lint": "vue-cli-service lint --fix"
+    "dv": "vue-cli-service serve",
+    "bd": "sh build.sh",
+    "lt": "vue-cli-service lint --fix"
   },
   "dependencies": {
     "@vue/cli-service": "^3.0.0-rc.3",
