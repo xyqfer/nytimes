@@ -1,5 +1,6 @@
 <template>
   <f7-page
+    class="zhihu-page"
     :infinite="true"
     :infinite-preloader="true"
     @page:init="onPageInit"
@@ -76,6 +77,12 @@ export default {
     display: block;
     width: 100%;
     margin-bottom: 10px;
+  }
+}
+
+.zhihu-page {
+  /deep/ .page-content {
+    -webkit-overflow-scrolling: initial;
   }
 }
 </style>
